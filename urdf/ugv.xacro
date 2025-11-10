@@ -1,0 +1,1070 @@
+<?xml version="1.0" ?>
+<robot name="ugv" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find ugv_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find ugv_description)/urdf/ugv.trans" />
+<xacro:include filename="$(find ugv_description)/urdf/ugv.gazebo" />
+
+<!-- Robot Footprint -->
+<link name="base_footprint"/>
+
+<joint name="base_joint" type="fixed">
+  <parent link="base_link"/>
+  <child link="base_footprint"/>
+  <origin xyz="0.075 -0.075 -0.28375" rpy="0 0 0"/>
+</joint>
+
+<link name="base_link">
+  <inertial>
+    <origin xyz="0.07499999999999711 -0.07499999999999997 0.0006625999999999998" rpy="0 0 0"/>
+    <mass value="0.2720807790827568"/>
+    <inertia ixx="0.00051" iyy="0.00051" izz="0.001021" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="RightSupport_v1_1">
+  <inertial>
+    <origin xyz="0.07059984434936706 -0.0029361126231948476 -0.05717627321515905" rpy="0 0 0"/>
+    <mass value="0.736158308473094"/>
+    <inertia ixx="0.001003" iyy="0.003358" izz="0.002373" ixy="9e-06" iyz="-4e-06" ixz="5.4e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.0075 0.1425 0.000125" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/RightSupport_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.0075 0.1425 0.000125" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/RightSupport_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="LeftSupport_v1_1">
+  <inertial>
+    <origin xyz="0.07059984434936703 0.002936112623194766 -0.05717627321515946" rpy="0 0 0"/>
+    <mass value="0.7361583084730937"/>
+    <inertia ixx="0.001003" iyy="0.003358" izz="0.002373" ixy="-9e-06" iyz="4e-06" ixz="5.4e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.0075 0.0075 0.000125" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/LeftSupport_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.0075 0.0075 0.000125" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/LeftSupport_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Mounting_Plate_v3_v1_1">
+  <inertial>
+    <origin xyz="0.06749999995669587 0.06749999999999994 0.0007876040969322512" rpy="0 0 0"/>
+    <mass value="0.2720807790827568"/>
+    <inertia ixx="0.00051" iyy="0.00051" izz="0.001021" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.1595 0.1425 0.07325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Mounting_Plate_v3_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.1595 0.1425 0.07325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Mounting_Plate_v3_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Mounting_Plate_v3_v1__1__1">
+  <inertial>
+    <origin xyz="-0.06751639011574447 0.06751019132451663 -0.000787199999999974" rpy="0 0 0"/>
+    <mass value="0.2721394685220584"/>
+    <inertia ixx="0.00051" iyy="0.000511" izz="0.001021" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0345 0.1425 0.077325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Mounting_Plate_v3_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.0345 0.1425 0.077325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Mounting_Plate_v3_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="FrontCover_v1_1">
+  <inertial>
+    <origin xyz="0.013768274332071867 3.469446951953614e-16 -0.03192263359636471" rpy="0 0 0"/>
+    <mass value="0.1610650752657614"/>
+    <inertia ixx="0.00056" iyy="0.000104" izz="0.000484" ixy="-0.0" iyz="0.0" ixz="3.5e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.15 0.075 -0.00145" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/FrontCover_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.15 0.075 -0.00145" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/FrontCover_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="CubeFC_v1_1">
+  <inertial>
+    <origin xyz="-0.0014080199813744643 9.577973379054638e-06 -0.007821832207682039" rpy="0 0 0"/>
+    <mass value="0.1604759232839487"/>
+    <inertia ixx="4.6e-05" iyy="0.000125" izz="0.000153" ixy="0.0" iyz="-0.0" ixz="-3e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.0975 0.1125 0.000125" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/CubeFC_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.0975 0.1125 0.000125" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/CubeFC_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="FrontMountFull_v1_1">
+  <inertial>
+    <origin xyz="0.0279580578284907 -0.05375006604773858 -0.008637150125757026" rpy="0 0 0"/>
+    <mass value="0.28337732555839074"/>
+    <inertia ixx="0.000749" iyy="7.6e-05" izz="0.000737" ixy="-0.0" iyz="-0.0" ixz="3.2e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.2795 0.0225 0.07325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/FrontMountFull_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.2795 0.0225 0.07325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/FrontMountFull_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="FrontLight_v1_1">
+  <inertial>
+    <origin xyz="0.0008376443155606594 -4.214513980860257e-11 0.0005464825713972082" rpy="0 0 0"/>
+    <mass value="0.0035944139646964697"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.303776 0.00875 0.072039" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/FrontLight_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.303776 0.00875 0.072039" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/FrontLight_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="FrontLight_v1__1__1">
+  <inertial>
+    <origin xyz="0.0008376443155604374 -4.214514848221995e-11 0.0005464825713972637" rpy="0 0 0"/>
+    <mass value="0.0035944139646964697"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.303776 0.14375 0.072039" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/FrontLight_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.303776 0.14375 0.072039" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/FrontLight_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Speaker_v1__1__1">
+  <inertial>
+    <origin xyz="-0.0018409431685812994 -0.018474000102515965 -0.0007080958537002691" rpy="0 0 0"/>
+    <mass value="0.10222453174351626"/>
+    <inertia ixx="1.4e-05" iyy="1e-05" izz="1.2e-05" ixy="0.0" iyz="-0.0" ixz="3e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.305098 0.031776 0.090129" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Speaker_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.305098 0.031776 0.090129" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Speaker_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Speaker_v1_1">
+  <inertial>
+    <origin xyz="-0.001840943168581466 0.018473999897483773 -0.0007080958537002691" rpy="0 0 0"/>
+    <mass value="0.10222453174351626"/>
+    <inertia ixx="1.4e-05" iyy="1e-05" izz="1.2e-05" ixy="0.0" iyz="-0.0" ixz="3e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.305098 0.120724 0.090129" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Speaker_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.305098 0.120724 0.090129" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Speaker_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="JetsonCaseBottom_v1_1">
+  <inertial>
+    <origin xyz="0.0008375000953675105 0.0006130909919737915 0.0020196844512747336" rpy="0 0 0"/>
+    <mass value="0.3621318554388684"/>
+    <inertia ixx="0.000384" iyy="0.000313" izz="0.000696" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0945 0.0975 0.077325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/JetsonCaseBottom_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.0945 0.0975 0.077325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/JetsonCaseBottom_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="KeyHolders_v3_v1_1">
+  <inertial>
+    <origin xyz="1.1102230246251565e-16 -0.011000000000001618 0.0068557844147923985" rpy="0 0 0"/>
+    <mass value="0.1127827330477343"/>
+    <inertia ixx="9e-06" iyy="7.7e-05" izz="8.2e-05" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.102 0.0 0.077325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/KeyHolders_v3_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.102 0.0 0.077325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/KeyHolders_v3_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="3ButtonMount_v1_1">
+  <inertial>
+    <origin xyz="-0.0007243164609797015 0.00040991617311861295 0.020396118581781475" rpy="0 0 0"/>
+    <mass value="0.1671642206432581"/>
+    <inertia ixx="8.2e-05" iyy="2.8e-05" izz="7.2e-05" ixy="-0.0" iyz="1e-06" ixz="-3e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.1695 0.0825 0.077325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/3ButtonMount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.1695 0.0825 0.077325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/3ButtonMount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="RFD900urdf_v1_1">
+  <inertial>
+    <origin xyz="0.17686818743142876 0.014444185052039829 0.07383024977920567" rpy="0 0 0"/>
+    <mass value="0.014123139557848672"/>
+    <inertia ixx="1e-06" iyy="2e-06" izz="2e-06" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.354 0.089465 0.157674" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/RFD900urdf_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.354 0.089465 0.157674" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/RFD900urdf_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="RFDAntenna_v1__1__1">
+  <inertial>
+    <origin xyz="-0.05327541437241906 -0.0005609684221182937 0.04387217526099607" rpy="0 0 0"/>
+    <mass value="0.13898413435589144"/>
+    <inertia ixx="0.00019" iyy="0.000279" izz="9.1e-05" ixy="-2e-06" iyz="2e-06" ixz="0.000125"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.200447 0.085518 0.0864" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/RFDAntenna_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.200447 0.085518 0.0864" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/RFDAntenna_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="RFDAntenna_v1_1">
+  <inertial>
+    <origin xyz="-0.05327541437241906 -0.000561144988710946 0.04387217526099607" rpy="0 0 0"/>
+    <mass value="0.13898413435589144"/>
+    <inertia ixx="0.00019" iyy="0.000279" izz="9.1e-05" ixy="-2e-06" iyz="2e-06" ixz="0.000125"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.200447 0.064482 0.0864" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/RFDAntenna_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.200447 0.064482 0.0864" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/RFDAntenna_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="MountingClipFinal_v1_1">
+  <inertial>
+    <origin xyz="6.021003140510572e-10 0.00012285664644182646 -0.01094859483785321" rpy="0 0 0"/>
+    <mass value="0.015079084020968157"/>
+    <inertia ixx="2e-06" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.2795 0.0075 0.07325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/MountingClipFinal_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.2795 0.0075 0.07325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/MountingClipFinal_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="MountingClipFinal_v1__2__1">
+  <inertial>
+    <origin xyz="6.021003140510572e-10 -0.0001228566464420433 -0.01094859483785321" rpy="0 0 0"/>
+    <mass value="0.015079084020968157"/>
+    <inertia ixx="2e-06" iyy="1e-06" izz="1e-06" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.2795 0.1425 0.07325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/MountingClipFinal_v1__2__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.2795 0.1425 0.07325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/MountingClipFinal_v1__2__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="MountingClipFinal_v1__1__1">
+  <inertial>
+    <origin xyz="2.7755575615628914e-17 0.0001228566464418707 -0.010948401821885334" rpy="0 0 0"/>
+    <mass value="0.015079084020968157"/>
+    <inertia ixx="2e-06" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0795 0.0075 0.0789" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/MountingClipFinal_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.0795 0.0075 0.0789" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/MountingClipFinal_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="MountingClipFinal_v1__3__1">
+  <inertial>
+    <origin xyz="-1.3877787807814457e-17 -0.00012285664644201555 -0.010948401821885334" rpy="0 0 0"/>
+    <mass value="0.015079084020968157"/>
+    <inertia ixx="2e-06" iyy="1e-06" izz="1e-06" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0795 0.1425 0.0789" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/MountingClipFinal_v1__3__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.0795 0.1425 0.0789" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/MountingClipFinal_v1__3__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Anker_737_Power_Bank_v2_1">
+  <inertial>
+    <origin xyz="0.00018600331285374694 1.3459909545779358e-05 0.024976668590988266" rpy="0 0 0"/>
+    <mass value="3.244300003402338"/>
+    <inertia ixx="0.001445" iyy="0.007062" izz="0.007191" ixy="3e-06" iyz="-0.0" ixz="-6e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.066 0.075 0.111" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Anker_737_Power_Bank_v2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.066 0.075 0.111" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Anker_737_Power_Bank_v2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Insta360MountwithLidar_v1_1">
+  <inertial>
+    <origin xyz="-0.08620121608122361 0.0018031246909665094 0.02067739351315072" rpy="0 0 0"/>
+    <mass value="0.39145830701811263"/>
+    <inertia ixx="0.000407" iyy="0.000883" izz="0.000749" ixy="2.3e-05" iyz="8e-06" ixz="0.000185"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.302 0.075 0.071675" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Insta360MountwithLidar_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.302 0.075 0.071675" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Insta360MountwithLidar_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="360Cam_v4_1">
+  <inertial>
+    <origin xyz="-1.4985461386229915e-05 2.292090469256658e-05 0.05820122616633873" rpy="0 0 0"/>
+    <mass value="1.0655405086527066"/>
+    <inertia ixx="0.001224" iyy="0.001176" izz="0.000222" ixy="0.0" iyz="-1e-06" ixz="1e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.1847 0.075 0.050175" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/360Cam_v4_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.1847 0.075 0.050175" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/360Cam_v4_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="RPLidarC1_v1_1">
+  <inertial>
+    <origin xyz="-0.027912648043109 3.528651926237858e-06 0.017945081991656946" rpy="0 0 0"/>
+    <mass value="0.7886321106213883"/>
+    <inertia ixx="0.000269" iyy="0.000272" izz="0.000333" ixy="0.0" iyz="0.0" ixz="-1e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.302 0.075 0.064675" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/RPLidarC1_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.302 0.075 0.064675" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/RPLidarC1_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Chassis_1">
+  <inertial>
+    <origin xyz="-0.049170473747549126 0.07227739952469993 0.07007959503991401" rpy="0 0 0"/>
+    <mass value="8.527219963844384"/>
+    <inertia ixx="0.046219" iyy="0.13905" izz="0.163926" ixy="0.000242" iyz="5.9e-05" ixz="-0.018042"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.134 0.1475 0.21525" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Chassis_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.134 0.1475 0.21525" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Chassis_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Jetson_Nano_v1_1">
+  <inertial>
+    <origin xyz="-0.0024318044992874682 -0.0016233833475976789 0.012114861153457043" rpy="0 0 0"/>
+    <mass value="0.5576736000183575"/>
+    <inertia ixx="0.000337" iyy="0.000338" izz="0.000569" ixy="-1e-06" iyz="3e-06" ixz="4.1e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.09325 0.096887 0.073325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Jetson_Nano_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.09325 0.096887 0.073325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/Jetson_Nano_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="JetsonCaseTop_v1_1">
+  <inertial>
+    <origin xyz="0.0013908649786080612 -0.0640825625362274 0.02282384239942188" rpy="0 0 0"/>
+    <mass value="0.6020214833179027"/>
+    <inertia ixx="0.001081" iyy="0.000876" izz="0.001827" ixy="-8.6e-05" iyz="1.6e-05" ixz="-3.4e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.093662 0.039887 0.073325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/JetsonCaseTop_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.093662 0.039887 0.073325" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/JetsonCaseTop_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="LIPOBattery_v2_1">
+  <inertial>
+    <origin xyz="1.9268691540952343e-07 -1.3877787807814457e-17 0.012000000000000052" rpy="0 0 0"/>
+    <mass value="1.31409"/>
+    <inertia ixx="0.000285" iyy="0.002694" izz="0.002853" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.066 0.075 0.135" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/LIPOBattery_v2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.066 0.075 0.135" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/LIPOBattery_v2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="TOFSensor_v3_1">
+  <inertial>
+    <origin xyz="-0.001000000540000101 -4.2930317584871647e-07 -1.9999999996411777e-07" rpy="0 0 0"/>
+    <mass value="0.006781887896042989"/>
+    <inertia ixx="1e-06" iyy="0.0" izz="0.0" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.179 0.027743 0.078112" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/TOFSensor_v3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.179 0.027743 0.078112" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/TOFSensor_v3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="LeftHub_1">
+  <inertial>
+    <origin xyz="-1.558126948913996e-05 0.012161091745128617 -0.06707623869249998" rpy="0 0 0"/>
+    <mass value="0.7546189423866138"/>
+    <inertia ixx="0.000578" iyy="0.000586" izz="0.000234" ixy="-0.0" iyz="0.000107" ixz="1e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.263789 0.004911 0.134519" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/LeftHub_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.263789 0.004911 0.134519" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/LeftHub_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="RightHub__1">
+  <inertial>
+    <origin xyz="-1.5581269489250982e-05 -0.012161091298093979 -0.06707623869250007" rpy="0 0 0"/>
+    <mass value="0.7546189423866142"/>
+    <inertia ixx="0.000578" iyy="0.000586" izz="0.000234" ixy="0.0" iyz="-0.000107" ixz="1e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.263789 0.145089 0.134519" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/RightHub__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.263789 0.145089 0.134519" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/RightHub__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="FrontLeft_1">
+  <inertial>
+    <origin xyz="-1.1807672128383295e-06 -0.000697357724859151 -2.316189179341066e-08" rpy="0 0 0"/>
+    <mass value="0.7033756911731642"/>
+    <inertia ixx="0.001091" iyy="0.001901" izz="0.001091" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.263789 -0.031089 0.213259" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/FrontLeft_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.263789 -0.031089 0.213259" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/FrontLeft_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="FrontRight_1">
+  <inertial>
+    <origin xyz="-5.22149610160394e-07 0.0006962930976707193 5.609553216379126e-08" rpy="0 0 0"/>
+    <mass value="0.7033995559753448"/>
+    <inertia ixx="0.001091" iyy="0.001901" izz="0.001091" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.263789 0.181089 0.213259" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/FrontRight_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.263789 0.181089 0.213259" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/FrontRight_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="BackLeft_1">
+  <inertial>
+    <origin xyz="-1.1807672128938407e-06 0.0023684851764025835 1.1309493497257961e-07" rpy="0 0 0"/>
+    <mass value="0.7033756911731642"/>
+    <inertia ixx="0.001091" iyy="0.001901" izz="0.001091" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.071211 -0.031089 0.213259" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/BackLeft_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.071211 -0.031089 0.213259" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/BackLeft_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="BackRight_1">
+  <inertial>
+    <origin xyz="-5.221496101881495e-07 -0.0023674196551448368 3.383751104313326e-08" rpy="0 0 0"/>
+    <mass value="0.7033995559753448"/>
+    <inertia ixx="0.001091" iyy="0.001901" izz="0.001091" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.071211 0.181089 0.213259" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/BackRight_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.071211 0.181089 0.213259" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/BackRight_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="GPSMount__1__v1_1">
+  <inertial>
+    <origin xyz="-0.021332153064071407 -0.007499991327375069 0.02673871532836188" rpy="0 0 0"/>
+    <mass value="0.1455678711964743"/>
+    <inertia ixx="8.3e-05" iyy="7.3e-05" izz="6.8e-05" ixy="0.0" iyz="-0.0" ixz="3e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.0075 0.0675 -0.00145" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/GPSMount__1__v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.0075 0.0675 -0.00145" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/GPSMount__1__v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="GPS_v1_1">
+  <inertial>
+    <origin xyz="0.0005012177154418637 0.010492718929645525 0.004731200250215797" rpy="0 0 0"/>
+    <mass value="0.13196729677333102"/>
+    <inertia ixx="4.7e-05" iyy="4.3e-05" izz="8.4e-05" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.045886 0.08495 -0.05895" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/GPS_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.045886 0.08495 -0.05895" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ugv_description)/meshes/GPS_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="Rigid 2" type="fixed">
+  <origin xyz="0.0075 -0.1425 -0.000125" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="RightSupport_v1_1"/>
+</joint>
+
+<joint name="Rigid 3" type="fixed">
+  <origin xyz="0.0075 -0.0075 -0.000125" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="LeftSupport_v1_1"/>
+</joint>
+
+<joint name="Rigid 4" type="fixed">
+  <origin xyz="0.152 0.0 -0.073125" rpy="0 0 0"/>
+  <parent link="RightSupport_v1_1"/>
+  <child link="Mounting_Plate_v3_v1_1"/>
+</joint>
+
+<joint name="Rigid 6" type="fixed">
+  <origin xyz="-0.042 0.0 -0.0772" rpy="0 0 0"/>
+  <parent link="RightSupport_v1_1"/>
+  <child link="Mounting_Plate_v3_v1__1__1"/>
+</joint>
+
+<joint name="Rigid 7" type="fixed">
+  <origin xyz="0.15 -0.075 0.00145" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="FrontCover_v1_1"/>
+</joint>
+
+<joint name="Rigid 11" type="fixed">
+  <origin xyz="0.0975 -0.1125 -0.000125" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="CubeFC_v1_1"/>
+</joint>
+
+<joint name="Rigid 12" type="fixed">
+  <origin xyz="0.12 0.12 0.0" rpy="0 0 0"/>
+  <parent link="Mounting_Plate_v3_v1_1"/>
+  <child link="FrontMountFull_v1_1"/>
+</joint>
+
+<joint name="Rigid 13" type="fixed">
+  <origin xyz="0.024276 0.01375 0.001211" rpy="0 0 0"/>
+  <parent link="FrontMountFull_v1_1"/>
+  <child link="FrontLight_v1_1"/>
+</joint>
+
+<joint name="Rigid 14" type="fixed">
+  <origin xyz="0.024276 -0.12125 0.001211" rpy="0 0 0"/>
+  <parent link="FrontMountFull_v1_1"/>
+  <child link="FrontLight_v1__1__1"/>
+</joint>
+
+<joint name="Rigid 15" type="fixed">
+  <origin xyz="0.025598 -0.009276 -0.016879" rpy="0 0 0"/>
+  <parent link="FrontMountFull_v1_1"/>
+  <child link="Speaker_v1__1__1"/>
+</joint>
+
+<joint name="Rigid 16" type="fixed">
+  <origin xyz="0.025598 -0.098224 -0.016879" rpy="0 0 0"/>
+  <parent link="FrontMountFull_v1_1"/>
+  <child link="Speaker_v1_1"/>
+</joint>
+
+<joint name="Rigid 19" type="fixed">
+  <origin xyz="-0.06 0.045 0.0" rpy="0 0 0"/>
+  <parent link="Mounting_Plate_v3_v1__1__1"/>
+  <child link="JetsonCaseBottom_v1_1"/>
+</joint>
+
+<joint name="Rigid 22" type="fixed">
+  <origin xyz="-0.0675 0.1425 0.0" rpy="0 0 0"/>
+  <parent link="Mounting_Plate_v3_v1__1__1"/>
+  <child link="KeyHolders_v3_v1_1"/>
+</joint>
+
+<joint name="Rigid 23" type="fixed">
+  <origin xyz="-0.135 0.06 0.0" rpy="0 0 0"/>
+  <parent link="Mounting_Plate_v3_v1__1__1"/>
+  <child link="3ButtonMount_v1_1"/>
+</joint>
+
+<joint name="Rigid 24" type="fixed">
+  <origin xyz="-0.3195 0.053035 -0.080349" rpy="0 0 0"/>
+  <parent link="Mounting_Plate_v3_v1__1__1"/>
+  <child link="RFD900urdf_v1_1"/>
+</joint>
+
+<joint name="Rigid 25" type="fixed">
+  <origin xyz="0.153553 0.003947 0.071274" rpy="0 0 0"/>
+  <parent link="RFD900urdf_v1_1"/>
+  <child link="RFDAntenna_v1__1__1"/>
+</joint>
+
+<joint name="Rigid 26" type="fixed">
+  <origin xyz="0.153553 0.024983 0.071274" rpy="0 0 0"/>
+  <parent link="RFD900urdf_v1_1"/>
+  <child link="RFDAntenna_v1_1"/>
+</joint>
+
+<joint name="Rigid 27" type="fixed">
+  <origin xyz="0.12 0.135 0.0" rpy="0 0 0"/>
+  <parent link="Mounting_Plate_v3_v1_1"/>
+  <child link="MountingClipFinal_v1_1"/>
+</joint>
+
+<joint name="Rigid 28" type="fixed">
+  <origin xyz="0.12 0.0 0.0" rpy="0 0 0"/>
+  <parent link="Mounting_Plate_v3_v1_1"/>
+  <child link="MountingClipFinal_v1__2__1"/>
+</joint>
+
+<joint name="Rigid 29" type="fixed">
+  <origin xyz="-0.045 0.135 -0.001575" rpy="0 0 0"/>
+  <parent link="Mounting_Plate_v3_v1__1__1"/>
+  <child link="MountingClipFinal_v1__1__1"/>
+</joint>
+
+<joint name="Rigid 30" type="fixed">
+  <origin xyz="-0.045 0.0 -0.001575" rpy="0 0 0"/>
+  <parent link="Mounting_Plate_v3_v1__1__1"/>
+  <child link="MountingClipFinal_v1__3__1"/>
+</joint>
+
+<joint name="Rigid 31" type="fixed">
+  <origin xyz="0.0 0.0 0.024" rpy="0 0 0"/>
+  <parent link="LIPOBattery_v2_1"/>
+  <child link="Anker_737_Power_Bank_v2_1"/>
+</joint>
+
+<joint name="Rigid 38" type="fixed">
+  <origin xyz="0.1425 0.0675 0.001575" rpy="0 0 0"/>
+  <parent link="Mounting_Plate_v3_v1_1"/>
+  <child link="Insta360MountwithLidar_v1_1"/>
+</joint>
+
+<joint name="Rigid 39" type="fixed">
+  <origin xyz="-0.1173 0.0 0.0215" rpy="0 0 0"/>
+  <parent link="Insta360MountwithLidar_v1_1"/>
+  <child link="360Cam_v4_1"/>
+</joint>
+
+<joint name="Rigid 40" type="fixed">
+  <origin xyz="0.0 0.0 0.007" rpy="0 0 0"/>
+  <parent link="Insta360MountwithLidar_v1_1"/>
+  <child link="RPLidarC1_v1_1"/>
+</joint>
+
+<joint name="Rigid 42" type="fixed">
+  <origin xyz="0.1265 -0.14 -0.215125" rpy="0 0 0"/>
+  <parent link="LeftSupport_v1_1"/>
+  <child link="Chassis_1"/>
+</joint>
+
+<joint name="Rigid 44" type="fixed">
+  <origin xyz="0.00125 0.000613 0.004" rpy="0 0 0"/>
+  <parent link="JetsonCaseBottom_v1_1"/>
+  <child link="Jetson_Nano_v1_1"/>
+</joint>
+
+<joint name="Rigid 45" type="fixed">
+  <origin xyz="0.000838 0.057613 0.004" rpy="0 0 0"/>
+  <parent link="JetsonCaseBottom_v1_1"/>
+  <child link="JetsonCaseTop_v1_1"/>
+</joint>
+
+<joint name="Rigid 46" type="fixed">
+  <origin xyz="-0.068 0.0725 0.08025" rpy="0 0 0"/>
+  <parent link="Chassis_1"/>
+  <child link="LIPOBattery_v2_1"/>
+</joint>
+
+<joint name="Rigid 51" type="fixed">
+  <origin xyz="-0.1445 0.114757 -0.000787" rpy="0 0 0"/>
+  <parent link="Mounting_Plate_v3_v1__1__1"/>
+  <child link="TOFSensor_v3_1"/>
+</joint>
+
+<joint name="left_steering" type="continuous">
+  <origin xyz="0.129789 0.142589 0.080731" rpy="0 0 0"/>
+  <parent link="Chassis_1"/>
+  <child link="LeftHub_1"/>
+  <axis xyz="-0.020219 0.0 -0.999796"/>
+</joint>
+
+<joint name="right_steering" type="continuous">
+  <origin xyz="0.129789 0.002411 0.080731" rpy="0 0 0"/>
+  <parent link="Chassis_1"/>
+  <child link="RightHub__1"/>
+  <axis xyz="-0.020219 0.0 -0.999796"/>
+</joint>
+
+<joint name="front_left_wheel" type="continuous">
+  <origin xyz="0.0 0.036 -0.07874" rpy="0 0 0"/>
+  <parent link="LeftHub_1"/>
+  <child link="FrontLeft_1"/>
+  <axis xyz="0.0 1.0 0.0"/>
+</joint>
+
+<joint name="front_right_wheel" type="continuous">
+  <origin xyz="0.0 -0.036 -0.07874" rpy="0 0 0"/>
+  <parent link="RightHub__1"/>
+  <child link="FrontRight_1"/>
+  <axis xyz="0.0 -1.0 0.0"/>
+</joint>
+
+<joint name="back_left_wheel" type="continuous">
+  <origin xyz="-0.205211 0.178589 0.001991" rpy="0 0 0"/>
+  <parent link="Chassis_1"/>
+  <child link="BackLeft_1"/>
+  <axis xyz="0.0 1.0 0.0"/>
+</joint>
+
+<joint name="back_right_wheel" type="continuous">
+  <origin xyz="-0.205211 -0.033589 0.001991" rpy="0 0 0"/>
+  <parent link="Chassis_1"/>
+  <child link="BackRight_1"/>
+  <axis xyz="0.0 -1.0 0.0"/>
+</joint>
+
+<joint name="Rigid 58" type="fixed">
+  <origin xyz="0.0075 -0.0675 0.00145" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="GPSMount__1__v1_1"/>
+</joint>
+
+<joint name="Rigid 59" type="fixed">
+  <origin xyz="-0.053386 -0.01745 0.0575" rpy="0 0 0"/>
+  <parent link="GPSMount__1__v1_1"/>
+  <child link="GPS_v1_1"/>
+</joint>
+
+</robot>
