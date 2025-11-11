@@ -1,0 +1,1870 @@
+<sdf version='1.9'>
+  <model name='ugv'>
+    <link name='base_link'>
+      <inertial>
+        <pose>0.077880045922249272 -0.076914373628388141 -0.096578331680390511 0 0 0</pose>
+        <mass>20.874913445382688</mass>
+        <inertia>
+          <ixx>0.11852190237917989</ixx>
+          <ixy>-0.0052174670152318608</ixy>
+          <ixz>-0.018129439570030301</ixz>
+          <iyy>0.40271080912638108</iyy>
+          <iyz>0.001788013897454338</iyz>
+          <izz>0.38622824367259018</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_link_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/base_link.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__CubeFC_v1_1_collision_1'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/CubeFC_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__RightSupport_v1_1_collision_2'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RightSupport_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__Mounting_Plate_v3_v1_1_collision_3'>
+        <pose>-6.9388939039072284e-18 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Mounting_Plate_v3_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__FrontMountFull_v1_1_collision_4'>
+        <pose>-3.4694469519536142e-17 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontMountFull_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__FrontLight_v1_1_collision_5'>
+        <pose>2.0816681711721691e-17 0 1.398620802506301e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontLight_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__FrontLight_v1__1__1_collision_6'>
+        <pose>2.0816681711721691e-17 0 1.398620802506301e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontLight_v1__1__1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__Speaker_v1__1__1_collision_7'>
+        <pose>2.0816681711721691e-17 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Speaker_v1__1__1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__Speaker_v1_1_collision_8'>
+        <pose>2.0816681711721691e-17 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Speaker_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__MountingClipFinal_v1_1_collision_9'>
+        <pose>-3.4694469519536142e-17 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__MountingClipFinal_v1__2__1_collision_10'>
+        <pose>-3.4694469519536142e-17 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1__2__1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__Insta360MountwithLidar_v1_1_collision_11'>
+        <pose>-6.9388939039072284e-18 2.775557561562891e-17 1.398620802506301e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Insta360MountwithLidar_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__360Cam_v4_1_collision_12'>
+        <pose>-6.9388939039072284e-18 2.775557561562891e-17 -1.3769367590565909e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/360Cam_v4_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__RPLidarC1_v1_1_collision_13'>
+        <pose>-6.9388939039072284e-18 2.775557561562891e-17 1.398620802506301e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RPLidarC1_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__Mounting_Plate_v3_v1__1__1_collision_14'>
+        <pose>0 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Mounting_Plate_v3_v1__1__1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__JetsonCaseBottom_v1_1_collision_15'>
+        <pose>0 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/JetsonCaseBottom_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__Jetson_Nano_v1_1_collision_16'>
+        <pose>0 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Jetson_Nano_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__JetsonCaseTop_v1_1_collision_17'>
+        <pose>0 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/JetsonCaseTop_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__KeyHolders_v3_v1_1_collision_18'>
+        <pose>-1.387778780781446e-17 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/KeyHolders_v3_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__3ButtonMount_v1_1_collision_19'>
+        <pose>0 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/3ButtonMount_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__RFD900urdf_v1_1_collision_20'>
+        <pose>-2.775557561562891e-17 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RFD900urdf_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__RFDAntenna_v1__1__1_collision_21'>
+        <pose>-2.775557561562891e-17 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RFDAntenna_v1__1__1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__RFDAntenna_v1_1_collision_22'>
+        <pose>-2.775557561562891e-17 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RFDAntenna_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__MountingClipFinal_v1__1__1_collision_23'>
+        <pose>0 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1__1__1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__MountingClipFinal_v1__3__1_collision_24'>
+        <pose>0 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1__3__1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__TOFSensor_v3_1_collision_25'>
+        <pose>0 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/TOFSensor_v3_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__LeftSupport_v1_1_collision_26'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/LeftSupport_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__Chassis_1_collision_27'>
+        <pose>-6.9388939039072284e-18 -2.0816681711721691e-17 -1.3769367590565909e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Chassis_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__LIPOBattery_v2_1_collision_28'>
+        <pose>-6.9388939039072284e-18 -2.0816681711721691e-17 -1.3769367590565909e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/LIPOBattery_v2_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__Anker_737_Power_Bank_v2_1_collision_29'>
+        <pose>-6.9388939039072284e-18 -2.0816681711721691e-17 -1.3769367590565909e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Anker_737_Power_Bank_v2_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__GPSMount__1__v1_1_collision_30'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/GPSMount__1__v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__GPS_v1_1_collision_31'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/GPS_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__FrontCover_v1_1_collision_32'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontCover_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='base_link_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/base_link.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__CubeFC_v1_1_visual_1'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/CubeFC_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__RightSupport_v1_1_visual_2'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RightSupport_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__Mounting_Plate_v3_v1_1_visual_3'>
+        <pose>-6.9388939039072284e-18 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Mounting_Plate_v3_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__FrontMountFull_v1_1_visual_4'>
+        <pose>-3.4694469519536142e-17 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontMountFull_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__FrontLight_v1_1_visual_5'>
+        <pose>2.0816681711721691e-17 0 1.398620802506301e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontLight_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__FrontLight_v1__1__1_visual_6'>
+        <pose>2.0816681711721691e-17 0 1.398620802506301e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontLight_v1__1__1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__Speaker_v1__1__1_visual_7'>
+        <pose>2.0816681711721691e-17 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Speaker_v1__1__1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__Speaker_v1_1_visual_8'>
+        <pose>2.0816681711721691e-17 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Speaker_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__MountingClipFinal_v1_1_visual_9'>
+        <pose>-3.4694469519536142e-17 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__MountingClipFinal_v1__2__1_visual_10'>
+        <pose>-3.4694469519536142e-17 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1__2__1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__Insta360MountwithLidar_v1_1_visual_11'>
+        <pose>-6.9388939039072284e-18 2.775557561562891e-17 1.398620802506301e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Insta360MountwithLidar_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__360Cam_v4_1_visual_12'>
+        <pose>-6.9388939039072284e-18 2.775557561562891e-17 -1.3769367590565909e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/360Cam_v4_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__RPLidarC1_v1_1_visual_13'>
+        <pose>-6.9388939039072284e-18 2.775557561562891e-17 1.398620802506301e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RPLidarC1_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__Mounting_Plate_v3_v1__1__1_visual_14'>
+        <pose>0 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Mounting_Plate_v3_v1__1__1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__JetsonCaseBottom_v1_1_visual_15'>
+        <pose>0 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/JetsonCaseBottom_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__Jetson_Nano_v1_1_visual_16'>
+        <pose>0 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Jetson_Nano_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__JetsonCaseTop_v1_1_visual_17'>
+        <pose>0 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/JetsonCaseTop_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__KeyHolders_v3_v1_1_visual_18'>
+        <pose>-1.387778780781446e-17 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/KeyHolders_v3_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__3ButtonMount_v1_1_visual_19'>
+        <pose>0 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/3ButtonMount_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__RFD900urdf_v1_1_visual_20'>
+        <pose>-2.775557561562891e-17 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RFD900urdf_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__RFDAntenna_v1__1__1_visual_21'>
+        <pose>-2.775557561562891e-17 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RFDAntenna_v1__1__1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__RFDAntenna_v1_1_visual_22'>
+        <pose>-2.775557561562891e-17 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RFDAntenna_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__MountingClipFinal_v1__1__1_visual_23'>
+        <pose>0 2.775557561562891e-17 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1__1__1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__MountingClipFinal_v1__3__1_visual_24'>
+        <pose>0 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1__3__1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__TOFSensor_v3_1_visual_25'>
+        <pose>0 0 1.084202172485504e-19 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/TOFSensor_v3_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__LeftSupport_v1_1_visual_26'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/LeftSupport_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__Chassis_1_visual_27'>
+        <pose>-6.9388939039072284e-18 -2.0816681711721691e-17 -1.3769367590565909e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Chassis_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__LIPOBattery_v2_1_visual_28'>
+        <pose>-6.9388939039072284e-18 -2.0816681711721691e-17 -1.3769367590565909e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/LIPOBattery_v2_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__Anker_737_Power_Bank_v2_1_visual_29'>
+        <pose>-6.9388939039072284e-18 -2.0816681711721691e-17 -1.3769367590565909e-17 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Anker_737_Power_Bank_v2_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__GPSMount__1__v1_1_visual_30'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/GPSMount__1__v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__GPS_v1_1_visual_31'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/GPS_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__FrontCover_v1_1_visual_32'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontCover_v1_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <self_collide>true</self_collide>
+      <gravity>true</gravity>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+      <self_collide>true</self_collide>
+    </link>
+    <joint name='back_left_wheel' type='continuous'>
+      <pose relative_to='base_link'>-0.071210999999999997 0.031088999999999981 -0.213259 0 0 0</pose>
+      <parent>base_link</parent>
+      <child>BackLeft_1</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='BackLeft_1'>
+      <pose relative_to='back_left_wheel'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-1.1807672128938411e-06 0.002368485176402584 1.130949349725796e-07 0 0 0</pose>
+        <mass>0.70337569117316423</mass>
+        <inertia>
+          <ixx>0.001091</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0019009999999999999</iyy>
+          <iyz>0</iyz>
+          <izz>0.001091</izz>
+        </inertia>
+      </inertial>
+      <collision name='BackLeft_1_collision'>
+        <pose>0.071210999999999997 -0.031088999999999999 0.213259 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/BackLeft_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='BackLeft_1_visual'>
+        <pose>0.071210999999999997 -0.031088999999999999 0.213259 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/BackLeft_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <self_collide>true</self_collide>
+    </link>
+    <joint name='back_right_wheel' type='continuous'>
+      <pose relative_to='base_link'>-0.071210999999999997 -0.181089 -0.213259 0 0 0</pose>
+      <parent>base_link</parent>
+      <child>BackRight_1</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='BackRight_1'>
+      <pose relative_to='back_right_wheel'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-5.2214961018814954e-07 -0.0023674196551448372 3.3837511043133262e-08 0 0 0</pose>
+        <mass>0.70339955597534476</mass>
+        <inertia>
+          <ixx>0.001091</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0019009999999999999</iyy>
+          <iyz>0</iyz>
+          <izz>0.001091</izz>
+        </inertia>
+      </inertial>
+      <collision name='BackRight_1_collision'>
+        <pose>0.071210999999999997 0.181089 0.213259 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/BackRight_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='BackRight_1_visual'>
+        <pose>0.071210999999999997 0.181089 0.213259 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/BackRight_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <self_collide>true</self_collide>
+    </link>
+    <joint name='left_steering' type='revolute'>
+      <pose relative_to='base_link'>0.263789 -0.0049110000000000204 -0.134519 0 0 0</pose>
+      <parent>base_link</parent>
+      <child>LeftHub_1</child>
+      <axis>
+        <xyz>-0.020219000000000001 0 -0.99979600000000002</xyz>
+        <limit>
+          <lower>-0.5236</lower> <!-- -30 degrees -->
+          <upper>0.5236</upper>  <!-- 30 degrees -->
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='LeftHub_1'>
+      <pose relative_to='left_steering'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-1.5581269489139959e-05 0.012161091745128619 -0.067076238692499984 0 0 0</pose>
+        <mass>0.75461894238661376</mass>
+        <inertia>
+          <ixx>0.00057799999999999995</ixx>
+          <ixy>0</ixy>
+          <ixz>9.9999999999999995e-07</ixz>
+          <iyy>0.00058600000000000004</iyy>
+          <iyz>0.000107</iyz>
+          <izz>0.000234</izz>
+        </inertia>
+      </inertial>
+      <collision name='LeftHub_1_collision'>
+        <pose>-0.263789 0.0049109999999999996 0.134519 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/LeftHub_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='LeftHub_1_visual'>
+        <pose>-0.263789 0.0049109999999999996 0.134519 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/LeftHub_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <self_collide>true</self_collide>
+    </link>
+    <joint name='front_left_wheel' type='continuous'>
+      <pose relative_to='LeftHub_1'>0 0.035999999999999997 -0.078740000000000004 0 0 0</pose>
+      <parent>LeftHub_1</parent>
+      <child>FrontLeft_1</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='FrontLeft_1'>
+      <pose relative_to='front_left_wheel'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-1.18076721283833e-06 -0.00069735772485915101 -2.3161891793410661e-08 0 0 0</pose>
+        <mass>0.70337569117316423</mass>
+        <inertia>
+          <ixx>0.001091</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0019009999999999999</iyy>
+          <iyz>0</iyz>
+          <izz>0.001091</izz>
+        </inertia>
+      </inertial>
+      <collision name='FrontLeft_1_collision'>
+        <pose>-0.263789 -0.031088999999999999 0.213259 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontLeft_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='FrontLeft_1_visual'>
+        <pose>-0.263789 -0.031088999999999999 0.213259 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontLeft_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <self_collide>true</self_collide>
+    </link>
+    <joint name='right_steering' type='revolute'>
+      <pose relative_to='base_link'>0.263789 -0.145089 -0.134519 0 0 0</pose>
+      <parent>base_link</parent>
+      <child>RightHub__1</child>
+      <axis>
+        <xyz>-0.020219000000000001 0 -0.99979600000000002</xyz>
+        <limit>
+          <lower>-0.5236</lower> <!-- -30 degrees -->
+          <upper>0.5236</upper>  <!-- 30 degrees -->
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='RightHub__1'>
+      <pose relative_to='right_steering'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-1.5581269489250978e-05 -0.012161091298093981 -0.067076238692500068 0 0 0</pose>
+        <mass>0.7546189423866142</mass>
+        <inertia>
+          <ixx>0.00057799999999999995</ixx>
+          <ixy>0</ixy>
+          <ixz>9.9999999999999995e-07</ixz>
+          <iyy>0.00058600000000000004</iyy>
+          <iyz>-0.000107</iyz>
+          <izz>0.000234</izz>
+        </inertia>
+      </inertial>
+      <collision name='RightHub__1_collision'>
+        <pose>-0.263789 0.145089 0.134519 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RightHub__1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='RightHub__1_visual'>
+        <pose>-0.263789 0.145089 0.134519 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RightHub__1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <self_collide>true</self_collide>
+    </link>
+    <joint name='front_right_wheel' type='continuous'>
+      <pose relative_to='RightHub__1'>0 -0.035999999999999997 -0.078740000000000004 0 0 0</pose>
+      <parent>RightHub__1</parent>
+      <child>FrontRight_1</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='FrontRight_1'>
+      <pose relative_to='front_right_wheel'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-5.2214961016039396e-07 0.00069629309767071934 5.6095532163791262e-08 0 0 0</pose>
+        <mass>0.70339955597534476</mass>
+        <inertia>
+          <ixx>0.001091</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0019009999999999999</iyy>
+          <iyz>0</iyz>
+          <izz>0.001091</izz>
+        </inertia>
+      </inertial>
+      <collision name='FrontRight_1_collision'>
+        <pose>-0.263789 0.181089 0.213259 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontRight_1.stl</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.20000000000000001</mu>
+              <mu2>0.20000000000000001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='FrontRight_1_visual'>
+        <pose>-0.263789 0.181089 0.213259 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontRight_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Silver</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.875 0.875 0.875 1</diffuse>
+          <ambient>0.875 0.875 0.875 1</ambient>
+        </material>
+      </visual>
+      <self_collide>true</self_collide>
+    </link>
+    <plugin name='control' filename='libgazebo_ros_control.so'/>
+    <frame name='Rigid 11' attached_to='base_link'>
+      <pose>0.097500000000000003 -0.1125 -0.000125 0 0 0</pose>
+    </frame>
+    <frame name='CubeFC_v1_1' attached_to='Rigid 11'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 13' attached_to='FrontMountFull_v1_1'>
+      <pose>0.024275999999999999 0.01375 0.0012110000000000001 0 0 0</pose>
+    </frame>
+    <frame name='FrontLight_v1_1' attached_to='Rigid 13'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 14' attached_to='FrontMountFull_v1_1'>
+      <pose>0.024275999999999999 -0.12125 0.0012110000000000001 0 0 0</pose>
+    </frame>
+    <frame name='FrontLight_v1__1__1' attached_to='Rigid 14'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 15' attached_to='FrontMountFull_v1_1'>
+      <pose>0.025597999999999999 -0.0092759999999999995 -0.016879000000000002 0 0 0</pose>
+    </frame>
+    <frame name='Speaker_v1__1__1' attached_to='Rigid 15'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 16' attached_to='FrontMountFull_v1_1'>
+      <pose>0.025597999999999999 -0.098224000000000006 -0.016879000000000002 0 0 0</pose>
+    </frame>
+    <frame name='Speaker_v1_1' attached_to='Rigid 16'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 12' attached_to='Mounting_Plate_v3_v1_1'>
+      <pose>0.12 0.12 0 0 0 0</pose>
+    </frame>
+    <frame name='FrontMountFull_v1_1' attached_to='Rigid 12'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 27' attached_to='Mounting_Plate_v3_v1_1'>
+      <pose>0.12 0.13500000000000001 0 0 0 0</pose>
+    </frame>
+    <frame name='MountingClipFinal_v1_1' attached_to='Rigid 27'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 28' attached_to='Mounting_Plate_v3_v1_1'>
+      <pose>0.12 0 0 0 0 0</pose>
+    </frame>
+    <frame name='MountingClipFinal_v1__2__1' attached_to='Rigid 28'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 39' attached_to='Insta360MountwithLidar_v1_1'>
+      <pose>-0.1173 0 0.021499999999999998 0 0 0</pose>
+    </frame>
+    <frame name='360Cam_v4_1' attached_to='Rigid 39'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 40' attached_to='Insta360MountwithLidar_v1_1'>
+      <pose>0 0 0.0070000000000000001 0 0 0</pose>
+    </frame>
+    <frame name='RPLidarC1_v1_1' attached_to='Rigid 40'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 38' attached_to='Mounting_Plate_v3_v1_1'>
+      <pose>0.14249999999999999 0.067500000000000004 0.001575 0 0 0</pose>
+    </frame>
+    <frame name='Insta360MountwithLidar_v1_1' attached_to='Rigid 38'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 4' attached_to='RightSupport_v1_1'>
+      <pose>0.152 0 -0.073124999999999996 0 0 0</pose>
+    </frame>
+    <frame name='Mounting_Plate_v3_v1_1' attached_to='Rigid 4'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 44' attached_to='JetsonCaseBottom_v1_1'>
+      <pose>0.00125 0.00061300000000000005 0.0040000000000000001 0 0 0</pose>
+    </frame>
+    <frame name='Jetson_Nano_v1_1' attached_to='Rigid 44'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 45' attached_to='JetsonCaseBottom_v1_1'>
+      <pose>0.00083799999999999999 0.057612999999999998 0.0040000000000000001 0 0 0</pose>
+    </frame>
+    <frame name='JetsonCaseTop_v1_1' attached_to='Rigid 45'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 19' attached_to='Mounting_Plate_v3_v1__1__1'>
+      <pose>-0.059999999999999998 0.044999999999999998 0 0 0 0</pose>
+    </frame>
+    <frame name='JetsonCaseBottom_v1_1' attached_to='Rigid 19'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 22' attached_to='Mounting_Plate_v3_v1__1__1'>
+      <pose>-0.067500000000000004 0.14249999999999999 0 0 0 0</pose>
+    </frame>
+    <frame name='KeyHolders_v3_v1_1' attached_to='Rigid 22'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 23' attached_to='Mounting_Plate_v3_v1__1__1'>
+      <pose>-0.13500000000000001 0.059999999999999998 0 0 0 0</pose>
+    </frame>
+    <frame name='3ButtonMount_v1_1' attached_to='Rigid 23'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 25' attached_to='RFD900urdf_v1_1'>
+      <pose>0.153553 0.003947 0.071274000000000004 0 0 0</pose>
+    </frame>
+    <frame name='RFDAntenna_v1__1__1' attached_to='Rigid 25'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 26' attached_to='RFD900urdf_v1_1'>
+      <pose>0.153553 0.024983000000000002 0.071274000000000004 0 0 0</pose>
+    </frame>
+    <frame name='RFDAntenna_v1_1' attached_to='Rigid 26'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 24' attached_to='Mounting_Plate_v3_v1__1__1'>
+      <pose>-0.31950000000000001 0.053034999999999999 -0.080349000000000004 0 0 0</pose>
+    </frame>
+    <frame name='RFD900urdf_v1_1' attached_to='Rigid 24'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 29' attached_to='Mounting_Plate_v3_v1__1__1'>
+      <pose>-0.044999999999999998 0.13500000000000001 -0.001575 0 0 0</pose>
+    </frame>
+    <frame name='MountingClipFinal_v1__1__1' attached_to='Rigid 29'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 30' attached_to='Mounting_Plate_v3_v1__1__1'>
+      <pose>-0.044999999999999998 0 -0.001575 0 0 0</pose>
+    </frame>
+    <frame name='MountingClipFinal_v1__3__1' attached_to='Rigid 30'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 51' attached_to='Mounting_Plate_v3_v1__1__1'>
+      <pose>-0.14449999999999999 0.114757 -0.00078700000000000005 0 0 0</pose>
+    </frame>
+    <frame name='TOFSensor_v3_1' attached_to='Rigid 51'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 6' attached_to='RightSupport_v1_1'>
+      <pose>-0.042000000000000003 0 -0.077200000000000005 0 0 0</pose>
+    </frame>
+    <frame name='Mounting_Plate_v3_v1__1__1' attached_to='Rigid 6'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 2' attached_to='base_link'>
+      <pose>0.0074999999999999997 -0.14249999999999999 -0.000125 0 0 0</pose>
+    </frame>
+    <frame name='RightSupport_v1_1' attached_to='Rigid 2'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 31' attached_to='LIPOBattery_v2_1'>
+      <pose>0 0 0.024 0 0 0</pose>
+    </frame>
+    <frame name='Anker_737_Power_Bank_v2_1' attached_to='Rigid 31'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 46' attached_to='Chassis_1'>
+      <pose>-0.068000000000000005 0.072499999999999995 0.080250000000000002 0 0 0</pose>
+    </frame>
+    <frame name='LIPOBattery_v2_1' attached_to='Rigid 46'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 42' attached_to='LeftSupport_v1_1'>
+      <pose>0.1265 -0.14000000000000001 -0.21512500000000001 0 0 0</pose>
+    </frame>
+    <frame name='Chassis_1' attached_to='Rigid 42'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 3' attached_to='base_link'>
+      <pose>0.0074999999999999997 -0.0074999999999999997 -0.000125 0 0 0</pose>
+    </frame>
+    <frame name='LeftSupport_v1_1' attached_to='Rigid 3'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 59' attached_to='GPSMount__1__v1_1'>
+      <pose>-0.053386000000000003 -0.01745 0.057500000000000002 0 0 0</pose>
+    </frame>
+    <frame name='GPS_v1_1' attached_to='Rigid 59'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 58' attached_to='base_link'>
+      <pose>0.0074999999999999997 -0.067500000000000004 0.0014499999999999999 0 0 0</pose>
+    </frame>
+    <frame name='GPSMount__1__v1_1' attached_to='Rigid 58'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Rigid 7' attached_to='base_link'>
+      <pose>0.14999999999999999 -0.074999999999999997 0.0014499999999999999 0 0 0</pose>
+    </frame>
+    <frame name='FrontCover_v1_1' attached_to='Rigid 7'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='base_joint' attached_to='base_link'>
+      <pose>0.074999999999999997 -0.074999999999999997 -0.28375 0 0 0</pose>
+    </frame>
+    <frame name='base_footprint' attached_to='base_joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+  </model>
+</sdf>
