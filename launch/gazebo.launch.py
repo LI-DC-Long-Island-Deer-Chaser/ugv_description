@@ -1,50 +1,108 @@
+import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch_ros.actions import Node
-from launch.actions import SetEnvironmentVariable, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import PathJoinSubstitution
-from launch_ros.substitutions import FindPackageShare
-
+from launch.substitutions import Command, LaunchConfiguration
+from launch_ros.actions import Node
 
 def generate_launch_description():
-    # Path to the ros_gz_sim package
-    ros_gz_sim_pkg_path = get_package_share_directory('ros_gz_sim')
+    # Package paths
+    pkg_share = get_package_share_directory('ugv_description')
+    ros_gz_sim_share = get_package_share_directory('ros_gz_sim')
     
-    # Path to your package (replace 'example_package' with your package name)
-    ugv_package_path = FindPackageShare('ugv_description')
-    model_sdf_path = PathJoinSubstitution([ugv_package_path, 'urdf', 'ugv.sdf'])
-
-    # Path to the Gazebo launch file
-    gz_launch_path = PathJoinSubstitution([ros_gz_sim_pkg_path, 'launch', 'gz_sim.launch.py'])
+    # File paths
+    default_model_path = os.path.join(pkg_share, 'urdf', 'ugv.sdf')
+    default_urdf_path = os.path.join(pkg_share, 'urdf', 'ugv.urdf')
+    default_rviz_config_path = os.path.join(pkg_share, 'config', 'display.rviz')
+    bridge_config_path = os.path.join(pkg_share, 'config', 'bridge_config.yaml')
+    ekf_config_path = os.path.join(pkg_share, 'config', 'ekf.yaml')
+    world_path = os.path.join(pkg_share, 'worlds', 'my_world.sdf')
+    
+    # Robot State Publisher
+    robot_state_publisher_node = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        output='screen',
+        parameters=[{
+            'robot_description': Command(['cat ', default_urdf_path]),
+            'use_sim_time': LaunchConfiguration('use_sim_time')
+        }]
+    )
+    
+    # RViz2
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        arguments=['-d', LaunchConfiguration('rvizconfig')],
+        parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}]
+    )
+    
+    # ROS-Gazebo Bridge
+    ros_gz_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=[
+            '--ros-args',
+            '-p',
+            f'config_file:={bridge_config_path}'
+        ],
+        output='screen'
+    )
+    
+    # Robot Localization - EKF Node for sensor fusion
+    robot_localization_node = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        output='screen',
+        parameters=[ekf_config_path, {'use_sim_time': LaunchConfiguration('use_sim_time')}]
+    )
+    
+    # Spawn Entity using ros_gz_sim create
+    spawn_entity = Node(
+        package='ros_gz_sim',
+        executable='create',
+        arguments=[
+            '-file', default_model_path,
+            '-name', 'ugv',
+            '-x', '0.0',
+            '-y', '0.0',
+            '-z', '0.5'
+        ],
+        output='screen'
+    )
 
     return LaunchDescription([
-        # Set environment variables for models and plugins
-        SetEnvironmentVariable(
-            'GZ_SIM_RESOURCE_PATH',
-            PathJoinSubstitution([ugv_package_path, 'urdf'])
+        DeclareLaunchArgument(
+            name='use_sim_time',
+            default_value='True',
+            description='Flag to enable use_sim_time'
         ),
-
-        # Include Gazebo launch file with the empty world
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(gz_launch_path),
-            launch_arguments={
-                'gz_args': 'empty.sdf',  # Launch the empty world
-                'on_exit_shutdown': 'True'
-            }.items(),
+        DeclareLaunchArgument(
+            name='model',
+            default_value=default_model_path,
+            description='Absolute path to robot model file'
         ),
-        # --- Spawn your UGV model ---
+        DeclareLaunchArgument(
+            name='rvizconfig',
+            default_value=default_rviz_config_path,
+            description='Absolute path to rviz config file'
+        ),
         
-        Node(
-            package='ros_gz_sim',
-            executable='create',
-            arguments=[
-                '-file', model_sdf_path,   # <-- just pass the substitution
-                '-name', 'ugv',
-                '-x', '5.0',
-                '-y', '5.0',
-                '-z', '0.5'
-            ],
+        # Launch Gazebo with GUI and custom world
+        ExecuteProcess(
+            cmd=['gz', 'sim', '-r', world_path],
             output='screen'
-        )
+        ),
+        
+        # Launch nodes
+        robot_state_publisher_node,
+        robot_localization_node,
+        rviz_node,
+        ros_gz_bridge,
+        spawn_entity,
     ])
