@@ -1269,12 +1269,16 @@
       <self_collide>true</self_collide>
       <self_collide>true</self_collide>
     </link>
-    <joint name='back_left_wheel' type='continuous'>
+    <joint name='back_left_wheel' type='revolute'>
       <pose relative_to='base_link'>-0.071210999999999997 0.031088999999999981 -0.213259 0 0 0</pose>
       <parent>base_link</parent>
       <child>BackLeft_1</child>
       <axis>
         <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e16</lower>
+          <upper>1e16</upper>
+        </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
@@ -1334,12 +1338,16 @@
       </visual>
       <self_collide>true</self_collide>
     </link>
-    <joint name='back_right_wheel' type='continuous'>
+    <joint name='back_right_wheel' type='revolute'>
       <pose relative_to='base_link'>-0.071210999999999997 -0.181089 -0.213259 0 0 0</pose>
       <parent>base_link</parent>
       <child>BackRight_1</child>
       <axis>
         <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-1e16</lower>
+          <upper>1e16</upper>
+        </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
@@ -1468,12 +1476,16 @@
       </visual>
       <self_collide>true</self_collide>
     </link>
-    <joint name='front_left_wheel' type='continuous'>
+    <joint name='front_left_wheel' type='revolute'>
       <pose relative_to='LeftHub_1'>0 0.035999999999999997 -0.078740000000000004 0 0 0</pose>
       <parent>LeftHub_1</parent>
       <child>FrontLeft_1</child>
       <axis>
         <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e16</lower>
+          <upper>1e16</upper>
+        </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
@@ -1602,12 +1614,16 @@
       </visual>
       <self_collide>true</self_collide>
     </link>
-    <joint name='front_right_wheel' type='continuous'>
+    <joint name='front_right_wheel' type='revolute'>
       <pose relative_to='RightHub__1'>0 -0.035999999999999997 -0.078740000000000004 0 0 0</pose>
       <parent>RightHub__1</parent>
       <child>FrontRight_1</child>
       <axis>
         <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-1e16</lower>
+          <upper>1e16</upper>
+        </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
@@ -1667,7 +1683,6 @@
       </visual>
       <self_collide>true</self_collide>
     </link>
-    <plugin name='control' filename='libgazebo_ros_control.so'/>
     <frame name='Rigid 11' attached_to='base_link'>
       <pose>0.097500000000000003 -0.1125 -0.000125 0 0 0</pose>
     </frame>
