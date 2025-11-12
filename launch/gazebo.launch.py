@@ -1,73 +1,50 @@
-from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
+from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch_ros.actions import Node
+from launch.actions import SetEnvironmentVariable, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
-import os
-import xacro
-from ament_index_python.packages import get_package_share_directory
+from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
-    share_dir = get_package_share_directory('ugv_description')
+    # Path to the ros_gz_sim package
+    ros_gz_sim_pkg_path = get_package_share_directory('ros_gz_sim')
+    
+    # Path to your package (replace 'example_package' with your package name)
+    ugv_package_path = FindPackageShare('ugv_description')
+    model_sdf_path = PathJoinSubstitution([ugv_package_path, 'urdf', 'ugv.sdf'])
 
-    xacro_file = os.path.join(share_dir, 'urdf', 'ugv.xacro')
-    robot_description_config = xacro.process_file(xacro_file)
-    robot_urdf = robot_description_config.toxml()
-
-    robot_state_publisher_node = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        name='robot_state_publisher',
-        parameters=[
-            {'robot_description': robot_urdf}
-        ]
-    )
-
-    joint_state_publisher_node = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        name='joint_state_publisher'
-    )
-
-    gazebo_server = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-                FindPackageShare('gazebo_ros'),
-                'launch',
-                'gzserver.launch.py'
-            ])
-        ]),
-        launch_arguments={
-            'pause': 'true'
-        }.items()
-    )
-
-    gazebo_client = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-                FindPackageShare('gazebo_ros'),
-                'launch',
-                'gzclient.launch.py'
-            ])
-        ])
-    )
-
-    urdf_spawn_node = Node(
-        package='gazebo_ros',
-        executable='spawn_entity.py',
-        arguments=[
-            '-entity', 'ugv',
-            '-topic', 'robot_description'
-        ],
-        output='screen'
-    )
+    # Path to the Gazebo launch file
+    gz_launch_path = PathJoinSubstitution([ros_gz_sim_pkg_path, 'launch', 'gz_sim.launch.py'])
 
     return LaunchDescription([
-        robot_state_publisher_node,
-        joint_state_publisher_node,
-        gazebo_server,
-        gazebo_client,
-        urdf_spawn_node,
+        # Set environment variables for models and plugins
+        SetEnvironmentVariable(
+            'GZ_SIM_RESOURCE_PATH',
+            PathJoinSubstitution([ugv_package_path, 'urdf'])
+        ),
+
+        # Include Gazebo launch file with the empty world
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(gz_launch_path),
+            launch_arguments={
+                'gz_args': 'empty.sdf',  # Launch the empty world
+                'on_exit_shutdown': 'True'
+            }.items(),
+        ),
+        # --- Spawn your UGV model ---
+        
+        Node(
+            package='ros_gz_sim',
+            executable='create',
+            arguments=[
+                '-file', model_sdf_path,   # <-- just pass the substitution
+                '-name', 'ugv',
+                '-x', '5.0',
+                '-y', '5.0',
+                '-z', '0.5'
+            ],
+            output='screen'
+        )
     ])
