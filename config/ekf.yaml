@@ -40,13 +40,13 @@ ekf_filter_node:
                        false, false, false,    # roll_dot, pitch_dot, yaw_dot
                        false, false, false]    # x_ddot, y_ddot, z_ddot accelerations
 
-        # IMU 0 (ICM-20948) - Primary IMU, use angular velocity
+        # IMU 0 (ICM-20948) - Primary IMU, use angular velocity only
         imu0: /imu0/data
         imu0_config: [false, false, false,     # x, y, z position
                       false, false, false,     # roll, pitch, yaw orientation
                       false, false, false,     # x_dot, y_dot, z_dot velocities
                       false, false, true,      # roll_dot, pitch_dot, yaw_dot (use yaw rate)
-                      true,  true,  true]      # x_ddot, y_ddot, z_ddot accelerations
+                      false, false, false]     # x_ddot, y_ddot, z_ddot accelerations (DISABLED)
 
         # IMU 1 (ICM-20649) - Secondary IMU for redundancy
         imu1: /imu1/data
@@ -54,7 +54,7 @@ ekf_filter_node:
                       false, false, false,     # roll, pitch, yaw orientation
                       false, false, false,     # x_dot, y_dot, z_dot velocities
                       false, false, true,      # roll_dot, pitch_dot, yaw_dot (use yaw rate)
-                      true,  true,  true]      # x_ddot, y_ddot, z_ddot accelerations
+                      false, false, false]     # x_ddot, y_ddot, z_ddot accelerations (DISABLED)
 
         # IMU 2 (ICM-20649) - Tertiary IMU for redundancy
         imu2: /imu2/data
@@ -62,7 +62,7 @@ ekf_filter_node:
                       false, false, false,     # roll, pitch, yaw orientation
                       false, false, false,     # x_dot, y_dot, z_dot velocities
                       false, false, true,      # roll_dot, pitch_dot, yaw_dot (use yaw rate)
-                      true,  true,  true]      # x_ddot, y_ddot, z_ddot accelerations
+                      false, false, false]     # x_ddot, y_ddot, z_ddot accelerations (DISABLED)
 
         # Process noise covariance matrix
         # Increase these to trust the prediction model less
