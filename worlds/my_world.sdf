@@ -1,8 +1,10 @@
 <sdf version='1.7'>
   <world name='my_world'>
-    <physics name="1ms" type="ignored">
-      <max_step_size>0.001</max_step_size>
+    <!-- Optimized physics for real-time performance -->
+    <physics name="fast_physics" type="ode">
+      <max_step_size>0.004</max_step_size> <!-- 4ms steps = 250Hz, good balance -->
       <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>250</real_time_update_rate> <!-- Match step size -->
     </physics>
     <plugin
       filename="gz-sim-physics-system"
@@ -92,11 +94,6 @@
     <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
     <atmosphere type='adiabatic'/>
-    <physics type='ode'>
-      <max_step_size>0.001</max_step_size>
-      <real_time_factor>1</real_time_factor>
-      <real_time_update_rate>1000</real_time_update_rate>
-    </physics>
     <scene>
       <ambient>0.4 0.4 0.4 1</ambient>
       <background>0.7 0.7 0.7 1</background>
