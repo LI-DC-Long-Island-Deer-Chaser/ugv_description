@@ -1416,10 +1416,14 @@
         <limit>
           <lower>-0.5236</lower> <!-- -30 degrees -->
           <upper>0.5236</upper>  <!-- 30 degrees -->
+          <effort>10</effort>    <!-- Max torque in Nm -->
+          <velocity>2.0</velocity> <!-- Max angular velocity rad/s -->
         </limit>
         <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <damping>1.0</damping>       <!-- Resist movement -->
+          <friction>0.5</friction>      <!-- Static friction -->
+          <spring_reference>0</spring_reference>  <!-- Center position -->
+          <spring_stiffness>5.0</spring_stiffness> <!-- Return-to-center force -->
         </dynamics>
       </axis>
     </joint>
@@ -1554,10 +1558,14 @@
         <limit>
           <lower>-0.5236</lower> <!-- -30 degrees -->
           <upper>0.5236</upper>  <!-- 30 degrees -->
+          <effort>10</effort>    <!-- Max torque in Nm -->
+          <velocity>2.0</velocity> <!-- Max angular velocity rad/s -->
         </limit>
         <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <damping>1.0</damping>       <!-- Resist movement -->
+          <friction>0.5</friction>      <!-- Static friction -->
+          <spring_reference>0</spring_reference>  <!-- Center position -->
+          <spring_stiffness>5.0</spring_stiffness> <!-- Return-to-center force -->
         </dynamics>
       </axis>
     </joint>
@@ -1881,5 +1889,539 @@
     <frame name='base_footprint' attached_to='base_joint'>
       <pose>0 0 0 0 0 0</pose>
     </frame>
+
+    <!-- Cube Orange IMU Sensors (mounted upside down, hence roll=3.14159) -->
+    
+    <!-- IMU0 - ICM-20948 (Primary) -->
+    <joint name='imu0_joint' type='fixed'>
+      <parent>base_link</parent>
+      <child>imu0_link</child>
+      <pose relative_to="CubeFC_v1_1">0.0 0.0 0.005 3.14159 0 0</pose>
+    </joint>
+
+    <link name='imu0_link'>
+      <pose relative_to="imu0_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.001</mass>
+        <inertia>
+          <ixx>1.66667e-09</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1.66667e-09</iyy>
+          <iyz>0</iyz>
+          <izz>1.66667e-09</izz>
+        </inertia>
+      </inertial>
+
+      <sensor name="imu0_sensor" type="imu">
+        <always_on>true</always_on>
+        <update_rate>400</update_rate>
+        <visualize>true</visualize>
+        <topic>imu0/data</topic>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+    </link>
+
+    <!-- IMU1 - ICM-20649 (Secondary) -->
+    <joint name='imu1_joint' type='fixed'>
+      <parent>base_link</parent>
+      <child>imu1_link</child>
+      <pose relative_to="CubeFC_v1_1">0.0 0.0 0.0055 3.14159 0 0</pose>
+    </joint>
+
+    <link name='imu1_link'>
+      <pose relative_to="imu1_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.001</mass>
+        <inertia>
+          <ixx>1.66667e-09</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1.66667e-09</iyy>
+          <iyz>0</iyz>
+          <izz>1.66667e-09</izz>
+        </inertia>
+      </inertial>
+
+      <sensor name="imu1_sensor" type="imu">
+        <always_on>true</always_on>
+        <update_rate>400</update_rate>
+        <visualize>true</visualize>
+        <topic>imu1/data</topic>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+    </link>
+
+    <!-- IMU2 - ICM-20649 (Tertiary) -->
+    <joint name='imu2_joint' type='fixed'>
+      <parent>base_link</parent>
+      <child>imu2_link</child>
+      <pose relative_to="CubeFC_v1_1">0.0 0.0 0.006 3.14159 0 0</pose>
+    </joint>
+
+    <link name='imu2_link'>
+      <pose relative_to="imu2_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.001</mass>
+        <inertia>
+          <ixx>1.66667e-09</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1.66667e-09</iyy>
+          <iyz>0</iyz>
+          <izz>1.66667e-09</izz>
+        </inertia>
+      </inertial>
+
+      <sensor name="imu2_sensor" type="imu">
+        <always_on>true</always_on>
+        <update_rate>400</update_rate>
+        <visualize>true</visualize>
+        <topic>imu2/data</topic>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+    </link>
+
+    <!-- ==================== NAVIGATION SENSORS ==================== -->
+    
+    <!-- Insta 360 One X2 - Front Lens -->
+    <joint name="camera_front_joint" type="fixed">
+      <parent>360Cam_v4_1</parent>
+      <child>camera_front_link</child>
+      <pose relative_to="360Cam_v4_1">0.01990 0 0.093445 0 0 0</pose>
+    </joint>
+
+    <link name='camera_front_link'>
+      <pose relative_to="camera_front_joint"/>
+
+      <sensor name="camera_front" type="wideanglecamera">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>30</update_rate>
+        <topic>camera/front</topic>
+        <camera>
+          <horizontal_fov>2.8798</horizontal_fov> <!-- 165 degrees -->
+          <image>
+            <width>640</width>
+            <height>360</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <lens>
+            <type>stereographic</type>
+            <scale_to_hfov>true</scale_to_hfov>
+            <cutoff_angle>1.5708</cutoff_angle>
+            <env_texture_size>512</env_texture_size>
+          </lens>
+          <distortion>
+            <k1>-0.25</k1>
+            <k2>0.12</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+    </link>
+
+    <!-- Insta 360 One X2 - Back Lens -->
+    <joint name="camera_back_joint" type="fixed">
+      <parent>360Cam_v4_1</parent>
+      <child>camera_back_link</child>
+      <pose relative_to="360Cam_v4_1">-0.01990 0 0.093445 0 0 3.14159</pose>
+    </joint>
+
+    <link name='camera_back_link'>
+      <pose relative_to="camera_back_joint"/>
+
+      <sensor name="camera_back" type="wideanglecamera">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>30</update_rate>
+        <topic>camera/back</topic>
+        <camera>
+          <horizontal_fov>2.8798</horizontal_fov> <!-- 165 degrees -->
+          <image>
+            <width>640</width>
+            <height>360</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <lens>
+            <type>stereographic</type>
+            <scale_to_hfov>true</scale_to_hfov>
+            <cutoff_angle>1.5708</cutoff_angle>
+            <env_texture_size>512</env_texture_size>
+          </lens>
+          <distortion>
+            <k1>-0.25</k1>
+            <k2>0.12</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+    </link>
+
+    <!-- RPLidar C1 - 2D Laser Scanner -->
+    <joint name="lidar_2d_joint" type="fixed">
+      <parent>RPLidarC1_v1_1</parent>
+      <child>lidar_2d_link</child>
+      <pose relative_to="RPLidarC1_v1_1">-0.02780 0 0.03310 0 0 0</pose>
+    </joint>
+
+    <link name='lidar_2d_link'>
+      <pose relative_to="lidar_2d_joint"/>
+
+      <sensor name="lidar_2d" type="gpu_lidar">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>10</update_rate>
+        <topic>scan</topic>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>720</samples>
+              <resolution>1.0</resolution>
+              <min_angle>0.0</min_angle>
+              <max_angle>6.28318530718</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.05</min>
+            <max>12.0</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </lidar>
+      </sensor>
+    </link>
+
+    <!-- VL53L0X Time of Flight Sensor (1D Range) -->
+    <joint name="tof_joint" type="fixed">
+      <parent>TOFSensor_v3_1</parent>
+      <child>tof_link</child>
+      <pose relative_to="TOFSensor_v3_1">0 0 0 0 0 3.14159</pose> <!-- Looking back (180 deg rotation) -->
+    </joint>
+
+    <link name='tof_link'>
+      <pose relative_to="tof_joint"/>
+
+      <sensor name="tof_range" type="gpu_lidar">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>50</update_rate>
+        <topic>tof/range</topic>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>1</samples>
+              <resolution>1.0</resolution>
+              <min_angle>0.0</min_angle>
+              <max_angle>0.0</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.030</min>
+            <max>1.0</max>
+            <resolution>0.001</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.003</stddev>
+          </noise>
+        </lidar>
+      </sensor>
+    </link>
+
+    <!-- Here4 GPS (NavSat) -->
+    <joint name="gps_joint" type="fixed">
+      <parent>GPS_v1_1</parent>
+      <child>gps_link</child>
+      <pose relative_to="GPS_v1_1">0 0.00995 0 0 0 0</pose> <!-- 9.95mm to the left (+Y in ROS, green axis) -->
+    </joint>
+
+    <link name='gps_link'>
+      <pose relative_to="gps_joint"/>
+
+      <sensor name="gps" type="navsat">
+        <always_on>true</always_on>
+        <update_rate>10</update_rate>
+        <topic>gps/fix</topic>
+        <navsat>
+          <position_sensing>
+            <horizontal>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.0</stddev> <!-- 1m accuracy (Here4 RTK can achieve cm-level) -->
+              </noise>
+            </horizontal>
+            <vertical>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.5</stddev>
+              </noise>
+            </vertical>
+          </position_sensing>
+          <velocity_sensing>
+            <horizontal>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.05</stddev>
+              </noise>
+            </horizontal>
+            <vertical>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.1</stddev>
+              </noise>
+            </vertical>
+          </velocity_sensing>
+        </navsat>
+      </sensor>
+    </link>
+
+    <!-- ==================== END NAVIGATION SENSORS ==================== -->
+
+    <!-- Ackermann Steering Plugin -->
+    <plugin filename="gz-sim-ackermann-steering-system" name="gz::sim::systems::AckermannSteering">
+      <!-- Steering joints (front wheels) -->
+      <left_joint>left_steering</left_joint>
+      <right_joint>right_steering</right_joint>
+      
+      <!-- Drive joints (all 4 wheels - locked differential) -->
+      <left_wheel_joint>back_left_wheel</left_wheel_joint>
+      <right_wheel_joint>back_right_wheel</right_wheel_joint>
+      
+      <!-- TRX-4 Chassis Specifications -->
+      <kingpin_width>0.212178</kingpin_width>        <!-- 270mm track width -->
+      <wheel_base>0.336</wheel_base>             <!-- 336mm wheelbase -->
+      <wheel_radius>0.070</wheel_radius>         <!-- 140mm diameter wheels -->
+      
+      <!-- Steering limits (in radians, ~±30 degrees) -->
+      <min_steering_angle>-0.5236</min_steering_angle>
+      <max_steering_angle>0.5236</max_steering_angle>
+      
+      <!-- TRX-4 Speed limits (7-11 mph = ~3-5 m/s) -->
+      <max_speed>5.0</max_speed>
+      <min_speed>-5.0</min_speed>
+      <max_acceleration>2.0</max_acceleration>
+      <max_deceleration>3.0</max_deceleration>
+      
+      <!-- Command topic -->
+      <topic>cmd_vel_gz</topic>
+      
+      <!-- Output topics -->
+      <odom_topic>odom</odom_topic>
+      <tf_topic>/tf</tf_topic>
+      
+      <!-- Frame IDs -->
+      <frame_id>odom</frame_id>
+      <child_frame_id>base_link</child_frame_id>
+      
+      <!-- Publish odometry -->
+      <odom_publish_frequency>50</odom_publish_frequency>
+    </plugin>
+
+    <!-- Joint State Publisher Plugin -->
+    <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+      <topic>joint_states</topic>
+      <update_rate>50</update_rate>
+    </plugin>
+
+    <!-- Apply Joint Controller Plugin to drive front wheels (mimic locked differential) -->
+    <plugin filename="gz-sim-apply-joint-force-system" name="gz::sim::systems::ApplyJointForce">
+      <joint_name>front_left_wheel</joint_name>
+    </plugin>
+    
+    <plugin filename="gz-sim-apply-joint-force-system" name="gz::sim::systems::ApplyJointForce">
+      <joint_name>front_right_wheel</joint_name>
+    </plugin>
   </model>
 </sdf>
