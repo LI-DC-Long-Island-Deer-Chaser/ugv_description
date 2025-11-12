@@ -10,9 +10,7 @@
   <depend>xacro</depend>
   <depend>rviz2</depend>
   <depend>robot_state_publisher</depend>
-  <depend>joint_state_publisher</depend>
-  <depend>joint_state_publisher_gui</depend>
-
+  <depend>robot_localization</depend>
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>
