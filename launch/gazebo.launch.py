@@ -68,7 +68,6 @@ def generate_launch_description():
         executable='create',
         arguments=[
             '-file', default_model_path,
-            '-name', 'ugv',
             '-x', '0.0',
             '-y', '0.0',
             '-z', '0.5'
