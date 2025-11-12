@@ -2349,43 +2349,42 @@
 
     <!-- ==================== END NAVIGATION SENSORS ==================== -->
 
-    <!-- Ackermann Steering Plugin -->
+    <!-- Ackermann Steering Plugin for Gazebo Harmonic -->
     <plugin filename="gz-sim-ackermann-steering-system" name="gz::sim::systems::AckermannSteering">
-      <!-- Steering joints (front wheels) -->
-      <left_joint>left_steering</left_joint>
-      <right_joint>right_steering</right_joint>
+      <!-- Steering joints (front hubs that rotate for steering) -->
+      <left_steering_joint>left_steering</left_steering_joint>
+      <right_steering_joint>right_steering</right_steering_joint>
       
-      <!-- Drive joints (all 4 wheels - locked differential) -->
-      <left_wheel_joint>back_left_wheel</left_wheel_joint>
-      <right_wheel_joint>back_right_wheel</right_wheel_joint>
+      <!-- Drive wheels (rear wheels) - can have multiple for 4WD -->
+      <left_joint>back_left_wheel</left_joint>
+      <right_joint>back_right_wheel</right_joint>
+      <left_joint>front_left_wheel</left_joint>
+      <right_joint>front_right_wheel</right_joint>
       
-      <!-- TRX-4 Chassis Specifications -->
-      <kingpin_width>0.212178</kingpin_width>        <!-- 270mm track width -->
-      <wheel_base>0.336</wheel_base>             <!-- 336mm wheelbase -->
-      <wheel_radius>0.070</wheel_radius>         <!-- 140mm diameter wheels -->
+      <!-- Chassis dimensions -->
+      <wheel_base>0.336</wheel_base>                 <!-- 336mm wheelbase -->
+      <wheel_separation>0.212178</wheel_separation>  <!-- 212mm track width -->
+      <kingpin_width>0.19</kingpin_width>            <!-- Slightly less than wheel_separation -->
+      <wheel_radius>0.070</wheel_radius>             <!-- 70mm radius (140mm diameter) -->
       
-      <!-- Steering limits (in radians, ~±30 degrees) -->
-      <min_steering_angle>-0.5236</min_steering_angle>
-      <max_steering_angle>0.5236</max_steering_angle>
+      <!-- Steering limit (±30 degrees = 0.5236 radians) -->
+      <steering_limit>0.5236</steering_limit>
       
-      <!-- TRX-4 Speed limits (7-11 mph = ~3-5 m/s) -->
-      <max_speed>5.0</max_speed>
-      <min_speed>-5.0</min_speed>
+      <!-- Velocity and acceleration limits -->
+      <min_velocity>-5.0</min_velocity>
+      <max_velocity>5.0</max_velocity>
+      <min_acceleration>-3.0</min_acceleration>
       <max_acceleration>2.0</max_acceleration>
-      <max_deceleration>3.0</max_deceleration>
       
-      <!-- Command topic -->
-      <topic>cmd_vel_gz</topic>
-      
-      <!-- Output topics -->
+      <!-- Topics -->
+      <topic>cmd_vel</topic>
       <odom_topic>odom</odom_topic>
-      <tf_topic>/tf</tf_topic>
       
-      <!-- Frame IDs -->
+      <!-- TF frames -->
       <frame_id>odom</frame_id>
       <child_frame_id>base_link</child_frame_id>
       
-      <!-- Publish odometry -->
+      <!-- Update rate -->
       <odom_publish_frequency>50</odom_publish_frequency>
     </plugin>
 
@@ -2393,15 +2392,6 @@
     <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
       <topic>joint_states</topic>
       <update_rate>50</update_rate>
-    </plugin>
-
-    <!-- Apply Joint Controller Plugin to drive front wheels (mimic locked differential) -->
-    <plugin filename="gz-sim-apply-joint-force-system" name="gz::sim::systems::ApplyJointForce">
-      <joint_name>front_left_wheel</joint_name>
-    </plugin>
-    
-    <plugin filename="gz-sim-apply-joint-force-system" name="gz::sim::systems::ApplyJointForce">
-      <joint_name>front_right_wheel</joint_name>
     </plugin>
   </model>
 </sdf>
