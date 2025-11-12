@@ -1288,4 +1288,53 @@
     <parent link="GPSMount__1__v1_1"/>
     <child link="GPS_v1_1"/>
   </joint>
+  <!-- Sensor Links for TF tree - Match Gazebo's auto-generated frame_ids -->
+  <link name="ugv/camera_front_link/camera_front"/>
+  <joint name="camera_front_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.022 0 0.093445"/>
+    <parent link="360Cam_v4_1"/>
+    <child link="ugv/camera_front_link/camera_front"/>
+  </joint>
+  <link name="ugv/camera_back_link/camera_back"/>
+  <joint name="camera_back_joint" type="fixed">
+    <origin rpy="0 0 3.14159" xyz="-0.022 0 0.093445"/>
+    <parent link="360Cam_v4_1"/>
+    <child link="ugv/camera_back_link/camera_back"/>
+  </joint>
+  <link name="ugv/lidar_2d_link/lidar_2d"/>
+  <joint name="lidar_2d_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.02780 0 0.03310"/>
+    <parent link="RPLidarC1_v1_1"/>
+    <child link="ugv/lidar_2d_link/lidar_2d"/>
+  </joint>
+  <link name="ugv/tof_link/tof_range"/>
+  <joint name="tof_joint" type="fixed">
+    <origin rpy="0 0 3.14159" xyz="0 0 0"/>
+    <parent link="TOFSensor_v3_1"/>
+    <child link="ugv/tof_link/tof_range"/>
+  </joint>
+  <link name="ugv/gps_link/gps"/>
+  <joint name="gps_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.00995 0"/>
+    <parent link="GPS_v1_1"/>
+    <child link="ugv/gps_link/gps"/>
+  </joint>
+  <link name="ugv/imu0_link/imu0_sensor"/>
+  <joint name="imu0_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="CubeFC_v1_1"/>
+    <child link="ugv/imu0_link/imu0_sensor"/>
+  </joint>
+  <link name="ugv/imu1_link/imu1_sensor"/>
+  <joint name="imu1_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="CubeFC_v1_1"/>
+    <child link="ugv/imu1_link/imu1_sensor"/>
+  </joint>
+  <link name="ugv/imu2_link/imu2_sensor"/>
+  <joint name="imu2_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="CubeFC_v1_1"/>
+    <child link="ugv/imu2_link/imu2_sensor"/>
+  </joint>
 </robot>

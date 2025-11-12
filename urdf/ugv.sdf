@@ -1919,6 +1919,7 @@
         <update_rate>400</update_rate>
         <visualize>true</visualize>
         <topic>imu0/data</topic>
+        <frame_id>imu0_link</frame_id>
         <imu>
           <angular_velocity>
             <x>
@@ -2003,6 +2004,7 @@
         <update_rate>400</update_rate>
         <visualize>true</visualize>
         <topic>imu1/data</topic>
+        <frame_id>imu1_link</frame_id>
         <imu>
           <angular_velocity>
             <x>
@@ -2087,6 +2089,7 @@
         <update_rate>400</update_rate>
         <visualize>true</visualize>
         <topic>imu2/data</topic>
+        <frame_id>imu2_link</frame_id>
         <imu>
           <angular_velocity>
             <x>
@@ -2150,14 +2153,14 @@
     <joint name="camera_front_joint" type="fixed">
       <parent>360Cam_v4_1</parent>
       <child>camera_front_link</child>
-      <pose relative_to="360Cam_v4_1">0.01990 0 0.093445 0 0 0</pose>
+      <pose relative_to="360Cam_v4_1">0.022 0 0.093445 0 0 0</pose> <!-- 22mm forward to clear mesh -->
     </joint>
 
     <link name='camera_front_link'>
       <pose relative_to="camera_front_joint"/>
 
       <sensor name="camera_front" type="wideanglecamera">
-        <always_on>true</always_on>
+        <always_on>1</always_on>
         <visualize>true</visualize>
         <update_rate>30</update_rate>
         <topic>camera/front</topic>
@@ -2178,19 +2181,6 @@
             <cutoff_angle>1.5708</cutoff_angle>
             <env_texture_size>512</env_texture_size>
           </lens>
-          <distortion>
-            <k1>-0.25</k1>
-            <k2>0.12</k2>
-            <k3>0.0</k3>
-            <p1>0.0</p1>
-            <p2>0.0</p2>
-            <center>0.5 0.5</center>
-          </distortion>
-          <noise>
-            <type>gaussian</type>
-            <mean>0.0</mean>
-            <stddev>0.007</stddev>
-          </noise>
         </camera>
       </sensor>
     </link>
@@ -2199,14 +2189,14 @@
     <joint name="camera_back_joint" type="fixed">
       <parent>360Cam_v4_1</parent>
       <child>camera_back_link</child>
-      <pose relative_to="360Cam_v4_1">-0.01990 0 0.093445 0 0 3.14159</pose>
+      <pose relative_to="360Cam_v4_1">-0.022 0 0.093445 0 0 3.14159</pose> <!-- 22mm backward to clear mesh -->
     </joint>
 
     <link name='camera_back_link'>
       <pose relative_to="camera_back_joint"/>
 
       <sensor name="camera_back" type="wideanglecamera">
-        <always_on>true</always_on>
+        <always_on>1</always_on>
         <visualize>true</visualize>
         <update_rate>30</update_rate>
         <topic>camera/back</topic>
@@ -2227,19 +2217,6 @@
             <cutoff_angle>1.5708</cutoff_angle>
             <env_texture_size>512</env_texture_size>
           </lens>
-          <distortion>
-            <k1>-0.25</k1>
-            <k2>0.12</k2>
-            <k3>0.0</k3>
-            <p1>0.0</p1>
-            <p2>0.0</p2>
-            <center>0.5 0.5</center>
-          </distortion>
-          <noise>
-            <type>gaussian</type>
-            <mean>0.0</mean>
-            <stddev>0.007</stddev>
-          </noise>
         </camera>
       </sensor>
     </link>
@@ -2259,6 +2236,7 @@
         <visualize>true</visualize>
         <update_rate>10</update_rate>
         <topic>scan</topic>
+        <frame_id>lidar_2d_link</frame_id>
         <lidar>
           <scan>
             <horizontal>
@@ -2297,6 +2275,7 @@
         <visualize>true</visualize>
         <update_rate>50</update_rate>
         <topic>tof/range</topic>
+        <frame_id>tof_link</frame_id>
         <lidar>
           <scan>
             <horizontal>
@@ -2334,6 +2313,7 @@
         <always_on>true</always_on>
         <update_rate>10</update_rate>
         <topic>gps/fix</topic>
+        <frame_id>gps_link</frame_id>
         <navsat>
           <position_sensing>
             <horizontal>
