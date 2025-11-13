@@ -1246,13 +1246,13 @@
     <origin rpy="0 0 0" xyz="0.129789 0.142589 0.080731"/>
     <parent link="Chassis_1"/>
     <child link="LeftHub_1"/>
-    <axis xyz="-0.020219 0.0 -0.999796"/>
+    <axis xyz="0.0 0.0 1.0"/>
   </joint>
   <joint name="right_steering" type="continuous">
     <origin rpy="0 0 0" xyz="0.129789 0.002411 0.080731"/>
     <parent link="Chassis_1"/>
     <child link="RightHub__1"/>
-    <axis xyz="-0.020219 0.0 -0.999796"/>
+    <axis xyz="0.0 0.0 1.0"/>
   </joint>
   <joint name="front_left_wheel" type="continuous">
     <origin rpy="0 0 0" xyz="0.0 0.036 -0.07874"/>
@@ -1264,7 +1264,7 @@
     <origin rpy="0 0 0" xyz="0.0 -0.036 -0.07874"/>
     <parent link="RightHub__1"/>
     <child link="FrontRight_1"/>
-    <axis xyz="0.0 -1.0 0.0"/>
+    <axis xyz="0.0 1.0 0.0"/>
   </joint>
   <joint name="back_left_wheel" type="continuous">
     <origin rpy="0 0 0" xyz="-0.205211 0.178589 0.001991"/>
@@ -1276,7 +1276,7 @@
     <origin rpy="0 0 0" xyz="-0.205211 -0.033589 0.001991"/>
     <parent link="Chassis_1"/>
     <child link="BackRight_1"/>
-    <axis xyz="0.0 -1.0 0.0"/>
+    <axis xyz="0.0 1.0 0.0"/>
   </joint>
   <joint name="Rigid 58" type="fixed">
     <origin rpy="0 0 0" xyz="0.0075 -0.0675 0.00145"/>

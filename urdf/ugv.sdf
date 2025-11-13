@@ -1343,7 +1343,7 @@
       <parent>base_link</parent>
       <child>BackRight_1</child>
       <axis>
-        <xyz>0 -1 0</xyz>
+        <xyz>0 1 0</xyz>
         <limit>
           <lower>-1e16</lower>
           <upper>1e16</upper>
@@ -1412,7 +1412,7 @@
       <parent>base_link</parent>
       <child>LeftHub_1</child>
       <axis>
-        <xyz>-0.020219000000000001 0 -0.99979600000000002</xyz>
+        <xyz>0 0 1</xyz>
         <limit>
           <lower>-0.5236</lower> <!-- -30 degrees -->
           <upper>0.5236</upper>  <!-- 30 degrees -->
@@ -1554,7 +1554,7 @@
       <parent>base_link</parent>
       <child>RightHub__1</child>
       <axis>
-        <xyz>-0.020219000000000001 0 -0.99979600000000002</xyz>
+        <xyz>0 0 1</xyz>
         <limit>
           <lower>-0.5236</lower> <!-- -30 degrees -->
           <upper>0.5236</upper>  <!-- 30 degrees -->
@@ -1627,7 +1627,7 @@
       <parent>RightHub__1</parent>
       <child>FrontRight_1</child>
       <axis>
-        <xyz>0 -1 0</xyz>
+        <xyz>0 1 0</xyz>
         <limit>
           <lower>-1e16</lower>
           <upper>1e16</upper>
@@ -2375,6 +2375,9 @@
       <max_velocity>5.0</max_velocity>
       <min_acceleration>-3.0</min_acceleration>
       <max_acceleration>2.0</max_acceleration>
+      
+      <!-- Steering behavior - ensure steering direction is consistent -->
+      <steering_only>false</steering_only>
       
       <!-- Topics -->
       <topic>cmd_vel</topic>
