@@ -986,9 +986,9 @@
       <material name="silver"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="-0.263789 -0.031089 0.213259"/>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontLeft_1.stl" scale="0.001 0.001 0.001"/>
+        <cylinder radius="0.070" length="0.050"/>
       </geometry>
     </collision>
   </link>
@@ -1006,9 +1006,9 @@
       <material name="silver"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="-0.263789 0.181089 0.213259"/>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontRight_1.stl" scale="0.001 0.001 0.001"/>
+        <cylinder radius="0.070" length="0.050"/>
       </geometry>
     </collision>
   </link>
@@ -1026,9 +1026,9 @@
       <material name="silver"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0.071211 -0.031089 0.213259"/>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/BackLeft_1.stl" scale="0.001 0.001 0.001"/>
+        <cylinder radius="0.070" length="0.050"/>
       </geometry>
     </collision>
   </link>
@@ -1046,9 +1046,9 @@
       <material name="silver"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0.071211 0.181089 0.213259"/>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/BackRight_1.stl" scale="0.001 0.001 0.001"/>
+        <cylinder radius="0.070" length="0.050"/>
       </geometry>
     </collision>
   </link>

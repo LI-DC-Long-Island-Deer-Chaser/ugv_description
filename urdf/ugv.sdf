@@ -1300,12 +1300,12 @@
         </inertia>
       </inertial>
       <collision name='BackLeft_1_collision'>
-        <pose>0.071210999999999997 -0.031088999999999999 0.213259 0 0 0</pose>
+        <pose>0 0 0 1.5708 0 0</pose>
         <geometry>
-          <mesh>
-            <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/BackLeft_1.stl</uri>
-          </mesh>
+          <cylinder>
+            <radius>0.070</radius>
+            <length>0.050</length>
+          </cylinder>
         </geometry>
         <surface>
           <contact>
@@ -1369,12 +1369,12 @@
         </inertia>
       </inertial>
       <collision name='BackRight_1_collision'>
-        <pose>0.071210999999999997 0.181089 0.213259 0 0 0</pose>
+        <pose>0 0 0 1.5708 0 0</pose>
         <geometry>
-          <mesh>
-            <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/BackRight_1.stl</uri>
-          </mesh>
+          <cylinder>
+            <radius>0.070</radius>
+            <length>0.050</length>
+          </cylinder>
         </geometry>
         <surface>
           <contact>
@@ -1511,12 +1511,12 @@
         </inertia>
       </inertial>
       <collision name='FrontLeft_1_collision'>
-        <pose>-0.263789 -0.031088999999999999 0.213259 0 0 0</pose>
+        <pose>0 0 0 1.5708 0 0</pose>
         <geometry>
-          <mesh>
-            <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontLeft_1.stl</uri>
-          </mesh>
+          <cylinder>
+            <radius>0.070</radius>
+            <length>0.050</length>
+          </cylinder>
         </geometry>
         <surface>
           <contact>
@@ -1653,12 +1653,12 @@
         </inertia>
       </inertial>
       <collision name='FrontRight_1_collision'>
-        <pose>-0.263789 0.181089 0.213259 0 0 0</pose>
+        <pose>0 0 0 1.5708 0 0</pose>
         <geometry>
-          <mesh>
-            <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontRight_1.stl</uri>
-          </mesh>
+          <cylinder>
+            <radius>0.070</radius>
+            <length>0.050</length>
+          </cylinder>
         </geometry>
         <surface>
           <contact>
