@@ -2,15 +2,15 @@
   <model name='ugv'>
     <link name='base_link'>
       <inertial>
-        <pose>0.077880045922249272 -0.076914373628388141 -0.096578331680390511 0 0 0</pose>
-        <mass>20.874913445382688</mass>
+        <pose>0.0 0.0 0.0 0 0 0</pose>
+        <mass>8.5</mass>
         <inertia>
-          <ixx>0.11852190237917989</ixx>
-          <ixy>-0.0052174670152318608</ixy>
-          <ixz>-0.018129439570030301</ixz>
-          <iyy>0.40271080912638108</iyy>
-          <iyz>0.001788013897454338</iyz>
-          <izz>0.38622824367259018</izz>
+          <ixx>0.05</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>0.05</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.08</izz>
         </inertia>
       </inertial>
       <collision name='base_link_collision'>
@@ -1288,15 +1288,15 @@
     <link name='BackLeft_1'>
       <pose relative_to='back_left_wheel'>0 0 0 0 0 0</pose>
       <inertial>
-        <pose>-1.1807672128938411e-06 0.002368485176402584 1.130949349725796e-07 0 0 0</pose>
-        <mass>0.70337569117316423</mass>
+        <pose>0.0 0.0 0.0 0 0 0</pose>
+        <mass>0.1</mass>
         <inertia>
-          <ixx>0.001091</ixx>
+          <ixx>0.0001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.0019009999999999999</iyy>
+          <iyy>0.0002</iyy>
           <iyz>0</iyz>
-          <izz>0.001091</izz>
+          <izz>0.0001</izz>
         </inertia>
       </inertial>
       <collision name='BackLeft_1_collision'>
@@ -1357,15 +1357,15 @@
     <link name='BackRight_1'>
       <pose relative_to='back_right_wheel'>0 0 0 0 0 0</pose>
       <inertial>
-        <pose>-5.2214961018814954e-07 -0.0023674196551448372 3.3837511043133262e-08 0 0 0</pose>
-        <mass>0.70339955597534476</mass>
+        <pose>0.0 0.0 0.0 0 0 0</pose>
+        <mass>0.1</mass>
         <inertia>
-          <ixx>0.001091</ixx>
+          <ixx>0.0001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.0019009999999999999</iyy>
+          <iyy>0.0002</iyy>
           <iyz>0</iyz>
-          <izz>0.001091</izz>
+          <izz>0.0001</izz>
         </inertia>
       </inertial>
       <collision name='BackRight_1_collision'>
@@ -1414,8 +1414,8 @@
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>-0.5236</lower> <!-- -30 degrees -->
-          <upper>0.5236</upper>  <!-- 30 degrees -->
+          <lower>-0.7854</lower> <!-- -45 degrees -->
+          <upper>0.7854</upper>  <!-- 45 degrees -->
           <effort>10</effort>    <!-- Max torque in Nm -->
           <velocity>2.0</velocity> <!-- Max angular velocity rad/s -->
         </limit>
@@ -1499,15 +1499,15 @@
     <link name='FrontLeft_1'>
       <pose relative_to='front_left_wheel'>0 0 0 0 0 0</pose>
       <inertial>
-        <pose>-1.18076721283833e-06 -0.00069735772485915101 -2.3161891793410661e-08 0 0 0</pose>
-        <mass>0.70337569117316423</mass>
+        <pose>0.0 0.0 0.0 0 0 0</pose>
+        <mass>0.1</mass>
         <inertia>
-          <ixx>0.001091</ixx>
+          <ixx>0.0001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.0019009999999999999</iyy>
+          <iyy>0.0002</iyy>
           <iyz>0</iyz>
-          <izz>0.001091</izz>
+          <izz>0.0001</izz>
         </inertia>
       </inertial>
       <collision name='FrontLeft_1_collision'>
@@ -1556,8 +1556,8 @@
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>-0.5236</lower> <!-- -30 degrees -->
-          <upper>0.5236</upper>  <!-- 30 degrees -->
+          <lower>-0.7854</lower> <!-- -45 degrees -->
+          <upper>0.7854</upper>  <!-- 45 degrees -->
           <effort>10</effort>    <!-- Max torque in Nm -->
           <velocity>2.0</velocity> <!-- Max angular velocity rad/s -->
         </limit>
@@ -1641,15 +1641,15 @@
     <link name='FrontRight_1'>
       <pose relative_to='front_right_wheel'>0 0 0 0 0 0</pose>
       <inertial>
-        <pose>-5.2214961016039396e-07 0.00069629309767071934 5.6095532163791262e-08 0 0 0</pose>
-        <mass>0.70339955597534476</mass>
+        <pose>0.0 0.0 0.0 0 0 0</pose>
+        <mass>0.1</mass>
         <inertia>
-          <ixx>0.001091</ixx>
+          <ixx>0.0001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.0019009999999999999</iyy>
+          <iyy>0.0002</iyy>
           <iyz>0</iyz>
-          <izz>0.001091</izz>
+          <izz>0.0001</izz>
         </inertia>
       </inertial>
       <collision name='FrontRight_1_collision'>
@@ -2367,8 +2367,8 @@
       <kingpin_width>0.19</kingpin_width>            <!-- Slightly less than wheel_separation -->
       <wheel_radius>0.070</wheel_radius>             <!-- 70mm radius (140mm diameter) -->
       
-      <!-- Steering limit (±30 degrees = 0.5236 radians) -->
-      <steering_limit>0.5236</steering_limit>
+      <!-- Steering limit (±45 degrees = 0.7854 radians) -->
+      <steering_limit>0.7854</steering_limit>
       
       <!-- Velocity and acceleration limits -->
       <min_velocity>-5.0</min_velocity>

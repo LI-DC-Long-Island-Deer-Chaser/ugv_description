@@ -314,9 +314,9 @@
   </joint>
   <link name="base_link">
     <inertial>
-      <origin rpy="0 0 0" xyz="0.07499999999999711 -0.07499999999999997 0.0006625999999999998"/>
-      <mass value="0.2720807790827568"/>
-      <inertia ixx="0.00051" ixy="0.0" ixz="0.0" iyy="0.00051" iyz="0.0" izz="0.001021"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <mass value="8.5"/>
+      <inertia ixx="0.05" ixy="0.0" ixz="0.0" iyy="0.05" iyz="0.0" izz="0.08"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -974,9 +974,9 @@
   </link>
   <link name="FrontLeft_1">
     <inertial>
-      <origin rpy="0 0 0" xyz="-1.1807672128383295e-06 -0.000697357724859151 -2.316189179341066e-08"/>
-      <mass value="0.7033756911731642"/>
-      <inertia ixx="0.001091" ixy="0.0" ixz="-0.0" iyy="0.001901" iyz="0.0" izz="0.001091"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0002" iyz="0.0" izz="0.0001"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="-0.263789 -0.031089 0.213259"/>
@@ -994,9 +994,9 @@
   </link>
   <link name="FrontRight_1">
     <inertial>
-      <origin rpy="0 0 0" xyz="-5.22149610160394e-07 0.0006962930976707193 5.609553216379126e-08"/>
-      <mass value="0.7033995559753448"/>
-      <inertia ixx="0.001091" ixy="0.0" ixz="0.0" iyy="0.001901" iyz="-0.0" izz="0.001091"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0002" iyz="0.0" izz="0.0001"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="-0.263789 0.181089 0.213259"/>
@@ -1014,9 +1014,9 @@
   </link>
   <link name="BackLeft_1">
     <inertial>
-      <origin rpy="0 0 0" xyz="-1.1807672128938407e-06 0.0023684851764025835 1.1309493497257961e-07"/>
-      <mass value="0.7033756911731642"/>
-      <inertia ixx="0.001091" ixy="-0.0" ixz="0.0" iyy="0.001901" iyz="0.0" izz="0.001091"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0002" iyz="0.0" izz="0.0001"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0.071211 -0.031089 0.213259"/>
@@ -1034,9 +1034,9 @@
   </link>
   <link name="BackRight_1">
     <inertial>
-      <origin rpy="0 0 0" xyz="-5.221496101881495e-07 -0.0023674196551448368 3.383751104313326e-08"/>
-      <mass value="0.7033995559753448"/>
-      <inertia ixx="0.001091" ixy="-0.0" ixz="-0.0" iyy="0.001901" iyz="-0.0" izz="0.001091"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0002" iyz="0.0" izz="0.0001"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0.071211 0.181089 0.213259"/>
@@ -1242,17 +1242,19 @@
     <parent link="Mounting_Plate_v3_v1__1__1"/>
     <child link="TOFSensor_v3_1"/>
   </joint>
-  <joint name="left_steering" type="continuous">
+  <joint name="left_steering" type="revolute">
     <origin rpy="0 0 0" xyz="0.129789 0.142589 0.080731"/>
     <parent link="Chassis_1"/>
     <child link="LeftHub_1"/>
     <axis xyz="0.0 0.0 1.0"/>
+    <limit lower="-0.7854" upper="0.7854" effort="10" velocity="2.0"/>
   </joint>
-  <joint name="right_steering" type="continuous">
+  <joint name="right_steering" type="revolute">
     <origin rpy="0 0 0" xyz="0.129789 0.002411 0.080731"/>
     <parent link="Chassis_1"/>
     <child link="RightHub__1"/>
     <axis xyz="0.0 0.0 1.0"/>
+    <limit lower="-0.7854" upper="0.7854" effort="10" velocity="2.0"/>
   </joint>
   <joint name="front_left_wheel" type="continuous">
     <origin rpy="0 0 0" xyz="0.0 0.036 -0.07874"/>
