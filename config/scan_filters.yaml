@@ -1,0 +1,10 @@
+scan_to_scan_filter_chain:
+  ros__parameters:
+    filter1:
+      name: remove_center_band
+      type: laser_filters/LaserScanAngularBoundsFilterInPlace
+      params:
+        lower_angle: 2.09439510239
+        upper_angle: 4.18879020479
+        replace_with_nan: true
+        invert: true   # keep angles OUTSIDE the range
