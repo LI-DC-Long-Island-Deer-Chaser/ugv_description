@@ -326,9 +326,9 @@
       <material name="silver"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0.095 -0.075 -0.14"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.40 0.15 0.15"/>
       </geometry>
     </collision>
   </link>
@@ -346,9 +346,9 @@
       <material name="silver"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="-0.0075 0.1425 0.000125"/>
+      <origin rpy="0 0 0" xyz="0.08 -0.07 -0.04"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RightSupport_v1_1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.20 0.01 0.08"/>
       </geometry>
     </collision>
   </link>
@@ -366,9 +366,9 @@
       <material name="silver"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="-0.0075 0.0075 0.000125"/>
+      <origin rpy="0 0 0" xyz="0.08 -0.07 -0.04"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/LeftSupport_v1_1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.20 0.01 0.08"/>
       </geometry>
     </collision>
   </link>
@@ -386,9 +386,9 @@
       <material name="silver"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="-0.1595 0.1425 0.07325"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Mounting_Plate_v3_v1_1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.27 0.27 0.003"/>
       </geometry>
     </collision>
   </link>
@@ -405,10 +405,10 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.0345 0.1425 0.077325"/>
+        <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Mounting_Plate_v3_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.27 0.27 0.003"/>
       </geometry>
     </collision>
   </link>
@@ -425,10 +425,10 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="-0.15 0.075 -0.00145"/>
+        <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontCover_v1_1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.15 0.15 0.003"/>
       </geometry>
     </collision>
   </link>
@@ -445,10 +445,10 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="-0.0975 0.1125 0.000125"/>
+        <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/CubeFC_v1_1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.04 0.04 0.02"/>
       </geometry>
     </collision>
   </link>
@@ -465,10 +465,10 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="-0.2795 0.0225 0.07325"/>
+        <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontMountFull_v1_1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.08 0.135 0.02"/>
       </geometry>
     </collision>
   </link>
@@ -485,12 +485,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="-0.303776 0.00875 0.072039"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontLight_v1_1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="FrontLight_v1__1__1">
     <inertial>
@@ -505,12 +500,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="-0.303776 0.14375 0.072039"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontLight_v1__1__1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="Speaker_v1__1__1">
     <inertial>
@@ -525,12 +515,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="-0.305098 0.031776 0.090129"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Speaker_v1__1__1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="Speaker_v1_1">
     <inertial>
@@ -545,12 +530,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="-0.305098 0.120724 0.090129"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Speaker_v1_1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="JetsonCaseBottom_v1_1">
     <inertial>
@@ -565,10 +545,10 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.0945 0.0975 0.077325"/>
+        <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/JetsonCaseBottom_v1_1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.10 0.06 0.02"/>
       </geometry>
     </collision>
   </link>
@@ -585,12 +565,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.102 0.0 0.077325"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/KeyHolders_v3_v1_1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="3ButtonMount_v1_1">
     <inertial>
@@ -605,12 +580,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.1695 0.0825 0.077325"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/3ButtonMount_v1_1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="RFD900urdf_v1_1">
     <inertial>
@@ -625,10 +595,10 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.354 0.089465 0.157674"/>
+        <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RFD900urdf_v1_1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.06 0.04 0.015"/>
       </geometry>
     </collision>
   </link>
@@ -645,12 +615,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.200447 0.085518 0.0864"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RFDAntenna_v1__1__1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="RFDAntenna_v1_1">
     <inertial>
@@ -665,12 +630,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.200447 0.064482 0.0864"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RFDAntenna_v1_1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="MountingClipFinal_v1_1">
     <inertial>
@@ -685,12 +645,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="-0.2795 0.0075 0.07325"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1_1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="MountingClipFinal_v1__2__1">
     <inertial>
@@ -705,12 +660,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="-0.2795 0.1425 0.07325"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1__2__1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="MountingClipFinal_v1__1__1">
     <inertial>
@@ -725,12 +675,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.0795 0.0075 0.0789"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1__1__1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="MountingClipFinal_v1__3__1">
     <inertial>
@@ -745,12 +690,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.0795 0.1425 0.0789"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1__3__1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="Anker_737_Power_Bank_v2_1">
     <inertial>
@@ -766,9 +706,9 @@
       <material name="silver"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="-0.066 0.075 0.111"/>
+      <origin rpy="0 0 0" xyz="0 0 0.025"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Anker_737_Power_Bank_v2_1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.16 0.08 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -785,10 +725,10 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="-0.302 0.075 0.071675"/>
+        <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Insta360MountwithLidar_v1_1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.08 0.06 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -805,10 +745,10 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="-0.1847 0.075 0.050175"/>
+        <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/360Cam_v4_1.stl" scale="0.001 0.001 0.001"/>
+        <sphere radius="0.03"/>
       </geometry>
     </collision>
   </link>
@@ -825,10 +765,10 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="-0.302 0.075 0.064675"/>
+        <collision>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RPLidarC1_v1_1.stl" scale="0.001 0.001 0.001"/>
+        <cylinder radius="0.04" length="0.04"/>
       </geometry>
     </collision>
   </link>
@@ -846,9 +786,9 @@
       <material name="silver"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="-0.134 0.1475 0.21525"/>
+      <origin rpy="0 0 0" xyz="-0.05 0.07 0.08"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Chassis_1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.38 0.28 0.04"/>
       </geometry>
     </collision>
   </link>
@@ -865,12 +805,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.09325 0.096887 0.073325"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Jetson_Nano_v1_1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="JetsonCaseTop_v1_1">
     <inertial>
@@ -885,12 +820,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.093662 0.039887 0.073325"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/JetsonCaseTop_v1_1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="LIPOBattery_v2_1">
     <inertial>
@@ -906,9 +836,9 @@
       <material name="silver"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="-0.066 0.075 0.135"/>
+      <origin rpy="0 0 0" xyz="0 0 0.012"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/LIPOBattery_v2_1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.15 0.10 0.04"/>
       </geometry>
     </collision>
   </link>
@@ -925,10 +855,10 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.179 0.027743 0.078112"/>
+        <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/TOFSensor_v3_1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.02 0.015 0.01"/>
       </geometry>
     </collision>
   </link>
@@ -946,9 +876,9 @@
       <material name="silver"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="-0.263789 0.004911 0.134519"/>
+      <origin rpy="1.5708 0 0" xyz="0 0 -0.04"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/LeftHub_1.stl" scale="0.001 0.001 0.001"/>
+        <cylinder radius="0.03" length="0.06"/>
       </geometry>
     </collision>
   </link>
@@ -966,9 +896,9 @@
       <material name="silver"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="-0.263789 0.145089 0.134519"/>
+      <origin rpy="1.5708 0 0" xyz="0 0 -0.04"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RightHub__1.stl" scale="0.001 0.001 0.001"/>
+        <cylinder radius="0.03" length="0.06"/>
       </geometry>
     </collision>
   </link>
@@ -1065,12 +995,7 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="-0.0075 0.0675 -0.00145"/>
-      <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/GPSMount__1__v1_1.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    
   </link>
   <link name="GPS_v1_1">
     <inertial>
@@ -1085,10 +1010,10 @@
       </geometry>
       <material name="silver"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.045886 0.08495 -0.05895"/>
+        <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/GPS_v1_1.stl" scale="0.001 0.001 0.001"/>
+        <box size="0.055 0.055 0.015"/>
       </geometry>
     </collision>
   </link>
