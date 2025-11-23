@@ -1919,7 +1919,6 @@
         <update_rate>400</update_rate>
         <visualize>true</visualize>
         <topic>imu0/data</topic>
-        <frame_id>imu0_link</frame_id>
         <imu>
           <angular_velocity>
             <x>
@@ -2004,7 +2003,6 @@
         <update_rate>400</update_rate>
         <visualize>true</visualize>
         <topic>imu1/data</topic>
-        <frame_id>imu1_link</frame_id>
         <imu>
           <angular_velocity>
             <x>
@@ -2089,7 +2087,6 @@
         <update_rate>400</update_rate>
         <visualize>true</visualize>
         <topic>imu2/data</topic>
-        <frame_id>imu2_link</frame_id>
         <imu>
           <angular_velocity>
             <x>
@@ -2236,7 +2233,6 @@
         <visualize>true</visualize>
         <update_rate>10</update_rate>
         <topic>scan</topic>
-        <frame_id>lidar_2d_link</frame_id>
         <lidar>
           <scan>
             <horizontal>
@@ -2275,7 +2271,6 @@
         <visualize>true</visualize>
         <update_rate>50</update_rate>
         <topic>tof/range</topic>
-        <frame_id>tof_link</frame_id>
         <lidar>
           <scan>
             <horizontal>
@@ -2313,7 +2308,6 @@
         <always_on>true</always_on>
         <update_rate>10</update_rate>
         <topic>gps/fix</topic>
-        <frame_id>gps_link</frame_id>
         <navsat>
           <position_sensing>
             <horizontal>
