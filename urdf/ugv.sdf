@@ -976,8 +976,12 @@
         <limit>
           <lower>-1e16</lower>
           <upper>1e16</upper>
+          <effort>5.0</effort>
+          <velocity>20.0</velocity>
         </limit>
         <dynamics>
+          <damping>0.15</damping>
+          <friction>0.1</friction>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
@@ -1007,12 +1011,20 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1000000.0</kp>
+              <kd>100.0</kd>
+              <min_depth>0.001</min_depth>
+              <max_vel>0.1</max_vel>
+            </ode>
           </contact>
           <friction>
             <ode>
-              <mu>0.20000000000000001</mu>
-              <mu2>0.20000000000000001</mu2>
+              <mu>1.2</mu>
+              <mu2>1.2</mu2>
+              <fdir1>0 0 1</fdir1>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
             </ode>
           </friction>
         </surface>
@@ -1045,8 +1057,12 @@
         <limit>
           <lower>-1e16</lower>
           <upper>1e16</upper>
+          <effort>5.0</effort>
+          <velocity>20.0</velocity>
         </limit>
         <dynamics>
+          <damping>0.15</damping>
+          <friction>0.1</friction>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
@@ -1076,12 +1092,20 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1000000.0</kp>
+              <kd>100.0</kd>
+              <min_depth>0.001</min_depth>
+              <max_vel>0.1</max_vel>
+            </ode>
           </contact>
           <friction>
             <ode>
-              <mu>0.20000000000000001</mu>
-              <mu2>0.20000000000000001</mu2>
+              <mu>1.2</mu>
+              <mu2>1.2</mu2>
+              <fdir1>0 0 1</fdir1>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
             </ode>
           </friction>
         </surface>
@@ -1118,10 +1142,10 @@
           <velocity>2.0</velocity> <!-- Max angular velocity rad/s -->
         </limit>
         <dynamics>
-          <damping>1.0</damping>       <!-- Resist movement -->
-          <friction>0.5</friction>      <!-- Static friction -->
+          <damping>2.0</damping>       <!-- Increased: Resist movement more -->
+          <friction>1.0</friction>      <!-- Increased: Better control -->
           <spring_reference>0</spring_reference>  <!-- Center position -->
-          <spring_stiffness>5.0</spring_stiffness> <!-- Return-to-center force -->
+          <spring_stiffness>8.0</spring_stiffness> <!-- Increased: Stronger return-to-center -->
         </dynamics>
       </axis>
     </joint>
@@ -1187,8 +1211,12 @@
         <limit>
           <lower>-1e16</lower>
           <upper>1e16</upper>
+          <effort>5.0</effort>
+          <velocity>20.0</velocity>
         </limit>
         <dynamics>
+          <damping>0.15</damping>
+          <friction>0.1</friction>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
@@ -1218,12 +1246,20 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1000000.0</kp>
+              <kd>100.0</kd>
+              <min_depth>0.001</min_depth>
+              <max_vel>0.1</max_vel>
+            </ode>
           </contact>
           <friction>
             <ode>
-              <mu>0.20000000000000001</mu>
-              <mu2>0.20000000000000001</mu2>
+              <mu>1.2</mu>
+              <mu2>1.2</mu2>
+              <fdir1>0 0 1</fdir1>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
             </ode>
           </friction>
         </surface>
@@ -1260,10 +1296,10 @@
           <velocity>2.0</velocity> <!-- Max angular velocity rad/s -->
         </limit>
         <dynamics>
-          <damping>1.0</damping>       <!-- Resist movement -->
-          <friction>0.5</friction>      <!-- Static friction -->
+          <damping>2.0</damping>       <!-- Increased: Resist movement more -->
+          <friction>1.0</friction>      <!-- Increased: Better control -->
           <spring_reference>0</spring_reference>  <!-- Center position -->
-          <spring_stiffness>5.0</spring_stiffness> <!-- Return-to-center force -->
+          <spring_stiffness>8.0</spring_stiffness> <!-- Increased: Stronger return-to-center -->
         </dynamics>
       </axis>
     </joint>
@@ -1329,8 +1365,12 @@
         <limit>
           <lower>-1e16</lower>
           <upper>1e16</upper>
+          <effort>5.0</effort>
+          <velocity>20.0</velocity>
         </limit>
         <dynamics>
+          <damping>0.15</damping>
+          <friction>0.1</friction>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
@@ -1360,12 +1400,20 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1000000.0</kp>
+              <kd>100.0</kd>
+              <min_depth>0.001</min_depth>
+              <max_vel>0.1</max_vel>
+            </ode>
           </contact>
           <friction>
             <ode>
-              <mu>0.20000000000000001</mu>
-              <mu2>0.20000000000000001</mu2>
+              <mu>1.2</mu>
+              <mu2>1.2</mu2>
+              <fdir1>0 0 1</fdir1>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
             </ode>
           </friction>
         </surface>
