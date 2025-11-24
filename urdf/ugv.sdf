@@ -1138,14 +1138,14 @@
         <limit>
           <lower>-0.7854</lower> <!-- -45 degrees -->
           <upper>0.7854</upper>  <!-- 45 degrees -->
-          <effort>10</effort>    <!-- Max torque in Nm -->
-          <velocity>2.0</velocity> <!-- Max angular velocity rad/s -->
+          <effort>100</effort>    <!-- Max torque in Nm - Strong servo steering -->
+          <velocity>5.0</velocity> <!-- Max angular velocity rad/s - Fast steering response -->
         </limit>
         <dynamics>
-          <damping>2.0</damping>       <!-- Increased: Resist movement more -->
-          <friction>1.0</friction>      <!-- Increased: Better control -->
+          <damping>0.5</damping>       <!-- Reduced: Less resistance for quick response -->
+          <friction>0.1</friction>      <!-- Reduced: Minimize drag -->
           <spring_reference>0</spring_reference>  <!-- Center position -->
-          <spring_stiffness>8.0</spring_stiffness> <!-- Increased: Stronger return-to-center -->
+          <spring_stiffness>2.0</spring_stiffness> <!-- Reduced: Less return-to-center force -->
         </dynamics>
       </axis>
     </joint>
@@ -1292,14 +1292,14 @@
         <limit>
           <lower>-0.7854</lower> <!-- -45 degrees -->
           <upper>0.7854</upper>  <!-- 45 degrees -->
-          <effort>10</effort>    <!-- Max torque in Nm -->
-          <velocity>2.0</velocity> <!-- Max angular velocity rad/s -->
+          <effort>100</effort>    <!-- Max torque in Nm - Strong servo steering -->
+          <velocity>5.0</velocity> <!-- Max angular velocity rad/s - Fast steering response -->
         </limit>
         <dynamics>
-          <damping>2.0</damping>       <!-- Increased: Resist movement more -->
-          <friction>1.0</friction>      <!-- Increased: Better control -->
+          <damping>0.5</damping>       <!-- Reduced: Less resistance for quick response -->
+          <friction>0.1</friction>      <!-- Reduced: Minimize drag -->
           <spring_reference>0</spring_reference>  <!-- Center position -->
-          <spring_stiffness>8.0</spring_stiffness> <!-- Increased: Stronger return-to-center -->
+          <spring_stiffness>2.0</spring_stiffness> <!-- Reduced: Less return-to-center force -->
         </dynamics>
       </axis>
     </joint>
