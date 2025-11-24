@@ -17,6 +17,7 @@ def generate_launch_description():
     default_rviz_config_path = os.path.join(pkg_share, 'config', 'display.rviz')
     bridge_config_path = os.path.join(pkg_share, 'config', 'bridge_config.yaml')
     ekf_config_path = os.path.join(pkg_share, 'config', 'ekf.yaml')
+    laser_filter_config_path = os.path.join(pkg_share, 'config', 'laser_filter_gz.yaml')
     world_path = os.path.join(pkg_share, 'worlds', 'my_world.sdf')
     
     # Robot State Publisher
@@ -62,6 +63,19 @@ def generate_launch_description():
         parameters=[ekf_config_path, {'use_sim_time': LaunchConfiguration('use_sim_time')}]
     )
     
+    # Laser Scan Filter - Front 180° arc for navigation
+    laser_filter_node = Node(
+        package='laser_filters',
+        executable='scan_to_scan_filter_chain',
+        name='scan_to_scan_filter_chain',
+        output='screen',
+        parameters=[laser_filter_config_path, {'use_sim_time': LaunchConfiguration('use_sim_time')}],
+        remappings=[
+            ('scan', 'scan_raw'),           # Input: raw 360° scan from Gazebo
+            ('scan_filtered', 'scan')       # Output: filtered 180° scan for SLAM/Nav2
+        ]
+    )
+    
     # Spawn Entity using ros_gz_sim create
     spawn_entity = Node(
         package='ros_gz_sim',
@@ -101,6 +115,7 @@ def generate_launch_description():
         # Launch nodes
         robot_state_publisher_node,
         robot_localization_node,
+        laser_filter_node,
         rviz_node,
         ros_gz_bridge,
         spawn_entity,
