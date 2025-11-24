@@ -72,7 +72,9 @@
   direction: GZ_TO_ROS
 
 # RPLidar C1 - 2D Laser Scanner
-- ros_topic_name: "/scan"
+# Note: Raw scan is remapped to /scan_raw for laser filter processing
+# Filtered scan (/scan) is used by SLAM and Nav2
+- ros_topic_name: "/scan_raw"
   gz_topic_name: "/scan"
   ros_type_name: "sensor_msgs/msg/LaserScan"
   gz_type_name: "gz.msgs.LaserScan"
