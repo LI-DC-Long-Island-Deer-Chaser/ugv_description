@@ -395,7 +395,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/base_link.stl</uri>
+            <uri>model://ugv_description/meshes/base_link.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -412,7 +412,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/CubeFC_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/CubeFC_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -429,7 +429,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RightSupport_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/RightSupport_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -446,7 +446,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Mounting_Plate_v3_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/Mounting_Plate_v3_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -463,7 +463,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontMountFull_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/FrontMountFull_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -480,7 +480,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontLight_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/FrontLight_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -497,7 +497,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontLight_v1__1__1.stl</uri>
+            <uri>model://ugv_description/meshes/FrontLight_v1__1__1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -514,7 +514,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Speaker_v1__1__1.stl</uri>
+            <uri>model://ugv_description/meshes/Speaker_v1__1__1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -531,7 +531,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Speaker_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/Speaker_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -548,7 +548,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/MountingClipFinal_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -565,7 +565,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1__2__1.stl</uri>
+            <uri>model://ugv_description/meshes/MountingClipFinal_v1__2__1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -582,7 +582,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Insta360MountwithLidar_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/Insta360MountwithLidar_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -599,7 +599,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/360Cam_v4_1.stl</uri>
+            <uri>model://ugv_description/meshes/360Cam_v4_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -616,7 +616,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RPLidarC1_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/RPLidarC1_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -633,7 +633,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Mounting_Plate_v3_v1__1__1.stl</uri>
+            <uri>model://ugv_description/meshes/Mounting_Plate_v3_v1__1__1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -650,7 +650,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/JetsonCaseBottom_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/JetsonCaseBottom_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -667,7 +667,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Jetson_Nano_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/Jetson_Nano_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -684,7 +684,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/JetsonCaseTop_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/JetsonCaseTop_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -701,7 +701,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/KeyHolders_v3_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/KeyHolders_v3_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -718,7 +718,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/3ButtonMount_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/3ButtonMount_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -735,7 +735,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RFD900urdf_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/RFD900urdf_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -752,7 +752,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RFDAntenna_v1__1__1.stl</uri>
+            <uri>model://ugv_description/meshes/RFDAntenna_v1__1__1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -769,7 +769,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RFDAntenna_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/RFDAntenna_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -786,7 +786,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1__1__1.stl</uri>
+            <uri>model://ugv_description/meshes/MountingClipFinal_v1__1__1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -803,7 +803,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/MountingClipFinal_v1__3__1.stl</uri>
+            <uri>model://ugv_description/meshes/MountingClipFinal_v1__3__1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -820,7 +820,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/TOFSensor_v3_1.stl</uri>
+            <uri>model://ugv_description/meshes/TOFSensor_v3_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -837,7 +837,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/LeftSupport_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/LeftSupport_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -854,7 +854,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Chassis_1.stl</uri>
+            <uri>model://ugv_description/meshes/Chassis_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -871,7 +871,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/LIPOBattery_v2_1.stl</uri>
+            <uri>model://ugv_description/meshes/LIPOBattery_v2_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -888,7 +888,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/Anker_737_Power_Bank_v2_1.stl</uri>
+            <uri>model://ugv_description/meshes/Anker_737_Power_Bank_v2_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -905,7 +905,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/GPSMount__1__v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/GPSMount__1__v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -922,7 +922,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/GPS_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/GPS_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -939,7 +939,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontCover_v1_1.stl</uri>
+            <uri>model://ugv_description/meshes/FrontCover_v1_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1053,7 +1053,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/BackLeft_1.stl</uri>
+            <uri>model://ugv_description/meshes/BackLeft_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1134,7 +1134,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/BackRight_1.stl</uri>
+            <uri>model://ugv_description/meshes/BackRight_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1207,7 +1207,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/LeftHub_1.stl</uri>
+            <uri>model://ugv_description/meshes/LeftHub_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1288,7 +1288,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontLeft_1.stl</uri>
+            <uri>model://ugv_description/meshes/FrontLeft_1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1361,7 +1361,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/RightHub__1.stl</uri>
+            <uri>model://ugv_description/meshes/RightHub__1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1442,7 +1442,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>file:///home/odinroast/Desktop/ros2_ws/install/ugv_description/share/ugv_description/meshes/FrontRight_1.stl</uri>
+            <uri>model://ugv_description/meshes/FrontRight_1.stl</uri>
           </mesh>
         </geometry>
         <material>
