@@ -19,5 +19,6 @@ scan_to_scan_filter_chain:
       name: front_180_filter
       type: laser_filters/LaserScanAngularBoundsFilterInPlace
       params:
-        lower_angle: -1.5708   # -90° (left side)
-        upper_angle:  1.5708   # +90° (right side)
+        lower_angle: -2.09439510239   # -120°
+        upper_angle:  2.09439510239   # +120°
+        replace_with_nan: true

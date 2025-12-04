@@ -46,22 +46,23 @@ ekf_filter_node:
     odom0_relative: false
     odom0_queue_size: 10
     
-    # ========== Sensor Input 2: IMU from CubeOrange ==========
-    # Provides angular velocity (yaw rate) for turning
-    # ArduPilot's EKF has already corrected for IMU orientation
-    # MAVROS publishes to /imu0/data
-    imu0: /imu0/data
+    # ========== Sensor Input 2: IMU from CubeOrange via MAVROS ==========
+    # Provides orientation (yaw) and angular velocity from ArduPilot AHRS
+    # AHRS_ORIENTATION=8 (Roll 180°) - Cube is mounted upside-down
+    # MAVROS publishes corrected data with frame_id: base_link
+    # EKF transforms from base_link to base_footprint automatically via TF
+    imu0: /mavros/imu/data
     imu0_config: [
       false, false, false,    # x, y, z position (not provided by IMU)
-      false, false, false,    # roll, pitch, yaw orientation (RF2O provides yaw)
+      false, false, true,     # roll, pitch, yaw orientation (USE yaw from FC)
       false, false, false,    # vx, vy, vz linear velocities (not from IMU)
       false, false, true,     # vroll, vpitch, vyaw angular velocities (USE yaw rate)
-      false, false, false     # ax, ay, az accelerations (noisy, disabled)
+      false, false, false     # ax, ay, az accelerations (can enable if needed)
     ]
     imu0_differential: false
     imu0_relative: false
     imu0_queue_size: 10
-    imu0_remove_gravitational_acceleration: false  # ArduPilot handles this
+    imu0_remove_gravitational_acceleration: true
     
     # ========== Process Noise Covariance (Q) ==========
     # Tuned for slow-moving ground robot with laser odometry
