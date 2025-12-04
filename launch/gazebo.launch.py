@@ -3,21 +3,23 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, LaunchConfiguration
+from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
     # Package paths
     pkg_share = get_package_share_directory('ugv_description')
     ros_gz_sim_share = get_package_share_directory('ros_gz_sim')
     
-    # File paths
+    # File paths (simulation configs)
     default_model_path = os.path.join(pkg_share, 'urdf', 'ugv.sdf')
     default_urdf_path = os.path.join(pkg_share, 'urdf', 'ugv.urdf')
-    default_rviz_config_path = os.path.join(pkg_share, 'config', 'display.rviz')
-    bridge_config_path = os.path.join(pkg_share, 'config', 'bridge_config.yaml')
-    ekf_config_path = os.path.join(pkg_share, 'config', 'ekf.yaml')
-    laser_filter_config_path = os.path.join(pkg_share, 'config', 'laser_filter_gz.yaml')
+    default_rviz_config_path = os.path.join(pkg_share, 'config', 'simulation', 'display.rviz')
+    bridge_config_path = os.path.join(pkg_share, 'config', 'simulation', 'bridge_config.yaml')
+    ekf_config_path = os.path.join(pkg_share, 'config', 'simulation', 'ekf.yaml')
+    laser_filter_config_path = os.path.join(pkg_share, 'config', 'simulation', 'laser_filter_gz.yaml')
+    slam_config_path = os.path.join(pkg_share, 'config', 'simulation', 'slam_toolbox.yaml')
     world_path = os.path.join(pkg_share, 'worlds', 'my_world.sdf')
     
     # Robot State Publisher
@@ -88,6 +90,15 @@ def generate_launch_description():
         ],
         output='screen'
     )
+    
+    # SLAM Toolbox for mapping in simulation
+    slam_toolbox = Node(
+        package='slam_toolbox',
+        executable='async_slam_toolbox_node',
+        name='slam_toolbox',
+        output='screen',
+        parameters=[slam_config_path, {'use_sim_time': LaunchConfiguration('use_sim_time')}]
+    )
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -116,6 +127,7 @@ def generate_launch_description():
         robot_state_publisher_node,
         robot_localization_node,
         laser_filter_node,
+        slam_toolbox,
         rviz_node,
         ros_gz_bridge,
         spawn_entity,
