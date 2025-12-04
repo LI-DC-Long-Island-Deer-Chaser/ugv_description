@@ -1230,7 +1230,7 @@
   </joint>
   <link name="ugv/lidar_2d_link/lidar_2d"/>
   <joint name="lidar_2d_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="-0.02780 0 0.03310"/>
+    <origin rpy="0 0 3.14159" xyz="-0.02780 0 0.03310"/>
     <parent link="RPLidarC1_v1_1"/>
     <child link="ugv/lidar_2d_link/lidar_2d"/>
   </joint>
@@ -1248,19 +1248,19 @@
   </joint>
   <link name="ugv/imu0_link/imu0_sensor"/>
   <joint name="imu0_joint" type="fixed">
-    <origin rpy="3.14159 0 0" xyz="0 0 0"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="CubeFC_v1_1"/>
     <child link="ugv/imu0_link/imu0_sensor"/>
   </joint>
   <link name="ugv/imu1_link/imu1_sensor"/>
   <joint name="imu1_joint" type="fixed">
-    <origin rpy="3.14159 0 0" xyz="0 0 0"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="CubeFC_v1_1"/>
     <child link="ugv/imu1_link/imu1_sensor"/>
   </joint>
   <link name="ugv/imu2_link/imu2_sensor"/>
   <joint name="imu2_joint" type="fixed">
-    <origin rpy="3.14159 0 0" xyz="0 0 0"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="CubeFC_v1_1"/>
     <child link="ugv/imu2_link/imu2_sensor"/>
   </joint>
