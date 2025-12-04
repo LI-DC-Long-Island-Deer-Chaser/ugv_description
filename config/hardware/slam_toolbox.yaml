@@ -1,0 +1,95 @@
+# ============================================================================
+# SLAM Toolbox Configuration for UGV Hardware with RPLidar C1
+# ============================================================================
+# RPLidar C1 Specifications:
+#   - Range: 0.2m to 12m (effective: 0.2m to 10m)
+#   - Scan Rate: 10 Hz
+#   - Sample Rate: 8000 samples/sec
+#   - Angular Resolution: 0.9°
+#   - 360° coverage (filtered to front 180° for navigation)
+#
+# Use Case: Indoor mapping + outdoor obstacle avoidance
+# ============================================================================
+
+slam_toolbox:
+  ros__parameters:
+
+    # ========== Plugin Configuration ==========
+    solver_plugin: solver_plugins::CeresSolver
+    ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
+    ceres_preconditioner: SCHUR_JACOBI
+    ceres_trust_strategy: LEVENBERG_MARQUARDT
+    ceres_dogleg_type: TRADITIONAL_DOGLEG
+    ceres_loss_function: None
+
+    # ========== ROS Topic & Frame Configuration ==========
+    odom_frame: odom
+    map_frame: map
+    base_frame: base_footprint
+    scan_topic: /scan                # Filtered front 180° scan
+    mode: mapping                    # Options: mapping, localization
+
+    # ========== Map Persistence (Optional) ==========
+    # Uncomment to load/save maps
+    # map_file_name: /path/to/my_map
+    # map_start_pose: [0.0, 0.0, 0.0]
+    # map_start_at_dock: false
+
+    # ========== General Settings ==========
+    debug_logging: false
+    throttle_scans: 1                # Process every scan (C1 runs at 10 Hz)
+    transform_publish_period: 0.02   # 50 Hz TF publishing
+    map_update_interval: 1.0         # Update map visualization every 1 second
+    resolution: 0.05                 # 5cm grid resolution (good for indoor + outdoor)
+    max_laser_range: 10.0            # Use up to 10m (C1's effective range)
+    minimum_time_interval: 0.1       # Min time between processed scans
+    transform_timeout: 2.0           # Increased timeout for initial startup
+    tf_buffer_duration: 30.0
+    stack_size_to_use: 40000000
+    enable_interactive_mode: true    # Allow RViz interaction
+    
+    # Message filter settings to prevent queue overflow
+    scan_queue_size: 100             # Increased queue size to buffer during startup
+    scan_buffer_size: 100            # Match buffer to queue size
+
+    # ========== Scan Matching ==========
+    use_scan_matching: true
+    use_scan_barycenter: true
+    minimum_travel_distance: 0.15    # Process scan after 15cm movement (tuned for indoor)
+    minimum_travel_heading: 0.3      # Process scan after ~17° rotation
+    scan_buffer_maximum_scan_distance: 10.0
+
+    # ========== Scan Matching Thresholds ==========
+    link_match_minimum_response_fine: 0.15    # Relaxed for noisy environments
+    link_scan_maximum_distance: 1.5
+    
+    # ========== Loop Closure ==========
+    do_loop_closing: true
+    loop_search_maximum_distance: 4.0         # Search for loops within 4m
+    loop_match_minimum_chain_size: 10
+    loop_match_maximum_variance_coarse: 3.0
+    loop_match_minimum_response_coarse: 0.4   # Slightly relaxed
+    loop_match_minimum_response_fine: 0.5
+
+    # ========== Correlation Parameters ==========
+    # Fine-tuned for RPLidar C1's 0.9° angular resolution
+    correlation_search_space_dimension: 0.5
+    correlation_search_space_resolution: 0.01
+    correlation_search_space_smear_deviation: 0.1
+
+    # ========== Loop Closure Correlation ==========
+    loop_search_space_dimension: 8.0
+    loop_search_space_resolution: 0.05
+    loop_search_space_smear_deviation: 0.03
+
+    # ========== Scan Matcher Penalties ==========
+    distance_variance_penalty: 0.5
+    angle_variance_penalty: 1.0
+
+    # ========== Search Parameters ==========
+    fine_search_angle_offset: 0.00349      # ~0.2° fine search
+    coarse_search_angle_offset: 0.349      # ~20° coarse search
+    coarse_angle_resolution: 0.0349        # ~2° resolution
+    minimum_angle_penalty: 0.9
+    minimum_distance_penalty: 0.5
+    use_response_expansion: true

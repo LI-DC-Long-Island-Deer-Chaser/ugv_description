@@ -1,0 +1,103 @@
+# ============================================================================
+# EKF Configuration for UGV Hardware SLAM
+# ============================================================================
+# Sensor Fusion:
+#   - RF2O Laser Odometry (/odom_rf2o): x, y, yaw position + linear velocities
+#   - IMU from CubeOrange via MAVROS (/imu0/data): yaw rate (angular velocity)
+#
+# Notes:
+#   - ArduPilot handles IMU orientation (AHRS_ORIENTATION=8, Roll 180°)
+#   - MAVROS publishes corrected IMU data, no additional rotation needed
+#   - Two_d_mode=true for ground robot (ignores z-axis drift)
+#   - EKF publishes odom->base_link TF
+#   - SLAM Toolbox publishes map->odom TF
+# ============================================================================
+
+ekf_filter_node:
+  ros__parameters:
+    
+    # ========== General Settings ==========
+    frequency: 50.0                  # 50 Hz filter update rate
+    sensor_timeout: 0.2              # Wait 200ms before timing out sensor
+    two_d_mode: true                 # Ground robot - ignore z, roll, pitch drift
+    
+    # ========== TF Publishing ==========
+    publish_tf: true                 # Publish odom->base_link transform
+    publish_acceleration: false
+    
+    # ========== Frame IDs ==========
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_footprint
+    world_frame: odom                # EKF operates in odom frame (not map)
+    
+    # ========== Sensor Input 1: RF2O Laser Odometry ==========
+    # Provides position (x, y, yaw) and linear velocities (vx, vy)
+    # This is the primary odometry source for SLAM
+    odom0: /odom_rf2o
+    odom0_config: [
+      true,  true,  false,    # x, y, z position (use x, y; ignore z)
+      false, false, true,     # roll, pitch, yaw orientation (use yaw only)
+      true,  true,  false,    # vx, vy, vz linear velocities (use vx, vy)
+      false, false, false,    # vroll, vpitch, vyaw angular velocities (IMU provides vyaw)
+      false, false, false     # ax, ay, az accelerations (not used)
+    ]
+    odom0_differential: false
+    odom0_relative: false
+    odom0_queue_size: 10
+    
+    # ========== Sensor Input 2: IMU from CubeOrange ==========
+    # Provides angular velocity (yaw rate) for turning
+    # ArduPilot's EKF has already corrected for IMU orientation
+    # MAVROS publishes to /imu0/data
+    imu0: /imu0/data
+    imu0_config: [
+      false, false, false,    # x, y, z position (not provided by IMU)
+      false, false, false,    # roll, pitch, yaw orientation (RF2O provides yaw)
+      false, false, false,    # vx, vy, vz linear velocities (not from IMU)
+      false, false, true,     # vroll, vpitch, vyaw angular velocities (USE yaw rate)
+      false, false, false     # ax, ay, az accelerations (noisy, disabled)
+    ]
+    imu0_differential: false
+    imu0_relative: false
+    imu0_queue_size: 10
+    imu0_remove_gravitational_acceleration: false  # ArduPilot handles this
+    
+    # ========== Process Noise Covariance (Q) ==========
+    # Tuned for slow-moving ground robot with laser odometry
+    process_noise_covariance: [
+      0.05, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # x
+      0.0,  0.05, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # y
+      0.0,  0.0,  0.06, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # z
+      0.0,  0.0,  0.0,  0.03, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # roll
+      0.0,  0.0,  0.0,  0.0,  0.03, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # pitch
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.06, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # yaw
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.025,0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # vx
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.025,0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # vy
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.04, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # vz
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.01, 0.0,  0.0,  0.0,  0.0,  0.0,  # vroll
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.01, 0.0,  0.0,  0.0,  0.0,  # vpitch
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.02, 0.0,  0.0,  0.0,  # vyaw
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.01, 0.0,  0.0,  # ax
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.01, 0.0,  # ay
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.015 # az
+    ]
+    
+    # ========== Initial State Covariance (P0) ==========
+    initial_estimate_covariance: [
+      1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0
+    ]

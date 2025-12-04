@@ -4,5 +4,5 @@ scan_to_scan_filter_chain:
       name: front_180_filter
       type: laser_filters/LaserScanAngularBoundsFilterInPlace
       params:
-        lower_angle: 2.40855  # 90° - left side
-        upper_angle: 3.87463 # 270° - right side (front semicircle)
+        lower_angle: 2.40855  
+        upper_angle: 3.87463 
