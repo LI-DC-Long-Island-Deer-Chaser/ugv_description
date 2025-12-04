@@ -1,5 +1,24 @@
 <sdf version='1.9'>
   <model name='ugv'>
+    <link name='base_footprint'>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.001</mass>
+        <inertia>
+          <ixx>0.0001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0001</iyy>
+          <iyz>0</iyz>
+          <izz>0.0001</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <joint name='base_joint' type='fixed'>
+      <parent>base_footprint</parent>
+      <child>base_link</child>
+      <pose>-0.075 0.075 0.28375 0 0 0</pose>
+    </joint>
     <link name='base_link'>
       <inertial>
         <pose>0.0 0.0 0.0 0 0 0</pose>
@@ -1627,12 +1646,6 @@
       <pose>0.14999999999999999 -0.074999999999999997 0.0014499999999999999 0 0 0</pose>
     </frame>
     <frame name='FrontCover_v1_1' attached_to='Rigid 7'>
-      <pose>0 0 0 0 0 0</pose>
-    </frame>
-    <frame name='base_joint' attached_to='base_link'>
-      <pose>0.074999999999999997 -0.074999999999999997 -0.28375 0 0 0</pose>
-    </frame>
-    <frame name='base_footprint' attached_to='base_joint'>
       <pose>0 0 0 0 0 0</pose>
     </frame>
 
