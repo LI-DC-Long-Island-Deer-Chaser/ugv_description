@@ -104,8 +104,10 @@ def generate_launch_description():
     )
 
     # ========== 5. Robot Localization EKF ==========
-    # Fuses RF2O odometry + IMU data
-    # Publishes odom->base_link TF and /odometry/filtered
+    # Fuses RF2O odometry + IMU data from MAVROS
+    # ArduPilot AHRS_ORIENTATION=8 handles 180° roll correction
+    # MAVROS publishes with frame_id: base_link (already corrected)
+    # Publishes odom->base_footprint TF and /odometry/filtered
     ekf_node = Node(
         package='robot_localization',
         executable='ekf_node',
@@ -131,6 +133,20 @@ def generate_launch_description():
         ]
     )
 
+    # ========== 7. Joint State Publisher ==========
+    # Publishes joint states for wheels and steering
+    # Currently publishes zeros - will be replaced with actual encoder/feedback data later
+    joint_state_publisher = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+        name='joint_state_publisher',
+        output='screen',
+        parameters=[{
+            'use_sim_time': use_sim_time,
+            'rate': 50.0  # 50 Hz publication rate
+        }]
+    )
+
     # ========== Launch Description ==========
     return LaunchDescription([
         # Arguments
@@ -151,10 +167,11 @@ def generate_launch_description():
         ),
         
         # Nodes (order matters for TF dependencies)
-        robot_state_publisher,  # Must be first - publishes URDF TF tree
-        sllidar_node,           # Lidar driver
-        scan_filter,            # Filter to front 180°
-        rf2o_laser_odom,        # Laser odometry
-        ekf_node,               # Sensor fusion
-        slam_toolbox            # SLAM mapping
+        robot_state_publisher,    # Must be first - publishes URDF TF tree
+        joint_state_publisher,    # Publishes joint states for wheels/steering
+        sllidar_node,             # Lidar driver
+        scan_filter,              # Filter to front 180°
+        rf2o_laser_odom,          # Laser odometry
+        ekf_node,                 # Sensor fusion (uses /mavros/imu/data)
+        slam_toolbox              # SLAM mapping
     ])
