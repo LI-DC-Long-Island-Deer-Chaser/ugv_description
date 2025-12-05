@@ -147,6 +147,50 @@ def generate_launch_description():
         }]
     )
 
+    # ========== 8. Wheel Encoder Odometry ==========
+    # Reads encoder data from Arduino via serial JSON
+    # Publishes /wheel_odom for EKF fusion
+    wheel_encoder_node = Node(
+        package='ugv_description',
+        executable='wheel_encoder_node',
+        name='wheel_encoder_node',
+        output='screen',
+        parameters=[{
+            'serial_port': '/dev/ttyACM2',        # Arduino serial port
+            'baud_rate': 115200,
+            'counts_per_foot': 281.66,            # Empirical calibration: 5ft = 1408.3 counts
+            'wheel_base': 0.254,                  # 10 inches between axles
+            'odom_frame_id': 'odom',
+            'base_frame_id': 'base_footprint',
+            'use_sim_time': use_sim_time
+        }]
+    )
+
+    # ========== 9. cmd_vel Controller ==========
+    # Converts /cmd_vel commands to MAVROS RC overrides
+    # PID velocity control + Ackermann steering
+    cmd_vel_controller = Node(
+        package='ugv_description',
+        executable='cmd_vel_controller',
+        name='cmd_vel_controller',
+        output='screen',
+        parameters=[{
+            'wheel_base': 0.254,                  # 10 inches
+            'max_steering_angle': 0.785398,       # 45 degrees in radians
+            'steering_pwm_min': 1100,
+            'steering_pwm_max': 1900,
+            'steering_pwm_center': 1500,
+            'throttle_pwm_min': 1390,             # Conservative limits
+            'throttle_pwm_max': 1610,
+            'throttle_pwm_neutral': 1500,
+            'kp': 120.0,                          # PID tuning - START HERE
+            'ki': 0.1,
+            'kd': 0.1,
+            'max_integral': 50.0,
+            'use_sim_time': use_sim_time
+        }]
+    )
+
     # ========== Launch Description ==========
     return LaunchDescription([
         # Arguments
@@ -171,7 +215,9 @@ def generate_launch_description():
         joint_state_publisher,    # Publishes joint states for wheels/steering
         sllidar_node,             # Lidar driver
         scan_filter,              # Filter to front 180°
+        wheel_encoder_node,       # Wheel encoder odometry
         rf2o_laser_odom,          # Laser odometry
-        ekf_node,                 # Sensor fusion (uses /mavros/imu/data)
-        slam_toolbox              # SLAM mapping
+        ekf_node,                 # Sensor fusion (uses /mavros/imu/data + /wheel_odom)
+        slam_toolbox,             # SLAM mapping
+        cmd_vel_controller        # cmd_vel to RC override with PID
     ])

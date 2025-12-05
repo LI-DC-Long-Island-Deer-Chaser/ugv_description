@@ -2,14 +2,17 @@
 # EKF Configuration for UGV Hardware SLAM
 # ============================================================================
 # Sensor Fusion:
-#   - RF2O Laser Odometry (/odom_rf2o): x, y, yaw position + linear velocities
-#   - IMU from CubeOrange via MAVROS (/imu0/data): yaw rate (angular velocity)
+#   - Wheel Encoder Odometry (/wheel_odom): linear velocities (primary velocity source)
+#   - RF2O Laser Odometry (/odom_rf2o): x, y, yaw position (drift correction)
+#   - IMU from CubeOrange via MAVROS (/mavros/imu/data): yaw orientation + yaw rate
 #
 # Notes:
+#   - Wheel encoders provide most accurate short-term velocity
+#   - RF2O corrects for wheel slip and provides position updates
 #   - ArduPilot handles IMU orientation (AHRS_ORIENTATION=8, Roll 180°)
 #   - MAVROS publishes corrected IMU data, no additional rotation needed
 #   - Two_d_mode=true for ground robot (ignores z-axis drift)
-#   - EKF publishes odom->base_link TF
+#   - EKF publishes odom->base_footprint TF
 #   - SLAM Toolbox publishes map->odom TF
 # ============================================================================
 
@@ -31,22 +34,39 @@ ekf_filter_node:
     base_link_frame: base_footprint
     world_frame: odom                # EKF operates in odom frame (not map)
     
-    # ========== Sensor Input 1: RF2O Laser Odometry ==========
-    # Provides position (x, y, yaw) and linear velocities (vx, vy)
-    # This is the primary odometry source for SLAM
-    odom0: /odom_rf2o
+    # ========== Sensor Input 1: Wheel Encoder Odometry ==========
+    # Provides linear velocities (vx, vy) from physical wheel encoders
+    # Most accurate short-term velocity measurement (no wheel slip assumption)
+    # Empirically calibrated: 281.66 counts/foot from 5ft travel test
+    odom0: /wheel_odom
     odom0_config: [
-      true,  true,  false,    # x, y, z position (use x, y; ignore z)
-      false, false, true,     # roll, pitch, yaw orientation (use yaw only)
-      true,  true,  false,    # vx, vy, vz linear velocities (use vx, vy)
-      false, false, false,    # vroll, vpitch, vyaw angular velocities (IMU provides vyaw)
-      false, false, false     # ax, ay, az accelerations (not used)
+      false, false, false,    # x, y, z position (encoders drift, don't use for position)
+      false, false, false,    # roll, pitch, yaw orientation (encoders can't measure)
+      true,  true,  false,    # vx, vy, vz linear velocities (PRIMARY VELOCITY SOURCE)
+      false, false, false,    # vroll, vpitch, vyaw angular velocities (IMU provides)
+      false, false, false     # ax, ay, az accelerations (not measured)
     ]
     odom0_differential: false
     odom0_relative: false
     odom0_queue_size: 10
     
-    # ========== Sensor Input 2: IMU from CubeOrange via MAVROS ==========
+    # ========== Sensor Input 2: RF2O Laser Odometry ==========
+    # Provides position (x, y, yaw) from laser scan matching
+    # Corrects for wheel slip and provides absolute position estimates
+    # Use for position only, velocity comes from encoders
+    odom1: /odom_rf2o
+    odom1_config: [
+      true,  true,  false,    # x, y, z position (use x, y for drift correction)
+      false, false, true,     # roll, pitch, yaw orientation (use yaw)
+      false, false, false,    # vx, vy, vz linear velocities (wheel encoders better)
+      false, false, false,    # vroll, vpitch, vyaw angular velocities (IMU provides vyaw)
+      false, false, false     # ax, ay, az accelerations (not used)
+    ]
+    odom1_differential: false
+    odom1_relative: false
+    odom1_queue_size: 10
+    
+    # ========== Sensor Input 3: IMU from CubeOrange via MAVROS ==========
     # Provides orientation (yaw) and angular velocity from ArduPilot AHRS
     # AHRS_ORIENTATION=8 (Roll 180°) - Cube is mounted upside-down
     # MAVROS publishes corrected data with frame_id: base_link

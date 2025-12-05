@@ -27,6 +27,8 @@ setup(
     license='TODO: License declaration',
     entry_points={
         'console_scripts': [
+            'wheel_encoder_node = ugv_description.wheel_encoder_node:main',
+            'cmd_vel_controller = ugv_description.cmd_vel_controller:main',
         ],
     },
 )
