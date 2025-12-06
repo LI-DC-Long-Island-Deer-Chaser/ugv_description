@@ -8,6 +8,11 @@ Combines encoder reading, odometry publishing, and velocity control:
 - Runs PID velocity control at 100 Hz (high-speed feedback)
 - Sends RC override with ESC deadband compensation
 - Publishes joint states for steering visualization
+
+Uses modular OOP design:
+- PIDController: Velocity control with buffer-based estimation
+- WheelOdometry: Position integration from encoder
+- AckermannSteering: Steering angle calculations
 """
 import rclpy
 from rclpy.node import Node
@@ -19,6 +24,9 @@ import serial
 import json
 import math
 from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
+
+from .pid_controller import PIDController
+from .wheel_odometry import WheelOdometry, AckermannSteering
 
 
 class UnifiedEncoderControlNode(Node):
@@ -105,34 +113,44 @@ class UnifiedEncoderControlNode(Node):
         self.base_frame = self.get_parameter('base_frame').value
     
     def _init_state(self):
-        """Initialize all state variables."""
+        """Initialize all state variables and helper classes."""
         # Latest encoder data from serial (updated at 200 Hz)
         self.latest_position = 0
-        self.latest_speed_raw = 0.0        # From Arduino (counts/sec)
         self.latest_timestamp_us = 0
-        
-        # Filtered velocity (dual-stage filtering)
-        self.filtered_velocity_mps = 0.0   # meters/sec
-        
-        # Odometry state
-        self.x = 0.0
-        self.y = 0.0
-        self.theta = 0.0
-        self.last_encoder_position = None
-        self.last_odom_time = None
         
         # Command velocities from /cmd_vel
         self.target_lin_vel = 0.0
         self.target_ang_vel = 0.0
         
-        # PID state
-        self.integral_error = 0.0
-        self.last_error = 0.0
-        self.last_pid_time = None
-        
         # Current PWM outputs
         self.current_throttle_pwm = self.throttle_neutral
         self.current_steering_pwm = self.steering_center
+        
+        # Initialize PID Controller
+        self.pid_controller = PIDController(
+            Kp=self.kp,
+            Ki=self.ki,
+            Kd=self.kd,
+            ticks_per_revolution=self.counts_per_rev,
+            wheel_circumference=self.wheel_circumference,
+            pwm_neutral=self.throttle_neutral,
+            pwm_min=self.throttle_min,
+            pwm_max=self.throttle_max,
+            buffer_size=20,
+            filter_alpha=self.filter_alpha
+        )
+        
+        # Initialize Wheel Odometry
+        self.wheel_odom = WheelOdometry(
+            counts_per_rev=self.counts_per_rev,
+            wheel_circumference=self.wheel_circumference
+        )
+        
+        # Initialize Ackermann Steering
+        self.ackermann_steering = AckermannSteering(
+            wheel_base=self.wheel_base,
+            max_steering_angle=self.max_steering_angle
+        )
     
     def _init_serial(self):
         """Open serial connection to Arduino."""
@@ -189,7 +207,7 @@ class UnifiedEncoderControlNode(Node):
     def read_serial_callback(self):
         """
         Read encoder data from Arduino at 200 Hz.
-        Expected JSON: {"position": 12345, "speed": 123.45, "acceleration": 12.34}
+        Expected JSON: {"position": 12345, "speed": 123.45, "timestamp": 1234567890}
         """
         try:
             if self.serial.in_waiting > 0:
@@ -201,18 +219,7 @@ class UnifiedEncoderControlNode(Node):
                 
                 # Update latest encoder data
                 self.latest_position = data['position']
-                self.latest_speed_raw = data['speed']  # counts/sec from Arduino
                 self.latest_timestamp_us = data.get('timestamp', 0)
-                
-                # Dual-stage filtering: Arduino calculates speed, we add low-pass filter
-                # Convert to m/s
-                velocity_mps = (self.latest_speed_raw / self.counts_per_rev) * self.wheel_circumference
-                
-                # Apply exponential moving average filter
-                self.filtered_velocity_mps = (
-                    self.filter_alpha * velocity_mps +
-                    (1 - self.filter_alpha) * self.filtered_velocity_mps
-                )
                 
         except json.JSONDecodeError:
             pass  # Ignore partial reads
@@ -229,30 +236,21 @@ class UnifiedEncoderControlNode(Node):
     def publish_odometry_callback(self):
         """
         Publish odometry at 20 Hz to /wheel_odom for EKF fusion.
-        Uses encoder position deltas for distance calculation.
+        Uses WheelOdometry class for position integration.
         """
         current_time = self.get_clock().now()
         
-        # Initialize on first run
-        if self.last_encoder_position is None:
-            self.last_encoder_position = self.latest_position
-            self.last_odom_time = current_time
+        # Update odometry using WheelOdometry class
+        odom_result = self.wheel_odom.update(self.latest_position)
+        
+        # Skip if first call (initialization)
+        if odom_result is None:
             return
         
-        # Calculate time delta
-        dt = (current_time - self.last_odom_time).nanoseconds / 1e9
-        if dt <= 0:
-            return
+        x, y, theta, delta_distance = odom_result
         
-        # Calculate distance traveled
-        delta_counts = self.latest_position - self.last_encoder_position
-        delta_distance = (delta_counts / self.counts_per_rev) * self.wheel_circumference
-        
-        # Update position (straight line assumption, EKF handles turns with IMU)
-        delta_x = delta_distance * math.cos(self.theta)
-        delta_y = delta_distance * math.sin(self.theta)
-        self.x += delta_x
-        self.y += delta_y
+        # Get velocity from PID controller's filtered velocity
+        velocity_mps = (self.pid_controller.filtered_vel_ticks / self.counts_per_rev) * self.wheel_circumference
         
         # Create and publish odometry message
         odom = Odometry()
@@ -261,16 +259,16 @@ class UnifiedEncoderControlNode(Node):
         odom.child_frame_id = self.base_frame
         
         # Position
-        odom.pose.pose.position.x = self.x
-        odom.pose.pose.position.y = self.y
+        odom.pose.pose.position.x = x
+        odom.pose.pose.position.y = y
         odom.pose.pose.position.z = 0.0
         
         # Orientation (quaternion from theta)
-        odom.pose.pose.orientation.z = math.sin(self.theta / 2.0)
-        odom.pose.pose.orientation.w = math.cos(self.theta / 2.0)
+        odom.pose.pose.orientation.z = math.sin(theta / 2.0)
+        odom.pose.pose.orientation.w = math.cos(theta / 2.0)
         
-        # Velocity (use filtered velocity from serial)
-        odom.twist.twist.linear.x = self.filtered_velocity_mps
+        # Velocity (from PID controller's filtered velocity)
+        odom.twist.twist.linear.x = velocity_mps
         odom.twist.twist.linear.y = 0.0
         odom.twist.twist.angular.z = 0.0
         
@@ -282,83 +280,53 @@ class UnifiedEncoderControlNode(Node):
         odom.twist.covariance[35] = 0.5  # vyaw
         
         self.odom_pub.publish(odom)
-        
-        # Update state
-        self.last_encoder_position = self.latest_position
-        self.last_odom_time = current_time
     
     def pid_control_callback(self):
         """
-        PID velocity control at 100 Hz.
+        PID velocity control at 100 Hz using PIDController class.
+        Calculates steering using AckermannSteering class.
         Sends throttle + steering commands via RC override.
         """
-        current_time = self.get_clock().now()
-        
-        # Initialize on first run
-        if self.last_pid_time is None:
-            self.last_pid_time = current_time
-            return
-        
-        # Calculate dt
-        dt = (current_time - self.last_pid_time).nanoseconds / 1e9
-        if dt <= 0:
-            return
-        
         # ========== VELOCITY PID CONTROL ==========
-        error = self.target_lin_vel - self.filtered_velocity_mps
+        # PID controller handles velocity estimation, filtering, and PWM calculation
+        throttle_pwm = self.pid_controller.update(
+            target_vel=self.target_lin_vel,
+            pos=self.latest_position,
+            t_us=self.latest_timestamp_us
+        )
         
-        # Proportional
-        p_term = self.kp * error
-        
-        # Integral (with anti-windup)
-        if abs(self.target_lin_vel) > 0.05:  # Only accumulate when moving
-            self.integral_error += error * dt
-            self.integral_error = max(-self.max_integral, min(self.max_integral, self.integral_error))
-        else:
-            self.integral_error = 0.0  # Reset when stopped
-        
-        i_term = self.ki * self.integral_error
-        
-        # Derivative (on measurement to avoid derivative kick)
-        d_term = self.kd * (error - self.last_error) / dt
-        
-        # Total PID output
-        pid_output = p_term + i_term + d_term
-        
-        # ========== ESC DEADBAND COMPENSATION ==========
-        # Traxxas XL-5 HV: 65 PWM deadband (1455-1565)
+        # Apply ESC deadband compensation
+        # Map PID output to active ESC ranges (skip 1455-1565 deadband)
         if abs(self.target_lin_vel) < 0.05:
             # Stop command
             self.current_throttle_pwm = self.throttle_neutral
-        elif pid_output > 0:
-            # Forward: map to [1565, 1610]
-            active_range = self.throttle_max - self.throttle_fwd_start
-            self.current_throttle_pwm = self.throttle_fwd_start + int(min(abs(pid_output), active_range))
-            self.current_throttle_pwm = min(self.current_throttle_pwm, self.throttle_max)
+        elif throttle_pwm > self.throttle_neutral:
+            # Forward: ensure we're in active range [1565, 1610]
+            if throttle_pwm < self.throttle_fwd_start:
+                self.current_throttle_pwm = self.throttle_fwd_start
+            else:
+                self.current_throttle_pwm = min(throttle_pwm, self.throttle_max)
         else:
-            # Reverse: map to [1455, 1390]
-            active_range = self.throttle_rev_start - self.throttle_min
-            self.current_throttle_pwm = self.throttle_rev_start - int(min(abs(pid_output), active_range))
-            self.current_throttle_pwm = max(self.current_throttle_pwm, self.throttle_min)
+            # Reverse: ensure we're in active range [1455, 1390]
+            if throttle_pwm > self.throttle_rev_start:
+                self.current_throttle_pwm = self.throttle_rev_start
+            else:
+                self.current_throttle_pwm = max(throttle_pwm, self.throttle_min)
         
         # ========== ACKERMANN STEERING ==========
-        if abs(self.target_lin_vel) > 0.1:
-            # Moving: calculate steering from angular velocity
-            steering_angle = math.atan2(
-                self.target_ang_vel * self.wheel_base,
-                self.target_lin_vel
-            )
-        elif abs(self.target_ang_vel) > 0.01:
-            # Point turn: max steering
-            steering_angle = math.copysign(self.max_steering_angle, self.target_ang_vel)
-        else:
-            steering_angle = 0.0
+        # Calculate steering angle using AckermannSteering class
+        steering_angle = self.ackermann_steering.calculate_steering_angle(
+            linear_vel=self.target_lin_vel,
+            angular_vel=self.target_ang_vel
+        )
         
-        # Clamp and convert to PWM
-        steering_angle = max(-self.max_steering_angle, min(self.max_steering_angle, steering_angle))
-        steering_ratio = steering_angle / self.max_steering_angle
-        pwm_range = (self.steering_max - self.steering_min) / 2
-        self.current_steering_pwm = int(self.steering_center + (steering_ratio * pwm_range))
+        # Convert steering angle to PWM
+        self.current_steering_pwm = self.ackermann_steering.angle_to_pwm(
+            steering_angle=steering_angle,
+            pwm_center=self.steering_center,
+            pwm_min=self.steering_min,
+            pwm_max=self.steering_max
+        )
         
         # ========== PUBLISH RC OVERRIDE ==========
         rc_msg = OverrideRCIn()
@@ -366,21 +334,18 @@ class UnifiedEncoderControlNode(Node):
         rc_msg.channels[0] = self.current_steering_pwm   # Channel 1: Steering
         rc_msg.channels[2] = self.current_throttle_pwm   # Channel 3: Throttle
         self.rc_override_pub.publish(rc_msg)
-        
-        # Update state
-        self.last_error = error
-        self.last_pid_time = current_time
     
     def publish_joint_states_callback(self):
         """
         Publish joint states for visualization (steering and wheels).
-        Maps PWM values to joint angles.
+        Uses AckermannSteering class to convert PWM back to angle.
         """
         joint_state = JointState()
         joint_state.header.stamp = self.get_clock().now().to_msg()
         
-        # Calculate steering angle from PWM
-        steering_ratio = (self.current_steering_pwm - self.steering_center) / ((self.steering_max - self.steering_min) / 2)
+        # Calculate steering angle from PWM (reverse of angle_to_pwm)
+        pwm_range = (self.steering_max - self.steering_min) / 2
+        steering_ratio = (self.current_steering_pwm - self.steering_center) / pwm_range
         steering_angle = steering_ratio * self.max_steering_angle
         
         # Wheel rotation (estimate from velocity and time)

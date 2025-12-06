@@ -166,7 +166,7 @@ def generate_launch_description():
             'baud_rate': 115200,
             
             # Encoder Calibration (weighted load test)
-            'counts_per_revolution': 357.74,          # Empirical: weighted load calibration
+            'counts_per_rev': 357.74,                 # Empirical: weighted load calibration
             'wheel_circumference': 0.38713,           # meters
             
             # ESC Deadband Configuration (Traxxas XL-5 HV 3S)
@@ -191,14 +191,14 @@ def generate_launch_description():
             
             # Control Rates
             'odom_publish_rate': 20.0,                # Hz - odometry publishing
-            'pid_rate': 100.0,                        # Hz - PID control loop
+            'pid_update_rate': 100.0,                 # Hz - PID control loop
             
             # Filtering
             'velocity_filter_alpha': 0.3,             # Low-pass filter coefficient
             
             # Frame IDs
-            'odom_frame_id': 'odom',
-            'base_frame_id': 'base_footprint',
+            'odom_frame': 'odom',
+            'base_frame': 'base_footprint',
             
             'use_sim_time': use_sim_time
         }]
