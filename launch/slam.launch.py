@@ -147,49 +147,59 @@ def generate_launch_description():
         }]
     )
 
-    # ========== 8. Wheel Encoder Odometry ==========
-    # Reads encoder data from Arduino via serial JSON
-    # Publishes /wheel_odom for EKF fusion
-    wheel_encoder_node = Node(
+    # ========== 8. Unified Encoder Control ==========
+    # Single node combining: wheel encoder odometry + PID velocity control
+    # - Direct serial reading at 200Hz for minimal latency
+    # - Dual-stage velocity filtering (Arduino + low-pass filter)
+    # - ESC deadband compensation (Traxxas XL-5 HV: 1455-1565 PWM no movement)
+    # - Publishes /wheel_odom for EKF fusion
+    # - Publishes /joint_states_encoder for steering visualization
+    # - Subscribes to /cmd_vel and publishes /mavros/rc/override
+    unified_encoder_control = Node(
         package='ugv_description',
-        executable='wheel_encoder_node',
-        name='wheel_encoder_node',
+        executable='unified_encoder_control',
+        name='unified_encoder_control',
         output='screen',
         parameters=[{
-            'serial_port': '/dev/ttyACM2',        # Arduino serial port
+            # Serial Configuration
+            'serial_port': '/dev/ttyACM2',
             'baud_rate': 115200,
-            'counts_per_foot': 281.66,            # Empirical calibration: 5ft = 1408.3 counts
-            'wheel_base': 0.254,                  # 10 inches between axles
-            'odom_frame_id': 'odom',
-            'base_frame_id': 'base_footprint',
-            'use_sim_time': use_sim_time
-        }]
-    )
-
-    # ========== 9. cmd_vel Controller ==========
-    # Converts /cmd_vel commands to MAVROS RC overrides
-    # PID velocity control + Ackermann steering
-    # Traxxas XL-5 HV ESC with deadband compensation
-    cmd_vel_controller = Node(
-        package='ugv_description',
-        executable='cmd_vel_controller',
-        name='cmd_vel_controller',
-        output='screen',
-        parameters=[{
+            
+            # Encoder Calibration (weighted load test)
+            'counts_per_revolution': 357.74,          # Empirical: weighted load calibration
+            'wheel_circumference': 0.38713,           # meters
+            
+            # ESC Deadband Configuration (Traxxas XL-5 HV 3S)
+            'throttle_pwm_forward_start': 1565,       # Forward deadband end
+            'throttle_pwm_reverse_start': 1455,       # Reverse deadband end
+            'throttle_pwm_max': 1610,                 # Forward limit (conservative)
+            'throttle_pwm_min': 1390,                 # Reverse limit (conservative)
+            'throttle_pwm_neutral': 1500,
+            
+            # Steering Configuration
             'wheel_base': 0.254,                      # 10 inches
-            'max_steering_angle': 0.785398,           # 45 degrees in radians
+            'max_steering_angle': 0.785398,           # 45 degrees
+            'steering_pwm_center': 1500,
             'steering_pwm_min': 1100,
             'steering_pwm_max': 1900,
-            'steering_pwm_center': 1500,
-            'throttle_pwm_min': 1390,                 # Reverse limit (conservative)
-            'throttle_pwm_max': 1610,                 # Forward limit (conservative)
-            'throttle_pwm_neutral': 1500,
-            'throttle_pwm_forward_start': 1565,       # ESC forward deadband end
-            'throttle_pwm_reverse_start': 1455,       # ESC reverse deadband end
-            'kp': 30.0,                               # Reduced for narrow ESC range (45 PWM)
-            'ki': 0.05,                               # Much lower to prevent windup
-            'kd': 1.0,                                # Increased to dampen oscillation
-            'max_integral': 10.0,                     # Tighter limit for small range
+            
+            # PID Gains (tuned for narrow 45 PWM forward range)
+            'kp': 1.0,                               # Proportional
+            'ki': 1.5,                               # Integral (low to prevent windup)
+            'kd': 0.2,                                # Derivative (dampening)
+            'max_integral': 10.0,                     # Anti-windup limit
+            
+            # Control Rates
+            'odom_publish_rate': 20.0,                # Hz - odometry publishing
+            'pid_rate': 100.0,                        # Hz - PID control loop
+            
+            # Filtering
+            'velocity_filter_alpha': 0.3,             # Low-pass filter coefficient
+            
+            # Frame IDs
+            'odom_frame_id': 'odom',
+            'base_frame_id': 'base_footprint',
+            
             'use_sim_time': use_sim_time
         }]
     )
@@ -218,9 +228,8 @@ def generate_launch_description():
         joint_state_publisher,    # Publishes joint states for wheels/steering
         sllidar_node,             # Lidar driver
         scan_filter,              # Filter to front 180°
-        wheel_encoder_node,       # Wheel encoder odometry
+        unified_encoder_control,  # Unified encoder odometry + PID control with ESC deadband
         rf2o_laser_odom,          # Laser odometry
         ekf_node,                 # Sensor fusion (uses /mavros/imu/data + /wheel_odom)
         slam_toolbox,             # SLAM mapping
-        cmd_vel_controller        # cmd_vel to RC override with PID
     ])
