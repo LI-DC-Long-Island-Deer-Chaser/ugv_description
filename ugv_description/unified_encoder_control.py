@@ -15,6 +15,8 @@ from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Twist
 from mavros_msgs.msg import OverrideRCIn
 from sensor_msgs.msg import JointState
+from datetime import datetime
+from ugv_description.pid_controller import PIDController
 import serial
 import json
 import math
@@ -66,14 +68,13 @@ class UnifiedEncoderControlNode(Node):
         self.declare_parameter('max_steering_angle', 0.785398)        # 45 degrees
         self.declare_parameter('wheel_base', 0.254)                   # 10 inches
         
-        # PID gains (tuned for narrow 45 PWM range)
-        self.declare_parameter('kp', 25.0)
-        self.declare_parameter('ki', 0.08)
-        self.declare_parameter('kd', 1.5)
-        self.declare_parameter('max_integral', 10.0)
-        
         # Velocity filtering (dual-stage)
         self.declare_parameter('velocity_filter_alpha', 0.3)
+        
+        # PID gains (tuned for narrow 45 PWM range)
+        self.declare_parameter('kp', 1.5)
+        self.declare_parameter('ki', 0.3)
+        self.declare_parameter('kd', 1.0)
         
         # Frames
         self.declare_parameter('odom_frame', 'odom')
@@ -99,7 +100,6 @@ class UnifiedEncoderControlNode(Node):
         self.kp = self.get_parameter('kp').value
         self.ki = self.get_parameter('ki').value
         self.kd = self.get_parameter('kd').value
-        self.max_integral = self.get_parameter('max_integral').value
         self.filter_alpha = self.get_parameter('velocity_filter_alpha').value
         self.odom_frame = self.get_parameter('odom_frame').value
         self.base_frame = self.get_parameter('base_frame').value
@@ -126,10 +126,19 @@ class UnifiedEncoderControlNode(Node):
         self.target_ang_vel = 0.0
         
         # PID state
-        self.integral_error = 0.0
-        self.last_error = 0.0
-        self.last_pid_time = None
-        
+        self.pid = PIDController(
+                Kp=self.Kp,
+                Ki=self.Ki,
+                Kd=self.Kd,
+                pwm_neutral=self.throttle_neutral,
+                pwm_min=self.throttle_min,
+                pwm_max=self.throttle_max,
+                ticks_per_revolution=self.counts_per_rev,
+                wheel_circumference=self.wheel_circumference,
+                filter_alpha=self.velocity_filter_alpha,
+                buffer_size=10
+        )
+
         # Current PWM outputs
         self.current_throttle_pwm = self.throttle_neutral
         self.current_steering_pwm = self.steering_center
@@ -202,7 +211,10 @@ class UnifiedEncoderControlNode(Node):
                 # Update latest encoder data
                 self.latest_position = data['position']
                 self.latest_speed_raw = data['speed']  # counts/sec from Arduino
-                self.latest_timestamp_us = data.get('timestamp', 0)
+
+                now = datetime.now()
+                unix_timestamp = now.timestamp()
+                self.latest_timestamp_us = int(unix_timestamp * 1_000_000.0)
                 
                 # Dual-stage filtering: Arduino calculates speed, we add low-pass filter
                 # Convert to m/s
@@ -292,54 +304,13 @@ class UnifiedEncoderControlNode(Node):
         PID velocity control at 100 Hz.
         Sends throttle + steering commands via RC override.
         """
-        current_time = self.get_clock().now()
-        
-        # Initialize on first run
-        if self.last_pid_time is None:
-            self.last_pid_time = current_time
-            return
-        
-        # Calculate dt
-        dt = (current_time - self.last_pid_time).nanoseconds / 1e9
-        if dt <= 0:
-            return
         
         # ========== VELOCITY PID CONTROL ==========
-        error = self.target_lin_vel - self.filtered_velocity_mps
-        
-        # Proportional
-        p_term = self.kp * error
-        
-        # Integral (with anti-windup)
-        if abs(self.target_lin_vel) > 0.05:  # Only accumulate when moving
-            self.integral_error += error * dt
-            self.integral_error = max(-self.max_integral, min(self.max_integral, self.integral_error))
-        else:
-            self.integral_error = 0.0  # Reset when stopped
-        
-        i_term = self.ki * self.integral_error
-        
-        # Derivative (on measurement to avoid derivative kick)
-        d_term = self.kd * (error - self.last_error) / dt
-        
-        # Total PID output
-        pid_output = p_term + i_term + d_term
-        
-        # ========== ESC DEADBAND COMPENSATION ==========
-        # Traxxas XL-5 HV: 65 PWM deadband (1455-1565)
-        if abs(self.target_lin_vel) < 0.05:
-            # Stop command
-            self.current_throttle_pwm = self.throttle_neutral
-        elif pid_output > 0:
-            # Forward: map to [1565, 1610]
-            active_range = self.throttle_max - self.throttle_fwd_start
-            self.current_throttle_pwm = self.throttle_fwd_start + int(min(abs(pid_output), active_range))
-            self.current_throttle_pwm = min(self.current_throttle_pwm, self.throttle_max)
-        else:
-            # Reverse: map to [1455, 1390]
-            active_range = self.throttle_rev_start - self.throttle_min
-            self.current_throttle_pwm = self.throttle_rev_start - int(min(abs(pid_output), active_range))
-            self.current_throttle_pwm = max(self.current_throttle_pwm, self.throttle_min)
+        self.current_throttle_pwm = self.pid.update(
+                target_vel=self.target_lin_velocity, 
+                pos=self.latest_encoder_position,
+                t_us=self.latest_timestamp_us
+        )
         
         # ========== ACKERMANN STEERING ==========
         if abs(self.target_lin_vel) > 0.1:
@@ -366,10 +337,7 @@ class UnifiedEncoderControlNode(Node):
         rc_msg.channels[0] = self.current_steering_pwm   # Channel 1: Steering
         rc_msg.channels[2] = self.current_throttle_pwm   # Channel 3: Throttle
         self.rc_override_pub.publish(rc_msg)
-        
-        # Update state
-        self.last_error = error
-        self.last_pid_time = current_time
+
     
     def publish_joint_states_callback(self):
         """
