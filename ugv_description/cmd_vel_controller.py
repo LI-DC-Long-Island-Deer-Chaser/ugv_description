@@ -23,9 +23,14 @@ class CmdVelController(Node):
         self.declare_parameter('steering_pwm_min', 1100)  # Full left
         self.declare_parameter('steering_pwm_max', 1900)  # Full right
         self.declare_parameter('steering_pwm_center', 1500)
-        self.declare_parameter('throttle_pwm_min', 1390)  # Safety limit (slow reverse)
-        self.declare_parameter('throttle_pwm_max', 1610)  # Safety limit (slow forward)
+        
+        # Traxxas XL-5 HV ESC throttle limits (3S)
+        # ESC has 65 PWM deadband: 1455-1565 = no movement
+        self.declare_parameter('throttle_pwm_min', 1390)  # Reverse limit (conservative)
+        self.declare_parameter('throttle_pwm_max', 1610)  # Forward limit (conservative)
         self.declare_parameter('throttle_pwm_neutral', 1500)
+        self.declare_parameter('throttle_pwm_forward_start', 1565)  # ESC forward deadband end
+        self.declare_parameter('throttle_pwm_reverse_start', 1455)  # ESC reverse deadband end
         
         # Parameters - PID Gains (START WITH THESE, TUNE LATER)
         self.declare_parameter('kp', 100.0)  # Proportional gain
@@ -42,6 +47,8 @@ class CmdVelController(Node):
         self.throttle_pwm_min = self.get_parameter('throttle_pwm_min').value
         self.throttle_pwm_max = self.get_parameter('throttle_pwm_max').value
         self.throttle_pwm_neutral = self.get_parameter('throttle_pwm_neutral').value
+        self.throttle_pwm_forward_start = self.get_parameter('throttle_pwm_forward_start').value
+        self.throttle_pwm_reverse_start = self.get_parameter('throttle_pwm_reverse_start').value
         
         # PID gains
         self.kp = self.get_parameter('kp').value
@@ -87,8 +94,11 @@ class CmdVelController(Node):
         self.create_timer(0.02, self.control_loop)
         
         self.get_logger().info('cmd_vel controller initialized')
+        self.get_logger().info(f'ESC: Traxxas XL-5 HV (3S) with deadband compensation')
+        self.get_logger().info(f'Throttle: Fwd [{self.throttle_pwm_forward_start}-{self.throttle_pwm_max}], '
+                               f'Rev [{self.throttle_pwm_min}-{self.throttle_pwm_reverse_start}], '
+                               f'Neutral={self.throttle_pwm_neutral}')
         self.get_logger().info(f'PID Gains - Kp: {self.kp}, Ki: {self.ki}, Kd: {self.kd}')
-        self.get_logger().info(f'Throttle limits: [{self.throttle_pwm_min}, {self.throttle_pwm_max}]')
     
     def cmd_vel_callback(self, msg):
         """Receive desired velocity commands."""
@@ -131,16 +141,31 @@ class CmdVelController(Node):
         # PID output
         pid_output = p_term + i_term + d_term
         
-        # Convert PID output to throttle PWM
-        throttle_pwm = self.throttle_pwm_neutral + int(pid_output)
+        # ========== ESC DEADBAND MAPPING ==========
+        # Traxxas XL-5 HV ESC has 65 PWM deadband (1455-1565)
+        # Map PID output around the deadband to active ranges
         
-        # Clamp to safety limits
-        throttle_pwm = max(self.throttle_pwm_min, min(self.throttle_pwm_max, throttle_pwm))
+        # Velocity deadband - commands below this are treated as stop
+        velocity_deadband = 0.05  # 5 cm/s
         
-        # Deadband - if desired velocity is ~0, set neutral
-        if abs(self.desired_velocity) < 0.05:  # 5 cm/s deadband
+        if abs(self.desired_velocity) < velocity_deadband:
+            # Stop command - send neutral
             throttle_pwm = self.throttle_pwm_neutral
             self.integral_error = 0.0  # Reset integral when stopped
+        elif pid_output > 0:
+            # Forward - map PID output to active range [1565, 1610]
+            # Scale PID output to fit the active forward range
+            active_range = self.throttle_pwm_max - self.throttle_pwm_forward_start
+            throttle_pwm = self.throttle_pwm_forward_start + int(min(pid_output, active_range))
+            # Clamp to max limit
+            throttle_pwm = min(throttle_pwm, self.throttle_pwm_max)
+        else:
+            # Reverse - map PID output to active range [1455, 1390]
+            # Scale negative PID output to fit the active reverse range
+            active_range = self.throttle_pwm_reverse_start - self.throttle_pwm_min
+            throttle_pwm = self.throttle_pwm_reverse_start - int(min(abs(pid_output), active_range))
+            # Clamp to min limit
+            throttle_pwm = max(throttle_pwm, self.throttle_pwm_min)
         
         # ========== ACKERMANN STEERING CONTROL ==========
         # Convert angular velocity to steering angle using Ackermann geometry
