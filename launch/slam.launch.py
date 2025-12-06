@@ -169,24 +169,27 @@ def generate_launch_description():
     # ========== 9. cmd_vel Controller ==========
     # Converts /cmd_vel commands to MAVROS RC overrides
     # PID velocity control + Ackermann steering
+    # Traxxas XL-5 HV ESC with deadband compensation
     cmd_vel_controller = Node(
         package='ugv_description',
         executable='cmd_vel_controller',
         name='cmd_vel_controller',
         output='screen',
         parameters=[{
-            'wheel_base': 0.254,                  # 10 inches
-            'max_steering_angle': 0.785398,       # 45 degrees in radians
+            'wheel_base': 0.254,                      # 10 inches
+            'max_steering_angle': 0.785398,           # 45 degrees in radians
             'steering_pwm_min': 1100,
             'steering_pwm_max': 1900,
             'steering_pwm_center': 1500,
-            'throttle_pwm_min': 1390,             # Conservative limits
-            'throttle_pwm_max': 1610,
+            'throttle_pwm_min': 1390,                 # Reverse limit (conservative)
+            'throttle_pwm_max': 1610,                 # Forward limit (conservative)
             'throttle_pwm_neutral': 1500,
-            'kp': 120.0,                          # PID tuning - START HERE
-            'ki': 0.1,
-            'kd': 0.1,
-            'max_integral': 50.0,
+            'throttle_pwm_forward_start': 1565,       # ESC forward deadband end
+            'throttle_pwm_reverse_start': 1455,       # ESC reverse deadband end
+            'kp': 30.0,                               # Reduced for narrow ESC range (45 PWM)
+            'ki': 0.05,                               # Much lower to prevent windup
+            'kd': 1.0,                                # Increased to dampen oscillation
+            'max_integral': 10.0,                     # Tighter limit for small range
             'use_sim_time': use_sim_time
         }]
     )
