@@ -169,25 +169,24 @@ def generate_launch_description():
             'counts_per_rev': 357.74,                 # Empirical: weighted load calibration
             'wheel_circumference': 0.38713,           # meters
             
-            # ESC Deadband Configuration (Traxxas XL-5 HV 3S)
-            'throttle_pwm_forward_start': 1565,       # Forward deadband end
-            'throttle_pwm_reverse_start': 1455,       # Reverse deadband end
-            'throttle_pwm_max': 1610,                 # Forward limit (conservative)
-            'throttle_pwm_min': 1390,                 # Reverse limit (conservative)
+            # ESC Configuration (Traxxas XL-5 HV 3S - calibrated range)
             'throttle_pwm_neutral': 1500,
+            'throttle_pwm_min': 1390,                 # Full reverse
+            'throttle_pwm_max': 1610,                 # Full forward
             
-            # Steering Configuration
-            'wheel_base': 0.254,                      # 10 inches
-            'max_steering_angle': 0.785398,           # 45 degrees
+            # Steering Configuration (True Ackermann)
+            'wheel_base': 0.336,                      # 336mm wheelbase
+            'track_width': 0.212178,                  # 212.178mm track width
+            'max_steering_angle': 0.7854,             # 45 degrees
             'steering_pwm_center': 1500,
             'steering_pwm_min': 1100,
             'steering_pwm_max': 1900,
             
             # PID Gains (tuned for narrow 45 PWM forward range)
             'kp': 1.0,                               # Proportional
-            'ki': 1.5,                               # Integral (low to prevent windup)
+            'ki': 0.25,                               # Integral (low to prevent windup)
             'kd': 0.2,                                # Derivative (dampening)
-            'max_integral': 10.0,                     # Anti-windup limit
+            'max_integral': 10.0,                     # Anti-windup limit   
             
             # Control Rates
             'odom_publish_rate': 20.0,                # Hz - odometry publishing

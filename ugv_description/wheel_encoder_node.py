@@ -21,7 +21,7 @@ class WheelEncoderNode(Node):
         # Parameters
         self.declare_parameter('serial_port', '/dev/ttyACM2')
         self.declare_parameter('baud_rate', 115200)
-        self.declare_parameter('counts_per_foot', 281.66)  # Empirical calibration
+        self.declare_parameter('counts_per_foot', 357.74)  # Empirical calibration
         self.declare_parameter('wheel_base', 0.254)  # 10 inches = 0.254m between front/rear axles
         self.declare_parameter('odom_frame', 'odom')
         self.declare_parameter('base_frame', 'base_footprint')

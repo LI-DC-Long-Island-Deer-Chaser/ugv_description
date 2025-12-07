@@ -35,15 +35,16 @@ ekf_filter_node:
     world_frame: odom                # EKF operates in odom frame (not map)
     
     # ========== Sensor Input 1: Wheel Encoder Odometry ==========
-    # Provides linear velocities (vx, vy) from physical wheel encoders
-    # Most accurate short-term velocity measurement (no wheel slip assumption)
-    # Empirically calibrated: 281.66 counts/foot from 5ft travel test
+    # Provides linear velocities (vx) and angular velocity (vyaw) from wheel encoders + Ackermann steering
+    # Most accurate short-term velocity measurement
+    # Angular velocity calculated from: omega = (v * tan(steering_angle)) / wheel_base
+    # Position and heading integrated from encoder distance + steering angle
     odom0: /wheel_odom
     odom0_config: [
-      false, false, false,    # x, y, z position (encoders drift, don't use for position)
-      false, false, false,    # roll, pitch, yaw orientation (encoders can't measure)
-      true,  true,  false,    # vx, vy, vz linear velocities (PRIMARY VELOCITY SOURCE)
-      false, false, false,    # vroll, vpitch, vyaw angular velocities (IMU provides)
+      true,  true,  false,    # x, y, z position (use x, y from encoder integration with steering)
+      false, false, true,     # roll, pitch, yaw orientation (use yaw from Ackermann integration)
+      true,  false, false,    # vx, vy, vz linear velocities (PRIMARY VELOCITY SOURCE - vx from encoders)
+      false, false, true,     # vroll, vpitch, vyaw angular velocities (vyaw from Ackermann calculation)
       false, false, false     # ax, ay, az accelerations (not measured)
     ]
     odom0_differential: false
@@ -71,12 +72,13 @@ ekf_filter_node:
     # AHRS_ORIENTATION=8 (Roll 180°) - Cube is mounted upside-down
     # MAVROS publishes corrected data with frame_id: base_link
     # EKF transforms from base_link to base_footprint automatically via TF
+    # Note: Wheel odometry now provides yaw rate, IMU used for correction/validation
     imu0: /mavros/imu/data
     imu0_config: [
       false, false, false,    # x, y, z position (not provided by IMU)
-      false, false, true,     # roll, pitch, yaw orientation (USE yaw from FC)
+      false, false, true,     # roll, pitch, yaw orientation (USE yaw for correction)
       false, false, false,    # vx, vy, vz linear velocities (not from IMU)
-      false, false, true,     # vroll, vpitch, vyaw angular velocities (USE yaw rate)
+      false, false, false,    # vroll, vpitch, vyaw angular velocities (wheel odom provides vyaw)
       false, false, false     # ax, ay, az accelerations (can enable if needed)
     ]
     imu0_differential: false

@@ -10,7 +10,7 @@
  *   - Connected to driveshaft (3.09:1 gear ratio to wheels)
  * 
  * Output Format (JSON):
- *   {"position": 12345, "speed": 123.45, "acceleration": 12.34}
+ *   {"position": 12345, "speed": 123.45, "acceleration": 12.34, "timestamp": 1234567890}
  * 
  * Wiring:
  *   - Encoder A (Phase A) -> Pin 2 (interrupt 0)
@@ -27,17 +27,28 @@
 #define PUBLISH_RATE_HZ 200
 #define PUBLISH_INTERVAL_MS (1000 / PUBLISH_RATE_HZ)
 
+// Velocity filtering parameters
+#define BUFFER_SIZE 10               // 10 samples at 200Hz = 50ms window
+#define FILTER_ALPHA 0.3             // Exponential moving average coefficient
+
 // Encoder state
 volatile long encoderPosition = 0;
 long lastPosition = 0;
-long lastSpeed = 0;
+
+// Velocity buffering (circular buffer for 50ms window)
+long positionBuffer[BUFFER_SIZE];
+unsigned long timeBuffer[BUFFER_SIZE];
+int bufferIndex = 0;
+int bufferCount = 0;
 
 // Timing for speed/acceleration calculation
 unsigned long lastTime = 0;
 unsigned long currentTime = 0;
 
 // Speed and acceleration
-float speed = 0.0;           // counts/second
+float rawSpeed = 0.0;        // Instantaneous counts/second
+float filteredSpeed = 0.0;   // Low-pass filtered counts/second
+float lastFilteredSpeed = 0.0;
 float acceleration = 0.0;    // counts/second^2
 
 
@@ -57,6 +68,12 @@ void setup() {
   // Initialize timing
   lastTime = millis();
   
+  // Initialize velocity buffer
+  for (int i = 0; i < BUFFER_SIZE; i++) {
+    positionBuffer[i] = 0;
+    timeBuffer[i] = 0;
+  }
+  
   // Wait for serial connection
   delay(100);
 }
@@ -67,29 +84,64 @@ void loop() {
   
   // Publish at fixed rate (200 Hz)
   if (currentTime - lastTime >= PUBLISH_INTERVAL_MS) {
-    // Calculate time delta (seconds)
-    float dt = (currentTime - lastTime) / 1000.0;
+    // Add current position and time to circular buffer
+    positionBuffer[bufferIndex] = encoderPosition;
+    timeBuffer[bufferIndex] = micros();
     
-    // Calculate speed (counts/second)
-    long positionDelta = encoderPosition - lastPosition;
-    float newSpeed = positionDelta / dt;
+    // Increment buffer index (circular)
+    bufferIndex = (bufferIndex + 1) % BUFFER_SIZE;
+    if (bufferCount < BUFFER_SIZE) {
+      bufferCount++;
+    }
     
-    // Calculate acceleration (counts/second^2)
-    acceleration = (newSpeed - speed) / dt;
+    // Only calculate velocity once we have enough buffer data (50ms worth)
+    if (bufferCount >= BUFFER_SIZE) {
+      // Calculate velocity over entire buffer window (50ms)
+      int oldestIndex = bufferIndex;  // Oldest sample in circular buffer
+      int newestIndex = (bufferIndex - 1 + BUFFER_SIZE) % BUFFER_SIZE;
+      
+      long positionDelta = positionBuffer[newestIndex] - positionBuffer[oldestIndex];
+      unsigned long timeDelta = timeBuffer[newestIndex] - timeBuffer[oldestIndex];
+      
+      // Calculate raw speed (counts/second) over 50ms window
+      if (timeDelta > 0) {
+        rawSpeed = (positionDelta * 1000000.0) / timeDelta;  // Convert microseconds to seconds
+      } else {
+        rawSpeed = 0.0;
+      }
+      
+      // Apply exponential moving average filter for smoothing
+      // filteredSpeed = alpha * rawSpeed + (1 - alpha) * lastFilteredSpeed
+      filteredSpeed = FILTER_ALPHA * rawSpeed + (1.0 - FILTER_ALPHA) * lastFilteredSpeed;
+      
+      // Calculate acceleration from filtered speed
+      float dt = (currentTime - lastTime) / 1000.0;
+      if (dt > 0) {
+        acceleration = (filteredSpeed - lastFilteredSpeed) / dt;
+      } else {
+        acceleration = 0.0;
+      }
+      
+      // Update state
+      lastFilteredSpeed = filteredSpeed;
+    } else {
+      // Not enough data yet, output zero
+      filteredSpeed = 0.0;
+      acceleration = 0.0;
+    }
     
-    // Update state
-    speed = newSpeed;
-    lastPosition = encoderPosition;
     lastTime = currentTime;
     
-    // Publish JSON message
-    // Format: {"position": 12345, "speed": 123.45, "acceleration": 12.34}
+    // Publish JSON message with timestamp in microseconds
+    // Format: {"position": 12345, "speed": 123.45, "acceleration": 12.34, "timestamp": 1234567890}
     Serial.print("{\"position\":");
     Serial.print(encoderPosition);
     Serial.print(",\"speed\":");
-    Serial.print(speed, 2);  // 2 decimal places
+    Serial.print(filteredSpeed, 2);  // 2 decimal places - filtered velocity
     Serial.print(",\"acceleration\":");
     Serial.print(acceleration, 2);
+    Serial.print(",\"timestamp\":");
+    Serial.print(micros());  // Timestamp in microseconds
     Serial.println("}");
   }
 }
