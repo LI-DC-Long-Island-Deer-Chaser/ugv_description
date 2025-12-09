@@ -346,11 +346,11 @@ behavior_server:
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
-    behavior_plugins: ["spin", "wait"]  # Removed "backup" - lidar can't see behind rover
+    behavior_plugins: ["spin", "backup", "wait"]
     spin:
       plugin: "nav2_behaviors/Spin"
-    # backup:  # Disabled - RPLidar C1 can't see behind the rover
-    #   plugin: "nav2_behaviors/BackUp"
+    backup:
+      plugin: "nav2_behaviors/BackUp"
     wait:
       plugin: "nav2_behaviors/Wait"
     global_frame: odom
