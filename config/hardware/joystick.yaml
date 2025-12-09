@@ -1,0 +1,76 @@
+# ============================================================================
+# Xbox Controller Configuration for UGV Hardware Teleop
+# ============================================================================
+# Controller: Xbox One/360 USB Controller
+# 
+# Control Mapping:
+#   - Left Stick Y-axis: Linear velocity (forward/backward)
+#   - Right Stick X-axis: Angular velocity (left/right turning)
+#   - R1 (RB): Deadman button (MUST be held for movement)
+#
+# Safety:
+#   - Deadman button required - rover stops immediately when released
+#   - Velocity limits match hardware capabilities
+#   - Conservative max speeds for manual control
+# ============================================================================
+
+teleop_twist_joy:
+  ros__parameters:
+    # ========== Joystick Device ==========
+    # Xbox controller appears as /dev/input/js0
+    # If multiple controllers, check with: ls /dev/input/js*
+    joy_config: "xbox"  # Use built-in Xbox mapping
+    
+    # ========== Axis Mapping ==========
+    # Xbox controller axes (standard Linux mapping):
+    #   0: Left stick X
+    #   1: Left stick Y
+    #   2: Left trigger (LT)
+    #   3: Right stick X
+    #   4: Right stick Y
+    #   5: Right trigger (RT)
+    
+    axis_linear:
+      x: 1  # Left stick Y-axis for forward/backward
+    
+    axis_angular:
+      yaw: 3  # Right stick X-axis for turning
+    
+    # ========== Velocity Scaling ==========
+    # Match to hardware capabilities and Nav2 limits
+    # Conservative values for safe manual control
+    scale_linear:
+      x: 0.5  # Max 0.5 m/s linear (matches nav2_params vx_max)
+    
+    scale_angular:
+      yaw: 0.8  # Max 0.8 rad/s angular (matches nav2_params wz_max)
+    
+    # ========== Safety: Deadman Button ==========
+    # Xbox button mapping (standard Linux):
+    #   0: A
+    #   1: B
+    #   2: X
+    #   3: Y
+    #   4: LB (L1)
+    #   5: RB (R1) ← DEADMAN BUTTON
+    #   6: Back/View
+    #   7: Start/Menu
+    #   8: Xbox button
+    #   9: Left stick click
+    #   10: Right stick click
+    
+    enable_button: 5  # R1 (RB) - MUST be held for movement
+    enable_turbo_button: -1  # Disabled (no turbo mode)
+    
+    # ========== Additional Settings ==========
+    require_enable_button: true  # Deadman button is REQUIRED
+    
+    # Invert axes if needed (false = normal)
+    inverted_reverse: false  # Don't invert linear axis
+    inverted_yaw: false  # Don't invert angular axis (already handled in unified_encoder_control)
+    
+    # Publishing rate
+    publish_stamped_twist: false  # Publish regular Twist messages
+    
+    # Frame ID (not used for Twist, but required parameter)
+    frame_id: "base_footprint"
