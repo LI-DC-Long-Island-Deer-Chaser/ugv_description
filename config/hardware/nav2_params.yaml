@@ -1,0 +1,389 @@
+# ============================================================================
+# Nav2 Parameters for UGV Hardware - TRX-4 Chassis
+# ============================================================================
+# Hardware Specs:
+#   - Wheel Base: 0.336m (336mm)
+#   - Track Width: 0.212178m
+#   - Max Steering Angle: ±45° (0.7854 rad)
+#   - Min Turning Radius: ~0.35m (from Ackermann geometry)
+#   - Max Velocity: ~0.5 m/s (conservative for hardware)
+#   - Footprint: [[0.275, 0.175], [0.275, -0.175], [-0.275, -0.175], [-0.275, 0.175]]
+#
+# Sensors:
+#   - RPLidar C1: /scan topic (12m range, 360°)
+#   - EKF Localization: Fuses wheel_odom + rf2o + IMU
+#   - SLAM Toolbox: Map building
+#
+# Notes:
+#   - Conservative settings for real-world operation
+#   - MPPI controller tuned for Ackermann motion model
+#   - Uses EKF for localization (not AMCL)
+#   - SLAM + Nav2 mode (map frame from SLAM Toolbox)
+# ============================================================================
+
+bt_navigator:
+  ros__parameters:
+    use_sim_time: False
+    global_frame: map
+    robot_base_frame: base_footprint
+    odom_topic: /odometry/filtered  # EKF output
+    bt_loop_duration: 10
+    default_server_timeout: 20
+    enable_groot_monitoring: True
+    groot_zmq_publisher_port: 1666
+    groot_zmq_server_port: 1667
+    plugin_lib_names:
+    - nav2_compute_path_to_pose_action_bt_node
+    - nav2_compute_path_through_poses_action_bt_node
+    - nav2_follow_path_action_bt_node
+    - nav2_back_up_action_bt_node
+    - nav2_spin_action_bt_node
+    - nav2_wait_action_bt_node
+    - nav2_clear_costmap_service_bt_node
+    - nav2_is_stuck_condition_bt_node
+    - nav2_goal_reached_condition_bt_node
+    - nav2_goal_updated_condition_bt_node
+    - nav2_initial_pose_received_condition_bt_node
+    - nav2_reinitialize_global_localization_service_bt_node
+    - nav2_rate_controller_bt_node
+    - nav2_distance_controller_bt_node
+    - nav2_speed_controller_bt_node
+    - nav2_truncate_path_action_bt_node
+    - nav2_goal_updater_node_bt_node
+    - nav2_recovery_node_bt_node
+    - nav2_pipeline_sequence_bt_node
+    - nav2_round_robin_node_bt_node
+    - nav2_transform_available_condition_bt_node
+    - nav2_time_expired_condition_bt_node
+    - nav2_distance_traveled_condition_bt_node
+    - nav2_single_trigger_bt_node
+    - nav2_goal_updated_controller_bt_node
+    - nav2_is_battery_low_condition_bt_node
+    - nav2_navigate_through_poses_action_bt_node
+    - nav2_navigate_to_pose_action_bt_node
+    - nav2_remove_passed_goals_action_bt_node
+    - nav2_planner_selector_bt_node
+    - nav2_controller_selector_bt_node
+    - nav2_goal_checker_selector_bt_node
+
+bt_navigator_rclcpp_node:
+  ros__parameters:
+    use_sim_time: False
+
+controller_server:
+  ros__parameters:
+    use_sim_time: False
+    controller_frequency: 20.0  # Reduced from 30Hz for hardware stability
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.5
+    min_theta_velocity_threshold: 0.001
+    failure_tolerance: 0.5  # More tolerant for hardware
+    progress_checker_plugin: "progress_checker"
+    goal_checker_plugins: ["general_goal_checker"]
+    controller_plugins: ["FollowPath"]
+
+    # Progress checker - more conservative
+    progress_checker:
+      plugin: "nav2_controller::SimpleProgressChecker"
+      required_movement_radius: 0.3  # Reduced from 0.5m
+      movement_time_allowance: 15.0  # Increased from 10s
+    
+    # Goal checker - looser tolerances for hardware
+    general_goal_checker:
+      stateful: True
+      plugin: "nav2_controller::SimpleGoalChecker"
+      xy_goal_tolerance: 0.4  # Increased from 0.3m
+      yaw_goal_tolerance: 0.5  # Increased from 0.4 rad
+    
+    # MPPI Controller - Ackermann Hardware Configuration
+    FollowPath:
+      plugin: "nav2_mppi_controller::MPPIController"
+      time_steps: 45  # Reduced from 56 for faster compute
+      model_dt: 0.05
+      batch_size: 1500  # Reduced from 2000 for Jetson Nano
+      
+      # Acceleration limits - CONSERVATIVE for hardware
+      ax_max: 1.5  # Reduced from 3.0 m/s²
+      ax_min: -2.0  # Reduced from -3.5 m/s²
+      ay_max: 1.5  # Reduced from 3.0 m/s²
+      az_max: 2.0  # Reduced from 3.5 rad/s²
+      
+      # Noise std deviations - CONSERVATIVE
+      vx_std: 0.2  # Reduced from 0.3
+      vy_std: 0.0
+      wz_std: 0.3  # Reduced from 0.4
+      
+      # Velocity limits - CONSERVATIVE for hardware safety
+      vx_max: 0.5  # Reduced from 5.0 m/s - HARDWARE SAFE SPEED
+      vx_min: -0.3  # Reduced from -1.0 m/s - slower reverse
+      vy_max: 0.0
+      wz_max: 0.8  # Reduced from 1.2 rad/s - safer turning
+      
+      iteration_count: 1
+      prune_distance: 1.5  # Reduced from 2.0m
+      transform_tolerance: 0.5  # Increased from 0.3 for hardware
+      temperature: 0.3  # Increased from 0.25 for smoother paths
+      gamma: 0.02  # Increased from 0.015 for better discount
+      motion_model: "Ackermann"
+      visualize: false
+      regenerate_noises: false
+      enforce_path_inversion: false
+      inversion_xy_tolerance: 0.3  # Increased from 0.2
+      inversion_yaw_tolerance: 0.5  # Increased from 0.4
+      retry_attempt_limit: 1
+      publish_optimal_trajectory: false
+      publish_critics_stats: false
+      
+      # Trajectory Visualizer
+      TrajectoryVisualizer:
+        trajectory_step: 5
+        time_step: 3
+      
+      # Ackermann Constraints - TRX-4 Real Hardware
+      AckermannConstraints:
+        min_turning_r: 0.40  # Increased from 0.35m for safety margin
+      
+      # Path Handler - more conservative
+      PathHandler:
+        max_robot_pose_search_dist: 5.0  # Reduced from 10.0m
+        prune_distance: 1.5
+        transform_tolerance: 0.5
+        enforce_path_inversion: false
+        inversion_xy_tolerance: 0.3
+        inversion_yaw_tolerance: 0.5
+      
+      # Critics Configuration
+      critics: [
+        "ConstraintCritic",
+        "CostCritic", 
+        "GoalCritic",
+        "GoalAngleCritic",
+        "PathAlignCritic",
+        "PathFollowCritic",
+        "PathAngleCritic",
+        "PreferForwardCritic"
+      ]
+      
+      # Critic weights - adjusted for conservative hardware operation
+      ConstraintCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 5.0  # Increased from 4.0 - stricter constraints
+      
+      GoalCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 6.0  # Increased from 5.0 - prioritize reaching goal
+        threshold_to_consider: 1.5
+      
+      GoalAngleCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 4.0  # Increased from 3.0 - better final orientation
+        threshold_to_consider: 0.5
+      
+      PreferForwardCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 6.0  # Increased from 5.0 - prefer forward motion
+        threshold_to_consider: 0.5
+      
+      CostCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 4.0  # Increased from 3.5 - more obstacle avoidance
+        critical_cost: 250.0  # Reduced from 300.0 - more cautious
+        consider_footprint: true
+        collision_cost: 1000000.0
+        near_goal_distance: 0.8  # Reduced from 1.0m
+        trajectory_point_step: 2
+      
+      PathAlignCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 10.0  # Reduced from 12.0 - less aggressive alignment
+        max_path_occupancy_ratio: 0.05  # Reduced from 0.07 - stricter
+        trajectory_point_step: 4
+        threshold_to_consider: 0.5
+        offset_from_furthest: 15  # Reduced from 20
+        use_path_orientations: false
+      
+      PathFollowCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 6.0  # Increased from 5.0 - stay closer to path
+        offset_from_furthest: 5  # Reduced from 6
+        threshold_to_consider: 1.5
+      
+      PathAngleCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 2.5  # Increased from 2.2 - smoother angles
+        offset_from_furthest: 4
+        threshold_to_consider: 0.5
+        max_angle_to_furthest: 0.8  # Reduced from 1.0 rad - gentler turns
+        mode: 0
+      
+controller_server_rclcpp_node:
+  ros__parameters:
+    use_sim_time: False
+
+local_costmap:
+  local_costmap:
+    ros__parameters:
+      update_frequency: 5.0
+      publish_frequency: 2.0
+      global_frame: odom
+      robot_base_frame: base_footprint
+      use_sim_time: False
+      rolling_window: true
+      width: 6  # Reduced from 8m for hardware
+      height: 6
+      resolution: 0.05
+      footprint: "[[0.275, 0.175], [0.275, -0.175], [-0.275, -0.175], [-0.275, 0.175]]"
+      plugins: ["voxel_layer", "inflation_layer"]
+      
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        cost_scaling_factor: 2.5  # Reduced from 3.0 - more gradual cost
+        inflation_radius: 0.65  # Increased from 0.55m - more safety margin
+      
+      voxel_layer:
+        plugin: "nav2_costmap_2d::VoxelLayer"
+        enabled: True
+        publish_voxel_map: True
+        origin_z: 0.0
+        z_resolution: 0.05
+        z_voxels: 16
+        max_obstacle_height: 2.0
+        mark_threshold: 0
+        observation_sources: scan
+        scan:
+          topic: /scan
+          max_obstacle_height: 2.0
+          clearing: True
+          marking: True
+          data_type: "LaserScan"
+          raytrace_max_range: 5.0  # Increased from 3.0m - use more lidar range
+          raytrace_min_range: 0.0
+          obstacle_max_range: 4.0  # Increased from 2.5m
+          obstacle_min_range: 0.0
+      
+      always_send_full_costmap: True
+      
+  local_costmap_client:
+    ros__parameters:
+      use_sim_time: False
+      
+  local_costmap_rclcpp_node:
+    ros__parameters:
+      use_sim_time: False
+
+global_costmap:
+  global_costmap:
+    ros__parameters:
+      update_frequency: 1.0
+      publish_frequency: 1.0
+      global_frame: map
+      robot_base_frame: base_footprint
+      use_sim_time: False
+      footprint: "[[0.275, 0.175], [0.275, -0.175], [-0.275, -0.175], [-0.275, 0.175]]"
+      resolution: 0.05
+      track_unknown_space: true
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: True
+        observation_sources: scan
+        scan:
+          topic: /scan
+          max_obstacle_height: 2.0
+          clearing: True
+          marking: True
+          data_type: "LaserScan"
+          raytrace_max_range: 8.0  # Increased from 3.0m - utilize RPLidar C1 range
+          raytrace_min_range: 0.0
+          obstacle_max_range: 6.0  # Increased from 2.5m
+          obstacle_min_range: 0.0
+      
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: True
+      
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        cost_scaling_factor: 2.5  # Reduced from 3.0
+        inflation_radius: 0.65  # Increased from 0.55m - more safety
+      
+      always_send_full_costmap: True
+      
+  global_costmap_client:
+    ros__parameters:
+      use_sim_time: False
+      
+  global_costmap_rclcpp_node:
+    ros__parameters:
+      use_sim_time: False
+
+planner_server:
+  ros__parameters:
+    expected_planner_frequency: 10.0  # Reduced from 20Hz for hardware
+    use_sim_time: False
+    planner_plugins: ["GridBased"]
+    GridBased:
+      plugin: "nav2_navfn_planner/NavfnPlanner"
+      tolerance: 0.5
+      use_astar: false
+      allow_unknown: true
+
+planner_server_rclcpp_node:
+  ros__parameters:
+    use_sim_time: False
+
+behavior_server:
+  ros__parameters:
+    costmap_topic: local_costmap/costmap_raw
+    footprint_topic: local_costmap/published_footprint
+    cycle_frequency: 10.0
+    behavior_plugins: ["spin", "wait"]  # Removed "backup" - lidar can't see behind rover
+    spin:
+      plugin: "nav2_behaviors/Spin"
+    # backup:  # Disabled - RPLidar C1 can't see behind the rover
+    #   plugin: "nav2_behaviors/BackUp"
+    wait:
+      plugin: "nav2_behaviors/Wait"
+    global_frame: odom
+    robot_base_frame: base_footprint
+    transform_timeout: 0.1
+    use_sim_time: False
+    simulate_ahead_time: 1.5  # Reduced from 2.0s
+    max_rotational_vel: 0.6  # Reduced from 1.0 rad/s - conservative
+    min_rotational_vel: 0.2  # Reduced from 0.4 rad/s
+    rotational_acc_lim: 2.0  # Reduced from 3.2 rad/s²
+
+waypoint_follower:
+  ros__parameters:
+    use_sim_time: False
+    loop_rate: 20
+    stop_on_failure: false
+    waypoint_task_executor_plugin: "wait_at_waypoint"   
+    wait_at_waypoint:
+      plugin: "nav2_waypoint_follower::WaitAtWaypoint"
+      enabled: True
+      waypoint_pause_duration: 200
+
+velocity_smoother:
+  ros__parameters:
+    use_sim_time: False
+    smoothing_frequency: 20.0
+    scale_velocities: False
+    feedback: "OPEN_LOOP"
+    max_velocity: [0.5, 0.0, 0.8]  # [vx, vy, wz] - conservative limits
+    min_velocity: [-0.3, 0.0, -0.8]
+    max_accel: [1.5, 0.0, 2.0]  # Conservative acceleration
+    max_decel: [-2.0, 0.0, -2.5]
+    odom_topic: "/odometry/filtered"
+    odom_duration: 0.1
+    deadband_velocity: [0.0, 0.0, 0.0]
+    velocity_timeout: 1.0
