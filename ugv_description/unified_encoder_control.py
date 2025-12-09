@@ -232,9 +232,14 @@ class UnifiedEncoderControlNode(Node):
             self.get_logger().warn(f'Serial error: {e}')
     
     def cmd_vel_callback(self, msg: Twist):
-        """Receive target velocities from /cmd_vel."""
+        """
+        Receive target velocities from /cmd_vel.
+        Inverts angular velocity to match ROS REP-103 convention:
+        - Positive angular.z → LEFT turn (counter-clockwise)
+        - Negative angular.z → RIGHT turn (clockwise)
+        """
         self.target_lin_vel = msg.linear.x
-        self.target_ang_vel = msg.angular.z
+        self.target_ang_vel = -msg.angular.z  # Invert for correct steering direction
     
     def publish_odometry_callback(self):
         """
