@@ -105,7 +105,7 @@ class WheelOdometry:
 
 
 class AckermannSteering:
-    def __init__(self, wheel_base, track_width, max_steering_angle):
+    def __init__(self, wheel_base, track_width, max_steering_angle, max_angular_velocity=0.8):
         """
         Initialize True Ackermann steering calculator
         
@@ -113,55 +113,65 @@ class AckermannSteering:
             wheel_base: Distance between front and rear axles (meters) - 0.336m
             track_width: Distance between left and right wheels (meters) - 0.212178m
             max_steering_angle: Maximum steering angle in radians (±45° = 0.7854 rad)
+            max_angular_velocity: Max angular velocity from Nav2 (rad/s) - matches nav2_params wz_max
         """
         self.wheel_base = wheel_base
         self.track_width = track_width
         self.max_steering_angle = max_steering_angle
+        self.max_angular_velocity = max_angular_velocity
     
     def calculate_steering_angles(self, linear_vel, angular_vel):
         """
-        Calculate true Ackermann steering angles from cmd_vel
+        Calculate steering angles from cmd_vel using direct angular velocity mapping.
         
-        Uses proper Ackermann geometry:
-        - Inner wheel: tighter angle (smaller turning radius)
-        - Outer wheel: wider angle (larger turning radius)
-        - Both wheels track around same instantaneous center
+        Maps angular velocity proportionally to steering angle:
+        - angular_vel = ±max_angular_velocity → ±max_steering_angle (±45°)
+        - Provides smooth, progressive steering response
+        - Prevents instant saturation at limits
         
         Args:
-            linear_vel: Linear velocity (m/s)
-            angular_vel: Angular velocity (rad/s)
+            linear_vel: Linear velocity (m/s) - not used in direct mapping
+            angular_vel: Angular velocity (rad/s) - already inverted in cmd_vel_callback
             
         Returns:
             tuple: (center_angle, inner_angle, outer_angle) all in radians, clamped to limits
         """
-        if abs(linear_vel) < 0.01 and abs(angular_vel) > 0.01:
-            # Point turn: max steering in direction of rotation
-            center_angle = math.copysign(self.max_steering_angle, angular_vel)
-            inner_angle = center_angle
-            outer_angle = center_angle
-        elif abs(angular_vel) < 0.001:
-            # Straight line: no steering
+        # Direct proportional mapping: angular_vel → steering_angle
+        # angular_vel range: ±0.8 rad/s (from nav2_params wz_max)
+        # steering_angle range: ±0.7854 rad (±45°)
+        
+        if abs(angular_vel) < 0.01:
+            # Straight line or stationary
             center_angle = 0.0
             inner_angle = 0.0
             outer_angle = 0.0
         else:
-            # Calculate turning radius from cmd_vel
-            turning_radius = linear_vel / angular_vel
+            # Map angular velocity to steering angle proportionally
+            steering_ratio = angular_vel / self.max_angular_velocity
+            center_angle = steering_ratio * self.max_steering_angle
             
-            # Center steering angle (bicycle model)
-            center_angle = math.atan(self.wheel_base / turning_radius)
+            # Clamp to physical limits
+            center_angle = max(-self.max_steering_angle, min(self.max_steering_angle, center_angle))
             
-            # True Ackermann: inner and outer wheel angles
-            # Inner wheel has smaller radius (tighter turn)
-            # Outer wheel has larger radius (wider turn)
-            if turning_radius > 0:  # Left turn
-                inner_angle = math.atan(self.wheel_base / (turning_radius - self.track_width / 2.0))
-                outer_angle = math.atan(self.wheel_base / (turning_radius + self.track_width / 2.0))
-            else:  # Right turn
-                inner_angle = math.atan(self.wheel_base / (turning_radius + self.track_width / 2.0))
-                outer_angle = math.atan(self.wheel_base / (turning_radius - self.track_width / 2.0))
+            # Calculate True Ackermann inner/outer angles from center angle
+            # For positive center_angle (left turn):
+            #   - Inner wheel (left) needs tighter angle
+            #   - Outer wheel (right) needs wider angle
+            if abs(center_angle) > 0.01:
+                # Calculate turning radius from center steering angle
+                turning_radius = self.wheel_base / math.tan(abs(center_angle))
+                
+                if center_angle > 0:  # Left turn
+                    inner_angle = math.atan(self.wheel_base / (turning_radius - self.track_width / 2.0))
+                    outer_angle = math.atan(self.wheel_base / (turning_radius + self.track_width / 2.0))
+                else:  # Right turn
+                    inner_angle = -math.atan(self.wheel_base / (turning_radius - self.track_width / 2.0))
+                    outer_angle = -math.atan(self.wheel_base / (turning_radius + self.track_width / 2.0))
+            else:
+                inner_angle = 0.0
+                outer_angle = 0.0
         
-        # Clamp all angles to maximum steering limit
+        # Clamp all angles to maximum steering limit (safety)
         center_angle = max(-self.max_steering_angle, min(self.max_steering_angle, center_angle))
         inner_angle = max(-self.max_steering_angle, min(self.max_steering_angle, inner_angle))
         outer_angle = max(-self.max_steering_angle, min(self.max_steering_angle, outer_angle))
