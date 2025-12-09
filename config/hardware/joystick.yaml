@@ -14,56 +14,58 @@
 #   - Conservative max speeds for manual control
 # ============================================================================
 
-# ========== Axis Mapping ==========
-# Your Xbox controller axes (verified mapping):
-#   0: Left stick X (horizontal)
-#   1: Left stick Y (vertical) - FOR FORWARD/BACKWARD
-#   2: L2 trigger (analog 0.0 to 1.0) - UNUSED
-#   3: Right stick X (horizontal) - FOR TURNING
-#   4: Right stick Y (vertical) - UNUSED
-#   5: R2 trigger (analog 0.0 to 1.0) - UNUSED
+/**:
+  ros__parameters:
+    # ========== Axis Mapping ==========
+    # Your Xbox controller axes (verified mapping):
+    #   0: Left stick X (horizontal)
+    #   1: Left stick Y (vertical) - FOR FORWARD/BACKWARD
+    #   2: L2 trigger (analog 0.0 to 1.0) - UNUSED
+    #   3: Right stick X (horizontal) - FOR TURNING
+    #   4: Right stick Y (vertical) - UNUSED
+    #   5: R2 trigger (analog 0.0 to 1.0) - UNUSED
 
-axis_linear:
-  x: 1  # Left stick Y-axis for forward/backward (2nd axis)
+    axis_linear:
+      x: 1  # Left stick Y-axis for forward/backward (2nd axis)
 
-axis_angular:
-  yaw: 3  # Right stick X-axis for turning (4th axis)
+    axis_angular:
+      yaw: 3  # Right stick X-axis for turning (4th axis)
 
-# ========== Velocity Scaling ==========
-# Match to hardware capabilities and Nav2 limits
-scale_linear:
-  x: 0.5  # Max 0.5 m/s linear (matches nav2_params vx_max)
+    # ========== Velocity Scaling ==========
+    # Match to hardware capabilities and Nav2 limits
+    scale_linear:
+      x: 0.5  # Max 0.5 m/s linear (matches nav2_params vx_max)
 
-scale_linear_turbo:
-  x: 0.5  # Same as normal (no turbo)
+    scale_linear_turbo:
+      x: 0.5  # Same as normal (no turbo)
 
-scale_angular:
-  yaw: 0.8  # Max 0.8 rad/s angular (matches nav2_params wz_max)
+    scale_angular:
+      yaw: 0.8  # Max 0.8 rad/s angular (matches nav2_params wz_max)
 
-scale_angular_turbo:
-  yaw: 0.8  # Same as normal (no turbo)
+    scale_angular_turbo:
+      yaw: 0.8  # Same as normal (no turbo)
 
-# ========== Safety: Deadman Button ==========
-# Your Xbox button mapping (verified):
-#   0: A
-#   1: B
-#   2: X
-#   3: Y
-#   4: LB (L1)
-#   5: RB (R1) ← DEADMAN BUTTON (6th button, index 5)
-#   6: Back/View
-#   7: Start/Menu
-#   8: Xbox button
-#   9: Left stick click
-#   10: Right stick click
+    # ========== Safety: Deadman Button ==========
+    # Your Xbox button mapping (verified):
+    #   0: A
+    #   1: B
+    #   2: X
+    #   3: Y
+    #   4: LB (L1)
+    #   5: RB (R1) ← DEADMAN BUTTON (6th button, index 5)
+    #   6: Back/View
+    #   7: Start/Menu
+    #   8: Xbox button
+    #   9: Left stick click
+    #   10: Right stick click
 
-require_enable_button: true
-enable_button: 5  # R1 (RB) - MUST be held for movement (6th button)
-enable_turbo_button: -1  # Disabled (no turbo mode)
+    require_enable_button: true
+    enable_button: 5  # R1 (RB) - MUST be held for movement (6th button)
+    enable_turbo_button: -1  # Disabled (no turbo mode)
 
-# ========== Additional Settings ==========
-inverted_reverse: false  # Don't invert linear axis
-publish_stamped_twist: false  # Publish regular Twist messages
+    # ========== Additional Settings ==========
+    inverted_reverse: false  # Don't invert linear axis
+    publish_stamped_twist: false  # Publish regular Twist messages
     
     # ========== Additional Settings ==========
     require_enable_button: true  # Deadman button is REQUIRED
