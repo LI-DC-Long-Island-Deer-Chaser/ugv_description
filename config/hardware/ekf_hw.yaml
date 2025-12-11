@@ -182,3 +182,196 @@ ekf_filter_node:
       0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1e-9, 0.0,
       0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1e-9
     ]
+
+# ============================================================================
+# EKF SENSOR FUSION STRATEGY - DETAILED EXPLANATION
+# ============================================================================
+#
+# OVERVIEW:
+# This EKF configuration fuses three sensor sources with carefully tuned
+# covariances to optimize localization for the TRX-4 Ackermann rover.
+# Lower covariance = higher trust. EKF automatically weights sensor inputs
+# based on their reported uncertainties.
+#
+# ============================================================================
+# SENSOR TRUST HIERARCHY (by measurement type)
+# ============================================================================
+#
+# LINEAR VELOCITY (vx):
+#   🥇 Wheel Encoder (odom0): 0.01 covariance
+#      - Direct measurement from encoder ticks
+#      - Most accurate velocity source
+#      - Published at 20 Hz from unified_encoder_control.py
+#      - Calculated via: delta_distance / delta_time
+#
+# ANGULAR VELOCITY (vyaw):
+#   🥇 IMU Gyro (imu0): 0.005 covariance
+#      - Gold standard for angular rate
+#      - MEMS gyroscope in CubeOrange (upside-down, AHRS_ORIENTATION=8)
+#      - High-frequency, low-noise measurement
+#      - Published via MAVROS /mavros/imu/data
+#   
+#   🥈 Wheel Ackermann (odom0): 0.15 covariance
+#      - Calculated via: omega = (v * tan(steering_angle)) / wheel_base
+#      - Serves as backup/validation for IMU
+#      - Can help if IMU fails or has drift
+#      - Published from unified_encoder_control.py
+#
+# YAW ORIENTATION (heading):
+#   🥇 IMU Magnetometer (imu0): 0.02 covariance
+#      - Absolute heading reference (compass)
+#      - ArduPilot AHRS fuses gyro + magnetometer
+#      - Prevents long-term heading drift
+#      - Most trusted for orientation
+#   
+#   🥈 RF2O Laser (odom1): 0.12 covariance
+#      - Relative heading from scan-to-scan matching
+#      - Good when environment has features (walls, furniture)
+#      - Can drift on featureless surfaces (blank walls, carpet)
+#      - Secondary heading source
+#   
+#   ❌ Wheel Odom (odom0): DISABLED
+#      - Open-loop integration from Ackermann steering
+#      - Accumulates error over distance/turns
+#      - Not reliable for heading estimation
+#
+# POSITION (x, y):
+#   🥇 RF2O Laser (odom1): 0.08 covariance
+#      - ICP/scan matching between consecutive laser scans
+#      - Drift-free when environment has distinct features
+#      - Primary position correction source
+#      - WARNING: Can fail on featureless planes
+#   
+#   🥈 Wheel Encoder (odom0): 0.5 covariance (x only)
+#      - Open-loop integration: x += delta_distance * cos(theta)
+#      - Good short-term (< 1 meter), drifts long-term
+#      - Wheel slip, steering errors accumulate
+#      - Used as fallback when RF2O has no features
+#
+# ============================================================================
+# WHY THIS CONFIGURATION WORKS
+# ============================================================================
+#
+# 1. COMPLEMENTARY SENSOR STRENGTHS:
+#    - Wheel encoders: excellent for instantaneous velocity (direct measurement)
+#    - IMU gyro: excellent for instantaneous turn rate (high frequency, low noise)
+#    - IMU compass: excellent for absolute heading (prevents drift accumulation)
+#    - RF2O laser: excellent for position correction (eliminates wheel slip errors)
+#
+# 2. REDUNDANCY & FAULT TOLERANCE:
+#    - Two angular velocity sources (IMU gyro + wheel Ackermann)
+#    - Two heading sources (IMU compass + RF2O)
+#    - Two position sources (RF2O + wheel encoder x)
+#    - If RF2O fails (featureless surface), wheel + IMU keep functioning
+#
+# 3. COVARIANCE TUNING RATIONALE:
+#    - IMU gyro (0.005): Extremely low - gyros are inherently accurate short-term
+#    - Wheel vx (0.01): Very low - direct encoder measurement is reliable
+#    - IMU yaw (0.02): Very low - magnetometer provides absolute reference
+#    - RF2O position (0.08): Low - scan matching is accurate when features exist
+#    - RF2O yaw (0.12): Moderate - scan matching yaw less reliable than compass
+#    - Wheel vyaw (0.15): Moderate - Ackermann calculation has geometric errors
+#    - Wheel x (0.5): High - open-loop integration accumulates error rapidly
+#
+# 4. KNOWN LIMITATIONS ADDRESSED:
+#    - Wheel odometry: Open-loop (lines 38-62 in wheel_odometry.py)
+#      → Solution: High position covariance (0.5), only use for short-term
+#    - RF2O: Fails on blank walls/carpet (featureless)
+#      → Solution: Wheel encoder provides fallback position estimate
+#    - Ackermann steering: Calculation assumes perfect geometry
+#      → Solution: Moderate covariance (0.15), IMU gyro is primary
+#
+# 5. PROCESS NOISE (Q matrix):
+#    - Position (x,y): 0.05 - slow-moving robot, low acceleration
+#    - Yaw: 0.06 - moderate turning, Ackermann steering
+#    - Velocities: 0.025 - PID-controlled, relatively stable
+#    - Angular velocity: 0.02 - gyro + Ackermann, good consistency
+#
+# ============================================================================
+# SENSOR DATA FLOW
+# ============================================================================
+#
+# Wheel Encoder → Arduino → Serial (200 Hz) → unified_encoder_control.py
+#   ↓
+#   WheelOdometry.update() calculates:
+#     - Position (x, y, theta) via open-loop integration
+#     - Linear velocity (vx) from delta_distance / delta_time
+#     - Angular velocity (vyaw) from Ackermann: (v * tan(α)) / L
+#   ↓
+#   Published to /wheel_odom (20 Hz) with covariances
+#   ↓
+#   EKF reads: x (0.5 cov), vx (0.01 cov), vyaw (0.15 cov)
+#
+# RF2O Laser → /scan → rf2o_laser_odometry_node
+#   ↓
+#   ICP scan-to-scan matching calculates:
+#     - Relative position change (dx, dy)
+#     - Relative heading change (dyaw)
+#   ↓
+#   Published to /odom_rf2o (20 Hz)
+#   ↓
+#   EKF reads: x (0.08 cov), y (0.08 cov), yaw (0.12 cov)
+#
+# CubeOrange IMU → ArduPilot AHRS → MAVROS
+#   ↓
+#   ArduPilot fuses gyro + accelerometer + magnetometer
+#     - Applies AHRS_ORIENTATION=8 (Roll 180° correction for upside-down mount)
+#     - Publishes corrected orientation + angular velocity
+#   ↓
+#   Published to /mavros/imu/data (50+ Hz)
+#   ↓
+#   EKF reads: yaw (0.02 cov), vyaw (0.005 cov)
+#
+# ============================================================================
+# EXPECTED BEHAVIOR
+# ============================================================================
+#
+# Straight line motion:
+#   - Wheel vx drives position integration
+#   - IMU compass keeps heading accurate
+#   - RF2O corrects accumulated position drift every ~1 second
+#
+# Turning:
+#   - IMU gyro provides instant, accurate angular velocity
+#   - Wheel Ackermann vyaw validates/backs up IMU
+#   - IMU compass prevents heading drift
+#   - RF2O corrects position during turn
+#
+# Featureless environment (blank wall, carpet):
+#   - RF2O position/yaw becomes unreliable or fails
+#   - EKF falls back to wheel encoder x + IMU compass
+#   - Position slowly drifts until features reappear
+#   - Still navigable for short distances (< 5 meters)
+#
+# Normal environment (furniture, walls, obstacles):
+#   - All sensors function optimally
+#   - RF2O continuously corrects wheel encoder drift
+#   - IMU compass prevents heading accumulation errors
+#   - Position accuracy: ~5-10 cm typical
+#
+# ============================================================================
+# TROUBLESHOOTING GUIDE
+# ============================================================================
+#
+# If robot drifts sideways:
+#   → Check RF2O: Is it seeing features? (blank walls cause drift)
+#   → Check wheel encoder: Is it counting correctly? (loose connector)
+#   → Increase RF2O position covariance if environment is featureless
+#
+# If heading drifts over time:
+#   → Check IMU compass: Is there magnetic interference? (motors, batteries)
+#   → Check AHRS_ORIENTATION=8 in ArduPilot (must be set for upside-down mount)
+#   → Verify /mavros/imu/data is publishing valid quaternions
+#
+# If velocity is jerky/unstable:
+#   → Check encoder signal quality (Arduino serial at 200 Hz)
+#   → Check PID tuning in unified_encoder_control.py
+#   → Verify wheel_odom covariances aren't too low (currently 0.01 is good)
+#
+# If EKF diverges (position explodes):
+#   → One sensor is publishing bad data (huge covariance mismatch)
+#   → Check timestamp synchronization (all sensors need consistent time)
+#   → Verify frame_id matches: wheel_odom → base_footprint, IMU → base_link
+#   → Check for TF conflicts (only EKF should publish odom→base_footprint)
+#
+# ============================================================================
