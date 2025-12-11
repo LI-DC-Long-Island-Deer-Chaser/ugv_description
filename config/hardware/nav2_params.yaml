@@ -113,11 +113,11 @@ controller_server:
       vy_std: 0.0
       wz_std: 0.3  # Reduced from 0.4
       
-      # Velocity limits - CONSERVATIVE for hardware safety
-      vx_max: 0.5  # Reduced from 5.0 m/s - HARDWARE SAFE SPEED
-      vx_min: -0.3  # Reduced from -1.0 m/s - slower reverse
+      # Velocity limits - CONFIDENT AGGRESSIVE OPERATION
+      vx_max: 0.7  # High speed
+      vx_min: -0.5  # Fast reverse
       vy_max: 0.0
-      wz_max: 0.8  # Reduced from 1.2 rad/s - safer turning
+      wz_max: 1.2  # Sharp aggressive turns
       
       iteration_count: 1
       prune_distance: 1.5  # Reduced from 2.0m
@@ -141,7 +141,7 @@ controller_server:
       
       # Ackermann Constraints - TRX-4 Real Hardware
       AckermannConstraints:
-        min_turning_r: 0.40  # Increased from 0.35m for safety margin
+        min_turning_r: 0.30  # Below hardware limit - maximum aggressiveness
       
       # Path Handler - more conservative
       PathHandler:
@@ -191,28 +191,28 @@ controller_server:
       CostCritic:
         enabled: true
         cost_power: 1
-        cost_weight: 4.0  # Increased from 3.5 - more obstacle avoidance
-        critical_cost: 250.0  # Reduced from 300.0 - more cautious
+        cost_weight: 1.5  # Very low - confident near obstacles
+        critical_cost: 150.0  # Low threshold - very aggressive
         consider_footprint: true
         collision_cost: 1000000.0
-        near_goal_distance: 0.8  # Reduced from 1.0m
-        trajectory_point_step: 2
+        near_goal_distance: 1.2
+        trajectory_point_step: 3
       
       PathAlignCritic:
         enabled: true
         cost_power: 1
-        cost_weight: 10.0  # Reduced from 12.0 - less aggressive alignment
-        max_path_occupancy_ratio: 0.05  # Reduced from 0.07 - stricter
-        trajectory_point_step: 4
+        cost_weight: 4.0  # Low - lots of freedom
+        max_path_occupancy_ratio: 0.15  # Allow significant deviation
+        trajectory_point_step: 5
         threshold_to_consider: 0.5
-        offset_from_furthest: 15  # Reduced from 20
+        offset_from_furthest: 25
         use_path_orientations: false
       
       PathFollowCritic:
         enabled: true
         cost_power: 1
-        cost_weight: 6.0  # Increased from 5.0 - stay closer to path
-        offset_from_furthest: 5  # Reduced from 6
+        cost_weight: 4.0  # Lower - less strict path following
+        offset_from_furthest: 6
         threshold_to_consider: 1.5
       
       PathAngleCritic:
@@ -240,13 +240,13 @@ local_costmap:
       width: 6  # Reduced from 8m for hardware
       height: 6
       resolution: 0.05
-      footprint: "[[0.275, 0.175], [0.275, -0.175], [-0.275, -0.175], [-0.275, 0.175]]"
+      footprint: "[[0.25, 0.15], [0.25, -0.15], [-0.25, -0.15], [-0.25, 0.15]]"
       plugins: ["voxel_layer", "inflation_layer"]
       
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 2.5  # Reduced from 3.0 - more gradual cost
-        inflation_radius: 0.65  # Increased from 0.55m - more safety margin
+        cost_scaling_factor: 0.5  # Absolute minimum - barely any cost gradient
+        inflation_radius: 0.15  # Extremely tight - almost no buffer
       
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
@@ -264,9 +264,9 @@ local_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
-          raytrace_max_range: 5.0  # Increased from 3.0m - use more lidar range
+          raytrace_max_range: 3.5  # Reduced - only nearby obstacles
           raytrace_min_range: 0.0
-          obstacle_max_range: 4.0  # Increased from 2.5m
+          obstacle_max_range: 2.5  # Reduced - immediate threats only
           obstacle_min_range: 0.0
       
       always_send_full_costmap: True
@@ -287,7 +287,7 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_footprint
       use_sim_time: False
-      footprint: "[[0.275, 0.175], [0.275, -0.175], [-0.275, -0.175], [-0.275, 0.175]]"
+      footprint: "[[0.25, 0.15], [0.25, -0.15], [-0.25, -0.15], [-0.25, 0.15]]"
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
@@ -302,9 +302,9 @@ global_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
-          raytrace_max_range: 8.0  # Increased from 3.0m - utilize RPLidar C1 range
+          raytrace_max_range: 5.0  # Reduced - avoid distant phantom obstacles
           raytrace_min_range: 0.0
-          obstacle_max_range: 6.0  # Increased from 2.5m
+          obstacle_max_range: 4.0  # Reduced for tighter obstacle marking
           obstacle_min_range: 0.0
       
       static_layer:
@@ -313,8 +313,8 @@ global_costmap:
       
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 2.5  # Reduced from 3.0
-        inflation_radius: 0.65  # Increased from 0.55m - more safety
+        cost_scaling_factor: 0.5  # Absolute minimum - barely any cost gradient
+        inflation_radius: 0.15  # Extremely tight - almost no buffer
       
       always_send_full_costmap: True
       
@@ -379,10 +379,10 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.5, 0.0, 0.8]  # [vx, vy, wz] - conservative limits
-    min_velocity: [-0.3, 0.0, -0.8]
-    max_accel: [1.5, 0.0, 2.0]  # Conservative acceleration
-    max_decel: [-2.0, 0.0, -2.5]
+    max_velocity: [0.7, 0.0, 1.2]  # [vx, vy, wz] - confident aggressive
+    min_velocity: [-0.5, 0.0, -1.2]
+    max_accel: [2.5, 0.0, 3.0]  # High acceleration
+    max_decel: [-3.0, 0.0, -3.5]
     odom_topic: "/odometry/filtered"
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
