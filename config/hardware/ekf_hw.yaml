@@ -35,56 +35,114 @@ ekf_filter_node:
     world_frame: odom                # EKF operates in odom frame (not map)
     
     # ========== Sensor Input 1: Wheel Encoder Odometry ==========
-    # Provides linear velocities (vx) and angular velocity (vyaw) from wheel encoders + Ackermann steering
-    # Most accurate short-term velocity measurement
-    # Angular velocity calculated from: omega = (v * tan(steering_angle)) / wheel_base
-    # Position and heading integrated from encoder distance + steering angle
+    # Provides linear velocity (vx) - most accurate short-term (direct measurement)
+    # Provides angular velocity (vyaw) - calculated from Ackermann, backup to IMU gyro
+    # Position (x) - open loop integration, drifts over distance
+    # Angular velocity: omega = (v * tan(steering_angle)) / wheel_base
     odom0: /wheel_odom
     odom0_config: [
-      true,  false,  false,    # x, y, z position (use x, y from encoder integration with steering)
-      false, false, false,     # roll, pitch, yaw orientation (use yaw from Ackermann integration)
-      true,  false, false,    # vx, vy, vz linear velocities (PRIMARY VELOCITY SOURCE - vx from encoders)
-      false, false, false,     # vroll, vpitch, vyaw angular velocities (vyaw from Ackermann calculation)
+      true,  false,  false,    # x, y, z position (x: short-term OK, drifts long-term)
+      false, false, false,     # roll, pitch, yaw orientation (open-loop integration - not reliable)
+      true,  false, false,    # vx, vy, vz linear velocities (PRIMARY - direct encoder measurement)
+      false, false, true,     # vroll, vpitch, vyaw angular velocities (Ackermann calc - backup to IMU)
       false, false, false     # ax, ay, az accelerations (not measured)
     ]
     odom0_differential: false
     odom0_relative: false
     odom0_queue_size: 10
     
+    # Wheel encoder covariances - trust velocities, skeptical of positions
+    odom0_pose_covariance: [
+      0.5,  0.0,  0.0,  0.0,  0.0,  0.0,    # x - MODERATE uncertainty (drifts)
+      0.0,  1e6,  0.0,  0.0,  0.0,  0.0,    # y - not used
+      0.0,  0.0,  1e6,  0.0,  0.0,  0.0,    # z - not used
+      0.0,  0.0,  0.0,  1e6,  0.0,  0.0,    # roll - not used
+      0.0,  0.0,  0.0,  0.0,  1e6,  0.0,    # pitch - not used
+      0.0,  0.0,  0.0,  0.0,  0.0,  1e6     # yaw - not used (open-loop)
+    ]
+    
+    odom0_twist_covariance: [
+      0.01,  0.0,   0.0,   0.0,   0.0,   0.0,    # vx - LOW uncertainty (direct encoder)
+      0.0,   1e6,   0.0,   0.0,   0.0,   0.0,    # vy - not used
+      0.0,   0.0,   1e6,   0.0,   0.0,   0.0,    # vz - not used
+      0.0,   0.0,   0.0,   1e6,   0.0,   0.0,    # vroll - not used
+      0.0,   0.0,   0.0,   0.0,   1e6,   0.0,    # vpitch - not used
+      0.0,   0.0,   0.0,   0.0,   0.0,   0.15    # vyaw - MODERATE uncertainty (Ackermann calc)
+    ]
+    
     # ========== Sensor Input 2: RF2O Laser Odometry ==========
     # Provides position (x, y, yaw) from laser scan matching
-    # Corrects for wheel slip and provides absolute position estimates
-    # Use for position only, velocity comes from encoders
+    # Excellent for drift correction when features present
+    # WARNING: Can fail/drift on featureless planes (carpet, blank walls)
+    # Use for position only, velocities from encoders/IMU are better
     odom1: /odom_rf2o
     odom1_config: [
-      true,  true,  false,    # x, y, z position (use x, y for drift correction)
-      false, false, true,     # roll, pitch, yaw orientation (use yaw)
-      false, false, false,    # vx, vy, vz linear velocities (wheel encoders better)
-      false, false, false,    # vroll, vpitch, vyaw angular velocities (IMU provides vyaw)
+      true,  true,  false,    # x, y, z position (PRIMARY for drift correction when features present)
+      false, false, true,     # roll, pitch, yaw orientation (good, but IMU better)
+      false, false, false,    # vx, vy, vz linear velocities (wheel encoders more accurate)
+      false, false, false,    # vroll, vpitch, vyaw angular velocities (IMU gyro better)
       false, false, false     # ax, ay, az accelerations (not used)
     ]
     odom1_differential: false
     odom1_relative: false
     odom1_queue_size: 10
     
+    # RF2O covariances - good when features present, but can fail
+    odom1_pose_covariance: [
+      0.08,  0.0,   0.0,   0.0,   0.0,   0.0,    # x - LOW uncertainty (laser matching)
+      0.0,   0.08,  0.0,   0.0,   0.0,   0.0,    # y - LOW uncertainty (laser matching)
+      0.0,   0.0,   1e6,   0.0,   0.0,   0.0,    # z - not used
+      0.0,   0.0,   0.0,   1e6,   0.0,   0.0,    # roll - not used
+      0.0,   0.0,   0.0,   0.0,   1e6,   0.0,    # pitch - not used
+      0.0,   0.0,   0.0,   0.0,   0.0,   0.12    # yaw - MODERATE (IMU compass better)
+    ]
+    
+    odom1_twist_covariance: [
+      1e6,   0.0,   0.0,   0.0,   0.0,   0.0,    # vx - not used
+      0.0,   1e6,   0.0,   0.0,   0.0,   0.0,    # vy - not used
+      0.0,   0.0,   1e6,   0.0,   0.0,   0.0,    # vz - not used
+      0.0,   0.0,   0.0,   1e6,   0.0,   0.0,    # vroll - not used
+      0.0,   0.0,   0.0,   0.0,   1e6,   0.0,    # vpitch - not used
+      0.0,   0.0,   0.0,   0.0,   0.0,   1e6     # vyaw - not used
+    ]
+    
     # ========== Sensor Input 3: IMU from CubeOrange via MAVROS ==========
-    # Provides orientation (yaw) and angular velocity from ArduPilot AHRS
+    # Provides yaw orientation (magnetometer-corrected, absolute reference)
+    # Provides angular velocity (gyro - MOST accurate short-term angular rate)
     # AHRS_ORIENTATION=8 (Roll 180°) - Cube is mounted upside-down
     # MAVROS publishes corrected data with frame_id: base_link
     # EKF transforms from base_link to base_footprint automatically via TF
-    # Note: Wheel odometry now provides yaw rate, IMU used for correction/validation
     imu0: /mavros/imu/data
     imu0_config: [
       false, false, false,    # x, y, z position (not provided by IMU)
-      false, false, true,     # roll, pitch, yaw orientation (USE yaw for correction)
+      false, false, true,     # roll, pitch, yaw orientation (PRIMARY - absolute compass heading)
       false, false, false,    # vx, vy, vz linear velocities (not from IMU)
-      false, false, false,    # vroll, vpitch, vyaw angular velocities (wheel odom provides vyaw)
-      false, false, false     # ax, ay, az accelerations (can enable if needed)
+      false, false, true,     # vroll, vpitch, vyaw angular velocities (PRIMARY - gyro)
+      false, false, false     # ax, ay, az accelerations (not used for now)
     ]
     imu0_differential: false
     imu0_relative: false
     imu0_queue_size: 10
     imu0_remove_gravitational_acceleration: true
+    
+    # IMU covariances - trust gyro for rate, magnetometer for absolute heading
+    imu0_pose_covariance: [
+      1e6,   0.0,   0.0,   0.0,   0.0,   0.0,    # x - not used
+      0.0,   1e6,   0.0,   0.0,   0.0,   0.0,    # y - not used
+      0.0,   0.0,   1e6,   0.0,   0.0,   0.0,    # z - not used
+      0.0,   0.0,   0.0,   1e6,   0.0,   0.0,    # roll - not used
+      0.0,   0.0,   0.0,   0.0,   1e6,   0.0,    # pitch - not used
+      0.0,   0.0,   0.0,   0.0,   0.0,   0.02    # yaw - VERY LOW (magnetometer absolute reference)
+    ]
+    
+    imu0_twist_covariance: [
+      1e6,   0.0,   0.0,   0.0,   0.0,   0.0,    # vx - not used
+      0.0,   1e6,   0.0,   0.0,   0.0,   0.0,    # vy - not used
+      0.0,   0.0,   1e6,   0.0,   0.0,   0.0,    # vz - not used
+      0.0,   0.0,   0.0,   1e6,   0.0,   0.0,    # vroll - not used
+      0.0,   0.0,   0.0,   0.0,   1e6,   0.0,    # vpitch - not used
+      0.0,   0.0,   0.0,   0.0,   0.0,   0.005   # vyaw - VERY LOW (gyro is gold standard)
+    ]
     
     # ========== Process Noise Covariance (Q) ==========
     # Tuned for slow-moving ground robot with laser odometry
