@@ -340,11 +340,6 @@ class UnifiedEncoderControlNode(Node):
         rc_msg.channels[0] = self.current_steering_pwm   # Channel 1: Steering
         rc_msg.channels[2] = self.current_throttle_pwm   # Channel 3: Throttle
         rc_msg.channels[3] = 2000                        # Channel 4: Low Gear
-
-        self.get_logger().info(f'Target lin velocity: {self.target_lin_vel}')
-        self.get_logger().info(f'Steering PWM: {self.current_steering_pwm}')
-        self.get_logger().info(f'Throttle PWM: {self.current_throttle_pwm}')
-        self.get_logger().info(f'Gear: {rc_msg.channels[3]}')
         self.rc_override_pub.publish(rc_msg)
     
     def publish_joint_states_callback(self):
