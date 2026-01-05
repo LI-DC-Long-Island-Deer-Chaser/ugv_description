@@ -57,7 +57,7 @@ def generate_launch_description():
             'frame_id': 'ugv/lidar_2d_link/lidar_2d',  # Matches URDF sensor frame
             'inverted': False,
             'angle_compensate': True,
-            'scan_mode': 'Standard',
+            'scan_mode': 'DenseBoost',            # C1 DenseBoost: 10 Hz, 40m range, 5K points (Standard is ~3-4 Hz)
             'use_sim_time': use_sim_time
         }],
         remappings=[
@@ -84,7 +84,7 @@ def generate_launch_description():
     )
 
     # ========== 4. RF2O Laser Odometry ==========
-    # Uses /scan to generate /odom_rf2o
+    # Uses /scan_raw (360°) DIRECTLY - bypassing filter to avoid message drops
     # Does NOT publish TF (EKF will handle odom->base_link)
     rf2o_laser_odom = Node(
         package='rf2o_laser_odometry',
@@ -92,13 +92,13 @@ def generate_launch_description():
         name='rf2o_laser_odometry',
         output='screen',
         parameters=[{
-            'laser_scan_topic': '/scan',
+            'laser_scan_topic': '/scan_raw',  # Use raw 360° scan - filter was dropping 98% of messages!
             'odom_topic': '/odom_rf2o',
             'publish_tf': False,              # EKF owns the TF tree
             'base_frame_id': 'base_link',
             'odom_frame_id': 'odom',
             'init_pose_from_topic': '',
-            'freq': 20.0,                     # 20 Hz odometry
+            'freq': 15.0,                     # 15 Hz target (realistic for 10Hz scan rate with processing)
             'use_sim_time': use_sim_time
         }]
     )

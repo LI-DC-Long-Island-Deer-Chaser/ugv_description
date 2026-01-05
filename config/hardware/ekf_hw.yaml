@@ -1,16 +1,26 @@
 # ============================================================================
-# EKF Configuration for UGV Hardware SLAM
+# EKF Configuration for UGV Hardware SLAM - BALANCED FUSION
 # ============================================================================
-# Sensor Fusion:
-#   - Wheel Encoder Odometry (/wheel_odom): linear velocities (primary velocity source)
-#   - RF2O Laser Odometry (/odom_rf2o): x, y, yaw position (drift correction)
-#   - IMU from CubeOrange via MAVROS (/mavros/imu/data): yaw orientation + yaw rate
+# Sensor Fusion Strategy: WHEEL + RF2O + IMU (3-sensor balanced)
+#   - Wheel Encoder Odometry: velocities (primary) + short-term position
+#   - RF2O Laser Odometry: position drift correction (differential mode, moderate trust)
+#   - IMU: absolute heading + angular velocity (gold standard for yaw)
+#
+# Key Insights from Testing:
+#   - Without RF2O: wheel odometry drifts heavily (open-loop integration)
+#   - With RF2O: provides essential position corrections despite 24% failure rate
+#   - Balance: Use RF2O for position but with realistic uncertainty
+#
+# Tuning Philosophy:
+#   - Wheel velocities: HIGH TRUST (direct measurement, 99.5% reliable)
+#   - RF2O position: MODERATE TRUST (helps but fails sometimes)
+#   - IMU orientation: ABSOLUTE TRUST (prevents rotation drift)
+#   - Differential RF2O: incremental corrections, not absolute jumps
+#   - Moderate Mahalanobis: filters worst RF2O outliers, allows good matches
+#   - Balanced process noise: allows updates without chaos
 #
 # Notes:
-#   - Wheel encoders provide most accurate short-term velocity
-#   - RF2O corrects for wheel slip and provides position updates
 #   - ArduPilot handles IMU orientation (AHRS_ORIENTATION=8, Roll 180°)
-#   - MAVROS publishes corrected IMU data, no additional rotation needed
 #   - Two_d_mode=true for ground robot (ignores z-axis drift)
 #   - EKF publishes odom->base_footprint TF
 #   - SLAM Toolbox publishes map->odom TF
@@ -20,9 +30,25 @@ ekf_filter_node:
   ros__parameters:
     
     # ========== General Settings ==========
-    frequency: 50.0                  # 50 Hz filter update rate
-    sensor_timeout: 0.2              # Wait 200ms before timing out sensor
+    frequency: 30.0                  # 30 Hz filter update rate (1.5x wheel odom rate)
+    sensor_timeout: 0.6              # 600ms timeout (RF2O now reliable at 10Hz with raw scans)
     two_d_mode: true                 # Ground robot - ignore z, roll, pitch drift
+    
+    # ========== Outlier Rejection ==========
+    # Relaxed Mahalanobis: allows RF2O variance while filtering extreme outliers
+    use_control: false
+    stamped_control: false
+    control_timeout: 0.2
+    mahalanobis_threshold: 5.0       # Relaxed from 3.5 - allows more RF2O uncertainty
+    
+    # Dynamic process noise (increases during high acceleration/turning)
+    dynamic_process_noise_covariance: true
+    
+    # ========== Actual Sensor Rates (from bag analysis) ==========
+    # wheel_odom: 19.5 Hz - EXCELLENT (99.5% reliable)
+    # odom_rf2o: 5.0 Hz - HELPFUL but unreliable (76% reliable, 24% failure)
+    # imu/data: 3.9 Hz - ACCEPTABLE (absolute heading reference)
+    # EKF at 30 Hz provides headroom above all sensors
     
     # ========== TF Publishing ==========
     publish_tf: true                 # Publish odom->base_link transform
@@ -35,30 +61,30 @@ ekf_filter_node:
     world_frame: odom                # EKF operates in odom frame (not map)
     
     # ========== Sensor Input 1: Wheel Encoder Odometry ==========
-    # Provides linear velocity (vx) - most accurate short-term (direct measurement)
-    # Provides angular velocity (vyaw) - calculated from Ackermann, backup to IMU gyro
-    # Position (x) - open loop integration, drifts over distance
+    # PRIMARY VELOCITY SOURCE + short-term X position
+    # Provides: x position (short-term), vx (excellent), vyaw (backup)
+    # Quality: 99.5% reliable, but position drifts without correction
     # Angular velocity: omega = (v * tan(steering_angle)) / wheel_base
     odom0: /wheel_odom
     odom0_config: [
-      true,  false,  false,    # x, y, z position (x: short-term OK, drifts long-term)
-      false, false, false,     # roll, pitch, yaw orientation (open-loop integration - not reliable)
-      true,  false, false,    # vx, vy, vz linear velocities (PRIMARY - direct encoder measurement)
-      false, false, true,     # vroll, vpitch, vyaw angular velocities (Ackermann calc - backup to IMU)
-      false, false, false     # ax, ay, az accelerations (not measured)
+      true,  false,  false,    # x, y, z position (x: short-term only, y: RF2O handles)
+      false, false, false,     # roll, pitch, yaw orientation (IMU is better)
+      true,  false, false,     # vx, vy, vz linear velocities (PRIMARY - direct measurement)
+      false, false, true,      # vroll, vpitch, vyaw angular velocities (Ackermann - backup to IMU)
+      false, false, false      # ax, ay, az accelerations (not measured)
     ]
     odom0_differential: false
     odom0_relative: false
     odom0_queue_size: 10
     
-    # Wheel encoder covariances - trust velocities, skeptical of positions
+    # Wheel encoder covariances - trust velocities highly, position moderately
     odom0_pose_covariance: [
-      0.5,  0.0,  0.0,  0.0,  0.0,  0.0,    # x - MODERATE uncertainty (drifts)
-      0.0,  1e6,  0.0,  0.0,  0.0,  0.0,    # y - not used
+      0.3,  0.0,  0.0,  0.0,  0.0,  0.0,    # x - MODERATE (drifts, RF2O corrects)
+      0.0,  1e6,  0.0,  0.0,  0.0,  0.0,    # y - not used (RF2O handles)
       0.0,  0.0,  1e6,  0.0,  0.0,  0.0,    # z - not used
       0.0,  0.0,  0.0,  1e6,  0.0,  0.0,    # roll - not used
       0.0,  0.0,  0.0,  0.0,  1e6,  0.0,    # pitch - not used
-      0.0,  0.0,  0.0,  0.0,  0.0,  1e6     # yaw - not used (open-loop)
+      0.0,  0.0,  0.0,  0.0,  0.0,  1e6     # yaw - not used (IMU absolute)
     ]
     
     odom0_twist_covariance: [
@@ -71,39 +97,41 @@ ekf_filter_node:
     ]
     
     # ========== Sensor Input 2: RF2O Laser Odometry ==========
-    # Provides position (x, y, yaw) from laser scan matching
-    # Excellent for drift correction when features present
-    # WARNING: Can fail/drift on featureless planes (carpet, blank walls)
-    # Use for position only, velocities from encoders/IMU are better
+    # POSITION DRIFT CORRECTION (essential despite 24% failure rate)
+    # Provides: x, y, yaw position corrections via scan matching
+    # Quality: 76% reliable, but CRITICAL for preventing wheel drift
+    # Testing showed: without RF2O = heavy position drift, with RF2O = stable
     odom1: /odom_rf2o
     odom1_config: [
-      true,  true,  false,    # x, y, z position (PRIMARY for drift correction when features present)
-      false, false, true,     # roll, pitch, yaw orientation (good, but IMU better)
-      false, false, false,    # vx, vy, vz linear velocities (wheel encoders more accurate)
-      false, false, false,    # vroll, vpitch, vyaw angular velocities (IMU gyro better)
+      true,  true,  false,    # x, y, z position (DRIFT CORRECTION - essential!)
+      false, false, true,     # roll, pitch, yaw orientation (moderate, IMU is better)
+      false, false, false,    # vx, vy, vz linear velocities (wheel encoders better)
+      false, false, false,    # vroll, vpitch, vyaw angular velocities (IMU better)
       false, false, false     # ax, ay, az accelerations (not used)
     ]
-    odom1_differential: false
+    odom1_differential: true     # CRITICAL: incremental corrections, not absolute jumps
     odom1_relative: false
     odom1_queue_size: 10
     
-    # RF2O covariances - good when features present, but can fail
+    # RF2O covariances - HIGH TRUST now using raw 360° scans at 10Hz
+    # Lower uncertainty: consistent 10Hz updates with full 360° feature set
+    # Mahalanobis will reject extreme outliers
     odom1_pose_covariance: [
-      0.08,  0.0,   0.0,   0.0,   0.0,   0.0,    # x - LOW uncertainty (laser matching)
-      0.0,   0.08,  0.0,   0.0,   0.0,   0.0,    # y - LOW uncertainty (laser matching)
+      0.15,  0.0,   0.0,   0.0,   0.0,   0.0,    # x - HIGH TRUST (10Hz, 360° scans)
+      0.0,   0.15,  0.0,   0.0,   0.0,   0.0,    # y - HIGH TRUST (10Hz, 360° scans)
       0.0,   0.0,   1e6,   0.0,   0.0,   0.0,    # z - not used
       0.0,   0.0,   0.0,   1e6,   0.0,   0.0,    # roll - not used
       0.0,   0.0,   0.0,   0.0,   1e6,   0.0,    # pitch - not used
-      0.0,   0.0,   0.0,   0.0,   0.0,   0.12    # yaw - MODERATE (IMU compass better)
+      0.0,   0.0,   0.0,   0.0,   0.0,   0.15    # yaw - HIGH TRUST (360° scan matching)
     ]
     
     odom1_twist_covariance: [
-      1e6,   0.0,   0.0,   0.0,   0.0,   0.0,    # vx - not used
+      1e6,   0.0,   0.0,   0.0,   0.0,   0.0,    # vx - not used (wheel better)
       0.0,   1e6,   0.0,   0.0,   0.0,   0.0,    # vy - not used
       0.0,   0.0,   1e6,   0.0,   0.0,   0.0,    # vz - not used
       0.0,   0.0,   0.0,   1e6,   0.0,   0.0,    # vroll - not used
       0.0,   0.0,   0.0,   0.0,   1e6,   0.0,    # vpitch - not used
-      0.0,   0.0,   0.0,   0.0,   0.0,   1e6     # vyaw - not used
+      0.0,   0.0,   0.0,   0.0,   0.0,   1e6     # vyaw - not used (IMU better)
     ]
     
     # ========== Sensor Input 3: IMU from CubeOrange via MAVROS ==========
@@ -132,7 +160,7 @@ ekf_filter_node:
       0.0,   0.0,   1e6,   0.0,   0.0,   0.0,    # z - not used
       0.0,   0.0,   0.0,   1e6,   0.0,   0.0,    # roll - not used
       0.0,   0.0,   0.0,   0.0,   1e6,   0.0,    # pitch - not used
-      0.0,   0.0,   0.0,   0.0,   0.0,   0.02    # yaw - VERY LOW (magnetometer absolute reference)
+      0.0,   0.0,   0.0,   0.0,   0.0,   0.01    # yaw - HIGHEST TRUST (magnetometer absolute reference, prevents drift)
     ]
     
     imu0_twist_covariance: [
@@ -145,22 +173,24 @@ ekf_filter_node:
     ]
     
     # ========== Process Noise Covariance (Q) ==========
-    # Tuned for slow-moving ground robot with laser odometry
+    # VERY SMOOTH with reliable RF2O: minimal noise for stable odometry
+    # RF2O now provides consistent 10Hz corrections with 360° scans
+    # Dynamic process noise will scale up during acceleration/turning
     process_noise_covariance: [
-      0.05, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # x
-      0.0,  0.05, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # y
+      0.03, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # x - VERY SMOOTH
+      0.0,  0.03, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # y - VERY SMOOTH
       0.0,  0.0,  0.06, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # z
       0.0,  0.0,  0.0,  0.03, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # roll
       0.0,  0.0,  0.0,  0.0,  0.03, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # pitch
-      0.0,  0.0,  0.0,  0.0,  0.0,  0.06, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # yaw
-      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.025,0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # vx
-      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.025,0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # vy
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.06, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # yaw - VERY SMOOTH (IMU+RF2O)
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.04, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # vx - MODERATE (stable)
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.04, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # vy
       0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.04, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  # vz
       0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.01, 0.0,  0.0,  0.0,  0.0,  0.0,  # vroll
       0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.01, 0.0,  0.0,  0.0,  0.0,  # vpitch
-      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.02, 0.0,  0.0,  0.0,  # vyaw
-      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.01, 0.0,  0.0,  # ax
-      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.01, 0.0,  # ay
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.04, 0.0,  0.0,  0.0,  # vyaw - MODERATE (turns)
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.02, 0.0,  0.0,  # ax
+      0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.02, 0.0,  # ay
       0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.015 # az
     ]
     
