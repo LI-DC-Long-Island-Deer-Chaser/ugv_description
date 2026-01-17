@@ -6,6 +6,172 @@
 <gazebo>
   <plugin name="control" filename="libgazebo_ros_control.so"/>
 </gazebo>
+
+<gazebo reference="imu_link">
+  <sensor name="imu_sensor" type="imu">
+    <always_on>true</always_on>
+    <topic>imu/data</topic>
+    <update_rate>100</update_rate>
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu">
+    </plugin>
+  </sensor>
+</gazebo>
+
+<gazebo reference="360lidar_link">
+  <sensor name="gpu_lidar" type="gpu_lidar">
+    <topic>lidar</topic>
+    <update_rate>30</update_rate>
+    <ray>
+      <scan>
+        <horizontal>
+          <samples>640</samples>
+          <resolution>1</resolution>
+          <min_angle>-1.396263</min_angle>
+          <max_angle>1.396263</max_angle>
+        </horizontal>
+        <vertical>
+          <samples>1</samples>
+          <resolution>0.01</resolution>
+          <min_angle>0</min_angle>
+          <max_angle>0</max_angle>
+        </vertical>
+      </scan>
+      <range>
+        <min>0.08</min>
+        <max>40.0</max>
+        <resolution>0.01</resolution>
+      </range>
+    </ray>
+    <always_on>1</always_on>
+    <visualize>true</visualize>
+  </sensor>
+</gazebo>
+
+<gazebo reference="ToFsensor_link">
+  <sensor name="tof_range" type="gpu_lidar">
+    <always_on>true</always_on>
+    <visualize>true</visualize>
+    <update_rate>50</update_rate>
+    <topic>tof/range</topic>
+    <gz_frame_id>ToFsensor_link</gz_frame_id>
+    <lidar>
+      <scan>
+        <horizontal>
+          <samples>1</samples>
+          <resolution>1.0</resolution>
+          <min_angle>0.0</min_angle>
+          <max_angle>0.0</max_angle>
+        </horizontal>
+      </scan>
+      <range>
+        <min>0.030</min>
+        <max>1.0</max>
+        <resolution>0.001</resolution>
+      </range>
+      <noise>
+        <type>gaussian</type>
+        <mean>0.0</mean>
+        <stddev>0.003</stddev>
+      </noise>
+    </lidar>
+  </sensor>
+</gazebo>
+
+<gazebo reference="GPSsensor_link">
+  <sensor name="gps" type="navsat">
+    <always_on>true</always_on>
+    <update_rate>10</update_rate>
+    <topic>gps/fix</topic>
+    <gz_frame_id>GPSsensor_link</gz_frame_id>
+    <navsat>
+      <position_sensing>
+        <horizontal>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>1.0</stddev>
+          </noise>
+        </horizontal>
+        <vertical>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>1.5</stddev>
+          </noise>
+        </vertical>
+      </position_sensing>
+      <velocity_sensing>
+        <horizontal>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>0.05</stddev>
+          </noise>
+        </horizontal>
+        <vertical>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>0.1</stddev>
+          </noise>
+        </vertical>
+      </velocity_sensing>
+    </navsat>
+  </sensor>
+</gazebo>
+
+<gazebo reference="frontcam_link">
+  <sensor name="camera_front" type="wideanglecamera">
+    <always_on>1</always_on>
+    <visualize>true</visualize>
+    <update_rate>30</update_rate>
+    <topic>camera/front</topic>
+    <gz_frame_id>frontcam_link</gz_frame_id>
+    <camera>
+      <horizontal_fov>2.8798</horizontal_fov>
+      <image>
+        <width>640</width>
+        <height>360</height>
+        <format>R8G8B8</format>
+      </image>
+      <clip>
+        <near>0.1</near>
+        <far>100</far>
+      </clip>
+      <lens>
+        <type>stereographic</type>
+        <scale_to_hfov>true</scale_to_hfov>
+        <cutoff_angle>1.5708</cutoff_angle>
+        <env_texture_size>512</env_texture_size>
+      </lens>
+    </camera>
+  </sensor>
+</gazebo>
+
+<gazebo reference="backcam_link">
+  <sensor name="camera_back" type="wideanglecamera">
+    <always_on>1</always_on>
+    <visualize>true</visualize>
+    <update_rate>30</update_rate>
+    <topic>camera/back</topic>
+    <gz_frame_id>backcam_link</gz_frame_id>
+    <camera>
+      <horizontal_fov>2.8798</horizontal_fov>
+      <image>
+        <width>640</width>
+        <height>360</height>
+        <format>R8G8B8</format>
+      </image>
+      <clip>
+        <near>0.1</near>
+        <far>100</far>
+      </clip>
+      <lens>
+        <type>stereographic</type>
+        <scale_to_hfov>true</scale_to_hfov>
+        <cutoff_angle>1.5708</cutoff_angle>
+        <env_texture_size>512</env_texture_size>
+      </lens>
+    </camera>
+  </sensor>
+</gazebo>
+
 <gazebo reference="base_link">
   <material>${body_color}</material>
   <mu1>0.2</mu1>
