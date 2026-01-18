@@ -8,7 +8,8 @@
   direction: GZ_TO_ROS
 
 # IMU
-- topic_name: "ugv/imu/data"
+- ros_topic_name: "ugv/imu/data"
+  gz_topic_name: "/world/map/model/ugv/link/base_footprint/sensor/imu_sensor/imu"
   ros_type_name: "sensor_msgs/msg/Imu"
   gz_type_name: "gz.msgs.IMU"
   direction: GZ_TO_ROS

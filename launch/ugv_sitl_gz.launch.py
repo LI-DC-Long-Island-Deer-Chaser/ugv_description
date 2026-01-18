@@ -225,7 +225,7 @@ def generate_launch_description():
         package="tf2_ros",
         executable="static_transform_publisher",
         name="lidar_frame_publisher",
-        arguments=["0", "0", "0", "0", "0", "0", "360lidar_link", "ugv/base_link/gpu_lidar"],
+        arguments=["0", "0", "0", "0", "0", "0", "360lidar_link", "ugv/base_footprint/gpu_lidar"],
         parameters=[{"use_sim_time": use_sim_time}],
         output="screen",
     )
