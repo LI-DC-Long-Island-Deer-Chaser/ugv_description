@@ -1,0 +1,557 @@
+<?xml version="1.0" ?>
+<robot name="ugv" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+<!-- Use a simple gray color instead of Gazebo/Silver material script -->
+<xacro:property name="body_color" value="Gray" />
+
+<gazebo>
+  <!-- ardupilot plugin -->
+  <plugin name="ArduPilotPlugin" filename="ArduPilotPlugin">
+    <fdm_addr>127.0.0.1</fdm_addr>
+    <fdm_port_in>9002</fdm_port_in>        
+    <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
+    <lock_step>1</lock_step>
+    <gazeboXYZToNED degrees="true">0 0 0 180 0 90</gazeboXYZToNED>
+    <modelXYZToAirplaneXForwardZDown degrees="true">0 0 0 180 0 0</modelXYZToAirplaneXForwardZDown>
+    <imuName>base_footprint::imu_sensor</imuName>
+
+    <!-- ================== STEERING (CH0, POSITION) ================== -->
+    <!-- Left Steering -->
+    <control channel="0">
+      <jointName>left_steering</jointName>
+      <useForce>1</useForce>
+      <servo_min>1100</servo_min>
+      <servo_max>1900</servo_max>
+      <type>POSITION</type>
+      <multiplier>1.0</multiplier>
+      <offset>-0.5</offset>
+      <p_gain>25.0</p_gain>
+      <i_gain>0.0</i_gain>
+      <d_gain>0.5</d_gain>
+      <i_max>0.0</i_max>
+      <i_min>0.0</i_min>
+      <cmd_max>0.9</cmd_max>
+      <cmd_min>-0.9</cmd_min>
+    </control>
+
+    <!-- Right Steering -->
+    <control channel="0">
+      <jointName>right_steering</jointName>
+      <useForce>1</useForce>
+      <servo_min>1100</servo_min>
+      <servo_max>1900</servo_max>
+      <type>POSITION</type>
+      <multiplier>1.0</multiplier>
+      <offset>-0.5</offset>
+      <p_gain>25.0</p_gain>
+      <i_gain>0.0</i_gain>
+      <d_gain>0.5</d_gain>
+      <i_max>0.0</i_max>
+      <i_min>0.0</i_min>
+      <cmd_max>0.9</cmd_max>
+      <cmd_min>-0.9</cmd_min>
+    </control>
+
+    <!-- ================== THROTTLE (CH2, VELOCITY) ================== -->
+    <!-- All 4 wheels driven for 4WD -->
+    <!-- Front Left Wheel -->
+    <control channel="2">
+      <jointName>front_left_wheel</jointName>
+      <useForce>1</useForce>
+      <servo_min>1100</servo_min>
+      <servo_max>1900</servo_max>
+      <type>VELOCITY</type>
+      <multiplier>90.0</multiplier>
+      <deadband>0.02</deadband>
+      <offset>-0.5</offset>
+      <p_gain>8.0</p_gain>
+      <i_gain>0.0</i_gain>
+      <d_gain>0.002</d_gain>
+      <i_max>0.0</i_max>
+      <i_min>0.0</i_min>
+      <cmd_max>1.0</cmd_max>
+      <cmd_min>-1.0</cmd_min>
+      <controlVelocitySlowdownSim>1.0</controlVelocitySlowdownSim>
+    </control>
+
+    <!-- Front Right Wheel -->
+    <control channel="2">
+      <jointName>front_right_wheel</jointName>
+      <useForce>1</useForce>
+      <servo_min>1100</servo_min>
+      <servo_max>1900</servo_max>
+      <type>VELOCITY</type>
+      <multiplier>90.0</multiplier>
+      <deadband>0.02</deadband>
+      <offset>-0.5</offset>
+      <p_gain>8.0</p_gain>
+      <i_gain>0.0</i_gain>
+      <d_gain>0.002</d_gain>
+      <i_max>0.0</i_max>
+      <i_min>0.0</i_min>
+      <cmd_max>1.0</cmd_max>
+      <cmd_min>-1.0</cmd_min>
+      <controlVelocitySlowdownSim>1.0</controlVelocitySlowdownSim>
+    </control>
+
+    <!-- Back Left Wheel -->
+    <control channel="2">
+      <jointName>back_left_wheel</jointName>
+      <useForce>1</useForce>
+      <servo_min>1100</servo_min>
+      <servo_max>1900</servo_max>
+      <type>VELOCITY</type>
+      <multiplier>90.0</multiplier>
+      <deadband>0.02</deadband>
+      <offset>-0.5</offset>
+      <p_gain>8.0</p_gain>
+      <i_gain>0.0</i_gain>
+      <d_gain>0.002</d_gain>
+      <i_max>0.0</i_max>
+      <i_min>0.0</i_min>
+      <cmd_max>1.0</cmd_max>
+      <cmd_min>-1.0</cmd_min>
+      <controlVelocitySlowdownSim>1.0</controlVelocitySlowdownSim>
+    </control>
+
+    <!-- Back Right Wheel -->
+    <control channel="2">
+      <jointName>back_right_wheel</jointName>
+      <useForce>1</useForce>
+      <servo_min>1100</servo_min>
+      <servo_max>1900</servo_max>
+      <type>VELOCITY</type>
+      <multiplier>90.0</multiplier>
+      <deadband>0.02</deadband>
+      <offset>-0.5</offset>
+      <p_gain>8.0</p_gain>
+      <i_gain>0.0</i_gain>
+      <d_gain>0.002</d_gain>
+      <i_max>0.0</i_max>
+      <i_min>0.0</i_min>
+      <cmd_max>1.0</cmd_max>
+      <cmd_min>-1.0</cmd_min>
+      <controlVelocitySlowdownSim>1.0</controlVelocitySlowdownSim>
+    </control>
+  </plugin>
+
+  <!-- Odometry Publisher -->
+  <plugin filename="gz-sim-odometry-publisher-system" 
+          name="gz::sim::systems::OdometryPublisher">
+    <odom_frame>odom</odom_frame>
+    <robot_base_frame>base_footprint</robot_base_frame>
+    <odom_publish_frequency>50</odom_publish_frequency>
+    <odom_topic>ugv/odom</odom_topic>
+    <dimensions>3</dimensions>
+  </plugin>
+
+  <!-- Joint State Publisher -->
+  <plugin filename="gz-sim-joint-state-publisher-system" 
+          name="gz::sim::systems::JointStatePublisher">
+    <topic>ugv/joint_states</topic>
+    <update_rate>50</update_rate>
+  </plugin>
+</gazebo>
+
+<!-- IMU Sensor -->
+<gazebo reference="imu_link">
+  <sensor name="imu_sensor" type="imu">
+    <always_on>true</always_on>
+    <update_rate>100</update_rate>
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu">
+    </plugin>
+  </sensor>
+</gazebo>
+
+<!-- RPLidar -->
+<gazebo reference="360lidar_link">
+  <sensor name="gpu_lidar" type="gpu_lidar">
+    <topic>ugv/lidar</topic>
+    <update_rate>30</update_rate>
+    <ray>
+      <scan>
+        <horizontal>
+          <samples>640</samples>
+          <resolution>1</resolution>
+          <min_angle>-1.396263</min_angle>
+          <max_angle>1.396263</max_angle>
+        </horizontal>
+        <vertical>
+          <samples>1</samples>
+          <resolution>0.01</resolution>
+          <min_angle>0</min_angle>
+          <max_angle>0</max_angle>
+        </vertical>
+      </scan>
+      <range>
+        <min>0.08</min>
+        <max>40.0</max>
+        <resolution>0.01</resolution>
+      </range>
+    </ray>
+    <always_on>1</always_on>
+    <visualize>true</visualize>
+  </sensor>
+</gazebo>
+
+<!-- TOF Sensor -->
+<gazebo reference="ToFsensor_link">
+  <sensor name="tof_range" type="gpu_lidar">
+    <always_on>true</always_on>
+    <visualize>true</visualize>
+    <update_rate>50</update_rate>
+    <topic>ugv/tof/range</topic>
+    <lidar>
+      <scan>
+        <horizontal>
+          <samples>1</samples>
+          <resolution>1.0</resolution>
+          <min_angle>0.0</min_angle>
+          <max_angle>0.0</max_angle>
+        </horizontal>
+      </scan>
+      <range>
+        <min>0.030</min>
+        <max>1.0</max>
+        <resolution>0.001</resolution>
+      </range>
+      <noise>
+        <type>gaussian</type>
+        <mean>0.0</mean>
+        <stddev>0.003</stddev>
+      </noise>
+    </lidar>
+  </sensor>
+</gazebo>
+
+<!-- GPS Sensor -->
+<gazebo reference="GPSsensor_link">
+  <sensor name="navsat" type="navsat">
+    <always_on>true</always_on>
+    <update_rate>10</update_rate>
+    <topic>ugv/gps/fix</topic>
+    <navsat>
+      <position_sensing>
+        <horizontal>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>1.0</stddev>
+          </noise>
+        </horizontal>
+        <vertical>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>1.5</stddev>
+          </noise>
+        </vertical>
+      </position_sensing>
+      <velocity_sensing>
+        <horizontal>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>0.05</stddev>
+          </noise>
+        </horizontal>
+        <vertical>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>0.1</stddev>
+          </noise>
+        </vertical>
+      </velocity_sensing>
+    </navsat>
+  </sensor>
+</gazebo>
+
+<!-- Front Camera -->
+<gazebo reference="frontcam_link">
+  <sensor name="camera_front" type="wideanglecamera">
+    <always_on>1</always_on>
+    <visualize>true</visualize>
+    <update_rate>30</update_rate>
+    <topic>ugv/camera/front</topic>
+    <camera>
+      <horizontal_fov>2.8798</horizontal_fov>
+      <image>
+        <width>640</width>
+        <height>360</height>
+        <format>R8G8B8</format>
+      </image>
+      <clip>
+        <near>0.1</near>
+        <far>100</far>
+      </clip>
+      <lens>
+        <type>stereographic</type>
+        <scale_to_hfov>true</scale_to_hfov>
+        <cutoff_angle>1.5708</cutoff_angle>
+        <env_texture_size>512</env_texture_size>
+      </lens>
+    </camera>
+  </sensor>
+</gazebo>
+
+<!-- Back Camera -->
+<gazebo reference="backcam_link">
+  <sensor name="camera_back" type="wideanglecamera">
+    <always_on>1</always_on>
+    <visualize>true</visualize>
+    <update_rate>30</update_rate>
+    <topic>ugv/camera/back</topic>
+    <camera>
+      <horizontal_fov>2.8798</horizontal_fov>
+      <image>
+        <width>640</width>
+        <height>360</height>
+        <format>R8G8B8</format>
+      </image>
+      <clip>
+        <near>0.1</near>
+        <far>100</far>
+      </clip>
+      <lens>
+        <type>stereographic</type>
+        <scale_to_hfov>true</scale_to_hfov>
+        <cutoff_angle>1.5708</cutoff_angle>
+        <env_texture_size>512</env_texture_size>
+      </lens>
+    </camera>
+  </sensor>
+</gazebo>
+
+<gazebo reference="base_link">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+  <gravity>true</gravity>
+</gazebo>
+
+<gazebo reference="RightSupport_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="LeftSupport_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="Mounting_Plate_v3_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="Mounting_Plate_v3_v1__1__1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="FrontCover_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="CubeFC_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="FrontMountFull_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="FrontLight_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="FrontLight_v1__1__1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="Speaker_v1__1__1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="Speaker_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="JetsonCaseBottom_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="KeyHolders_v3_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="3ButtonMount_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="RFD900urdf_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="RFDAntenna_v1__1__1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="RFDAntenna_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="MountingClipFinal_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="MountingClipFinal_v1__2__1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="MountingClipFinal_v1__1__1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="MountingClipFinal_v1__3__1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="Anker_737_Power_Bank_v2_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="Insta360MountwithLidar_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="360Cam_v4_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="RPLidarC1_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="Chassis_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="Jetson_Nano_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="JetsonCaseTop_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="LIPOBattery_v2_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="TOFSensor_v3_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="LeftHub_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="RightHub__1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="FrontLeft_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="FrontRight_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="BackLeft_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="BackRight_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="GPSMount__1__v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+<gazebo reference="GPS_v1_1">
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>true</self_collide>
+</gazebo>
+
+</robot>
