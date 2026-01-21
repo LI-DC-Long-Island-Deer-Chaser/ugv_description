@@ -1103,18 +1103,20 @@
   <child link="TOFSensor_v3_1"/>
 </joint>
 
-<joint name="left_steering" type="continuous">
+<joint name="left_steering" type="revolute">
   <origin xyz="0.129789 0.142589 0.080731" rpy="0 0 0"/>
   <parent link="Chassis_1"/>
   <child link="LeftHub_1"/>
   <axis xyz="-0.020219 0.0 -0.999796"/>
+  <limit lower="-0.785398" upper="0.785398" effort="10" velocity="10"/>
 </joint>
 
-<joint name="right_steering" type="continuous">
+<joint name="right_steering" type="revolute">
   <origin xyz="0.129789 0.002411 0.080731" rpy="0 0 0"/>
   <parent link="Chassis_1"/>
   <child link="RightHub__1"/>
   <axis xyz="-0.020219 0.0 -0.999796"/>
+  <limit lower="-0.785398" upper="0.785398" effort="10" velocity="10"/>
 </joint>
 
 <joint name="front_left_wheel" type="continuous">

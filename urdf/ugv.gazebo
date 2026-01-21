@@ -23,15 +23,15 @@
       <servo_min>1100</servo_min>
       <servo_max>1900</servo_max>
       <type>POSITION</type>
-      <multiplier>1.0</multiplier>
+      <multiplier>3.0</multiplier>
       <offset>-0.5</offset>
       <p_gain>25.0</p_gain>
       <i_gain>0.0</i_gain>
       <d_gain>0.5</d_gain>
       <i_max>0.0</i_max>
       <i_min>0.0</i_min>
-      <cmd_max>0.9</cmd_max>
-      <cmd_min>-0.9</cmd_min>
+      <cmd_max>0.785</cmd_max>
+      <cmd_min>-0.785</cmd_min>
     </control>
 
     <!-- Right Steering -->
@@ -41,15 +41,15 @@
       <servo_min>1100</servo_min>
       <servo_max>1900</servo_max>
       <type>POSITION</type>
-      <multiplier>1.0</multiplier>
+      <multiplier>3.0</multiplier>
       <offset>-0.5</offset>
       <p_gain>25.0</p_gain>
       <i_gain>0.0</i_gain>
       <d_gain>0.5</d_gain>
       <i_max>0.0</i_max>
       <i_min>0.0</i_min>
-      <cmd_max>0.9</cmd_max>
-      <cmd_min>-0.9</cmd_min>
+      <cmd_max>0.785</cmd_max>
+      <cmd_min>-0.785</cmd_min>
     </control>
 
     <!-- ================== THROTTLE (CH2, VELOCITY) ================== -->
@@ -173,8 +173,8 @@
         <horizontal>
           <samples>640</samples>
           <resolution>1</resolution>
-          <min_angle>-1.396263</min_angle>
-          <max_angle>1.396263</max_angle>
+          <min_angle>-2.5</min_angle>
+          <max_angle>2.5</max_angle>
         </horizontal>
         <vertical>
           <samples>1</samples>
@@ -519,25 +519,25 @@
 </gazebo>
 
 <gazebo reference="FrontLeft_1">
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
+  <mu1>1.2</mu1>
+  <mu2>1.0</mu2>
   <self_collide>true</self_collide>
 </gazebo>
 
 <gazebo reference="FrontRight_1">
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
+  <mu1>1.2</mu1>
+  <mu2>1.0</mu2>
   <self_collide>true</self_collide>
 </gazebo>
 
 <gazebo reference="BackLeft_1">
-  <mu1>0.2</mu1>
+  <mu1>0.5</mu1>
   <mu2>0.2</mu2>
   <self_collide>true</self_collide>
 </gazebo>
 
 <gazebo reference="BackRight_1">
-  <mu1>0.2</mu1>
+  <mu1>0.5</mu1>
   <mu2>0.2</mu2>
   <self_collide>true</self_collide>
 </gazebo>

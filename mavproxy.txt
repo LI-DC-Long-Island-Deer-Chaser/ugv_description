@@ -1,1 +1,21 @@
 mavproxy.py --master=tcp:127.0.0.1:5760 --sitl=127.0.0.1:5501 --out=127.0.0.1:14550
+
+odinroast@pop-os:~/ugv_ws/src/ugv_description$ git commit -m "
+config:
+- Edited display.rviz to include laser scan, nav2 plugin and the cartographer map
+- Edited mav.param to take in external odom and not crash out using internal AHRS odom
+- Added nav2.params file that uses a basic MPPI controller to move the rover, still need to add collision mointoring and code that will letthe rover turn properly around corners
+launch:
+- Added joystick.launch file that launches the ros2_joy package that pubs the joystick data and pubs it as cmd_vel (1:1) mapping as of now
+- Added navigation.launch file that launches nav2 from the custom parameter file
+- gz_sitl_launch: Removed uneccessary imports and updated comments
+ugv_description:
+- Created the controller node that converts ros2/joy data to cmd_vel
+
+urdf
+- xacro: Changed steering joints from continuous to revolute and added joint limits to the steering (+- 45 degrees)
+- gazebo: Tuned ardupilot plugin to be more responsive and edited wheels to have friction
+
+setup.py
+- added entry point for xbox node
+"

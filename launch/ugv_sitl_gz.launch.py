@@ -42,7 +42,6 @@ def generate_launch_description():
     
     # Package directories
     pkg_ugv_description = get_package_share_directory("ugv_description")
-    pkg_ardupilot_sitl = get_package_share_directory("ardupilot_sitl")
     pkg_ros_gz_sim = get_package_share_directory("ros_gz_sim")
     
     # Paths
@@ -50,7 +49,6 @@ def generate_launch_description():
     rviz_config = os.path.join(pkg_ugv_description, "config", "sim", "display.rviz")
     world_file = os.path.join(pkg_ugv_description, "worlds", "iris_maze.sdf")
     bridge_config = os.path.join(pkg_ugv_description, "config", "sim", "ugv_bridge.yaml")
-    rover_params = os.path.join(pkg_ugv_description, "config", "sim", "cubeFCParams", "CubeParamsBackup9thJan.param")
     
     # Launch arguments
     use_sim_time = LaunchConfiguration("use_sim_time")
@@ -76,8 +74,8 @@ def generate_launch_description():
         ]
     )
     
-    # ArduPilot SITL + DDS + MAVProxy
-    # Micro-ROS Agent from ArduPilot SITL
+    # ArduPilot SITL + DDS 
+    # Micro-ROS Agent 
     micro_ros_agent = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
