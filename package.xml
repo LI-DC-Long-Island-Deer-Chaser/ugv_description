@@ -12,6 +12,18 @@
   <depend>robot_state_publisher</depend>
   <depend>joint_state_publisher</depend>
   <depend>joint_state_publisher_gui</depend>
+  <depend>joy</depend>
+  <depend>rclpy</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>ardupilot_sitl</depend>
+  <depend>ros_gz_sim</depend>
+  <depend>ros_gz_bridge</depend>
+  <depend>topic_tools</depend>
+  <depend>tf2_ros</depend>
+  <depend>nav2_bringup</depend>
+  <depend>twist_stamper</depend>
+  <depend>cartographer_ros</depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
