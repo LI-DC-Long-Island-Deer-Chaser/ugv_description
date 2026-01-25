@@ -31,7 +31,7 @@ setup(
     license='TODO: License declaration',
     entry_points={
         'console_scripts': [
-            "xbox_teleop = ugv_description.xbox_teleop:main"
+            "xbox_teleop = ugv_description.xbox_teleop:main",
         ],
     },
 )

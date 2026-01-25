@@ -6,15 +6,15 @@
 <xacro:include filename="$(find ugv_description)/urdf/ugv.gazebo" />
 
 <!-- Robot Footprint -->
-<link name="base_footprint"/>
+<link name="base_link"/>
 
 <joint name="base_joint" type="fixed">
-  <parent link="base_footprint"/>
-  <child link="base_link"/>
+  <parent link="base_link"/>
+  <child link="base_plate"/>
   <origin xyz="-0.075 0.075 0.28375" rpy="0 0 0"/>
 </joint>
 
-<link name="base_link">
+<link name="base_plate">
   <inertial>
     <origin xyz="0.07499999999999711 -0.07499999999999997 0.0006625999999999998" rpy="0 0 0"/>
     <mass value="0.2720807790827568"/>
@@ -23,7 +23,7 @@
   <visual>
     <origin xyz="0 0 0" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find ugv_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="file://$(find ugv_description)/meshes/base_plate.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
@@ -170,7 +170,7 @@
 </link>
 
 <joint name="imu_joint" type="fixed">
-  <parent link="CubeFC_v1_1"/>  <!-- or base_link -->
+  <parent link="CubeFC_v1_1"/>  <!-- or base_plate -->
   <child link="imu_link"/>
   <origin xyz="0 0 0" rpy="0 0 0"/>
 </joint>
@@ -925,13 +925,13 @@
 
 <joint name="Rigid 2" type="fixed">
   <origin xyz="0.0075 -0.1425 -0.000125" rpy="0 0 0"/>
-  <parent link="base_link"/>
+  <parent link="base_plate"/>
   <child link="RightSupport_v1_1"/>
 </joint>
 
 <joint name="Rigid 3" type="fixed">
   <origin xyz="0.0075 -0.0075 -0.000125" rpy="0 0 0"/>
-  <parent link="base_link"/>
+  <parent link="base_plate"/>
   <child link="LeftSupport_v1_1"/>
 </joint>
 
@@ -949,13 +949,13 @@
 
 <joint name="Rigid 7" type="fixed">
   <origin xyz="0.15 -0.075 0.00145" rpy="0 0 0"/>
-  <parent link="base_link"/>
+  <parent link="base_plate"/>
   <child link="FrontCover_v1_1"/>
 </joint>
 
 <joint name="Rigid 11" type="fixed">
   <origin xyz="0.0975 -0.1125 -0.000125" rpy="0 0 0"/>
-  <parent link="base_link"/>
+  <parent link="base_plate"/>
   <child link="CubeFC_v1_1"/>
 </joint>
 
@@ -1149,7 +1149,7 @@
 
 <joint name="Rigid 58" type="fixed">
   <origin xyz="0.0075 -0.0675 0.00145" rpy="0 0 0"/>
-  <parent link="base_link"/>
+  <parent link="base_plate"/>
   <child link="GPSMount__1__v1_1"/>
 </joint>
 

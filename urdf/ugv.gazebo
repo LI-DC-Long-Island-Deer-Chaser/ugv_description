@@ -13,7 +13,7 @@
     <lock_step>1</lock_step>
     <gazeboXYZToNED degrees="true">0 0 0 180 0 90</gazeboXYZToNED>
     <modelXYZToAirplaneXForwardZDown degrees="true">0 0 0 180 0 0</modelXYZToAirplaneXForwardZDown>
-    <imuName>base_footprint::imu_sensor</imuName>
+    <imuName>base_link::imu_sensor</imuName>
 
     <!-- ================== STEERING (CH0, POSITION) ================== -->
     <!-- Left Steering -->
@@ -139,7 +139,7 @@
   <plugin filename="gz-sim-odometry-publisher-system" 
           name="gz::sim::systems::OdometryPublisher">
     <odom_frame>odom</odom_frame>
-    <robot_base_frame>base_footprint</robot_base_frame>
+    <robot_base_frame>base_link</robot_base_frame>
     <odom_publish_frequency>50</odom_publish_frequency>
     <odom_topic>ugv/odom</odom_topic>
     <dimensions>3</dimensions>
@@ -319,7 +319,7 @@
   </sensor>
 </gazebo>
 
-<gazebo reference="base_link">
+<gazebo reference="base_plate">
   <mu1>0.2</mu1>
   <mu2>0.2</mu2>
   <self_collide>true</self_collide>
