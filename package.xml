@@ -1,21 +1,25 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-<name>ugv_description</name>
+  <name>ugv_description</name>
   <version>0.0.0</version>
-<description>The ugv_description package</description>
-  <maintainer email="todo@todo.com">author</maintainer>
-  <license>TODO: License declaration</license>
+  <description>TODO: Package description</description>
+  <maintainer email="ruthvick2005@gmail.com">odinroast</maintainer>
+  <license>Apache-2.0</license>
 
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
   <depend>xacro</depend>
   <depend>rviz2</depend>
   <depend>robot_state_publisher</depend>
   <depend>joint_state_publisher</depend>
   <depend>joint_state_publisher_gui</depend>
   <depend>joy</depend>
-  <depend>rclpy</depend>
-  <depend>sensor_msgs</depend>
-  <depend>geometry_msgs</depend>
   <depend>ardupilot_sitl</depend>
   <depend>ros_gz_sim</depend>
   <depend>ros_gz_bridge</depend>
@@ -25,12 +29,11 @@
   <depend>twist_stamper</depend>
   <depend>cartographer_ros</depend>
 
-  <test_depend>ament_copyright</test_depend>
-  <test_depend>ament_flake8</test_depend>
-  <test_depend>ament_pep257</test_depend>
-  <test_depend>python3-pytest</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+  <test_depend>ament_cmake_pytest</test_depend>
 
   <export>
-    <build_type>ament_python</build_type>
+    <build_type>ament_cmake</build_type>
   </export>
 </package>

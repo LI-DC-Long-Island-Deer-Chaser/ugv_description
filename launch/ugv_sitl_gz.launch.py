@@ -194,20 +194,6 @@ def generate_launch_description():
         output="screen",
     )
     
-    # Relay Gazebo TF to ROS TF
-    topic_tools_tf = Node(
-        package="topic_tools",
-        executable="relay",
-        arguments=[
-            "/gz/tf",
-            "/tf",
-        ],
-        output="screen",
-        respawn=False,
-        parameters=[{"use_sim_time": use_sim_time}],
-        condition=IfCondition(LaunchConfiguration("use_gz_tf")),
-    )
-    
     # RViz2
     rviz_node = Node(
         package="rviz2",
@@ -217,24 +203,7 @@ def generate_launch_description():
         condition=IfCondition(rviz),
         output="screen",
     )
-    
-    # Static transform to map Gazebo's lidar frame to TF frame
-    lidar_frame_publisher = Node(
-        package="tf2_ros",
-        executable="static_transform_publisher",
-        name="lidar_frame_publisher",
-        arguments=["0", "0", "0", "0", "0", "0", "360lidar_link", "ugv/base_footprint/gpu_lidar"],
-        parameters=[{"use_sim_time": use_sim_time}],
-        output="screen",
-    )
-    
-    # Event handler to start TF relay after bridge starts
-    bridge_event = RegisterEventHandler(
-        OnProcessStart(
-            target_action=bridge,
-            on_start=[topic_tools_tf],
-        )
-    )
+
     
     # Delay SITL start until after Gazebo and robot are fully initialized
     delayed_sitl = TimerAction(
@@ -281,9 +250,7 @@ def generate_launch_description():
             robot_state_publisher,
             spawn_robot,
             bridge,
-            bridge_event,
             rviz_node,
-            lidar_frame_publisher,
             # Delay ArduPilot SITL to ensure Gazebo is ready
             delayed_sitl,
         ]

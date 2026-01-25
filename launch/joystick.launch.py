@@ -14,7 +14,7 @@ def generate_launch_description():
         ),
         Node(
             package='ugv_description',
-            executable='xbox_teleop',
+            executable='xbox_teleop.py',
             name='joy_teleop',
             output='screen'
         )
