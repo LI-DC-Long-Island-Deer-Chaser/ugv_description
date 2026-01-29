@@ -1,0 +1,24 @@
+# ============================================================================
+# Laser Scan Filter Configuration for UGV Hardware
+# ============================================================================
+# Filters RPLidar C1 360° scan to front arc for SLAM/Nav2
+# 
+# Input:  /scan_raw (360° coverage)
+# Output: /scan (front arc for SLAM/Nav2)
+#
+# Front 240° range: -120° (left) to +120° (right)
+# In radians: -1.134464102 to +1.134464102
+# ============================================================================
+
+scan_to_scan_filter_chain:
+  ros__parameters:
+    
+    # ========== Filter 1: Angular Bounds Filter ==========
+    # Keep front 240° arc, remove back 120°
+    filter1:
+      name: front_arc_filter
+      type: laser_filters/LaserScanAngularBoundsFilterInPlace
+      params:
+        lower_angle: -1.134464102   # -120° in radians
+        upper_angle: 1.134464102    # +120° in radians
+        replace_with_nan: true

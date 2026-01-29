@@ -1,0 +1,43 @@
+# MAVProxy Ground Control Station for Hardware UGV
+# 
+# Cube Orange Plus connected via Ethernet
+# Network Configuration:
+# - Cube Orange Plus: 192.168.114.15
+# - Jetson Orin: 192.168.114.13
+#
+# USAGE:
+# Launch MAVProxy with UDP connection to the Cube:
+
+mavproxy.py --master=udp:192.168.114.15:14550 --out=udp:127.0.0.1:14551
+
+# PARAMETERS:
+# --master=udp:192.168.114.15:14550 : Connect to Cube Orange Plus via network
+# --out=udp:127.0.0.1:14551         : Output for QGroundControl/Mission Planner
+#
+# ARDUPILOT DDS CONFIGURATION:
+# Ensure these parameters are set on your Cube Orange Plus:
+# - DDS_ENABLE = 1              : Enable DDS
+# - DDS_UDP_PORT = 2019         : DDS communication port
+# - DDS_IP_ADDR = 192.168.114.13 : Target Jetson IP (where micro_ros_agent runs)
+#
+# To set these via MAVProxy:
+# param set DDS_ENABLE 1
+# param set DDS_UDP_PORT 2019
+# param fetch DDS_IP_ADDR
+# param set DDS_IP_ADDR 3232261133  (this is 192.168.114.13 in decimal: 192*16777216 + 168*65536 + 114*256 + 13)
+# param write
+# reboot
+#
+# NETWORK TROUBLESHOOTING:
+# - Verify network connectivity: ping 192.168.114.15
+# - Check if MAVLink is streaming: sudo tcpdump -i eth0 port 14550
+# - Check DDS traffic: sudo tcpdump -i eth0 port 2019
+# - Verify Cube IP: Check your router/switch or use nmap
+#
+# COMMON MAVPROXY COMMANDS:
+# - mode manual          : Switch to manual mode
+# - mode guided          : Switch to guided mode (for ROS2 control)
+# - arm throttle         : Arm the vehicle
+# - disarm               : Disarm the vehicle
+# - param show DDS_ENABLE : Check DDS status
+# - status               : Show vehicle status
