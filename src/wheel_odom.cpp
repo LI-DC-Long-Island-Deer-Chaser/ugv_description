@@ -75,7 +75,7 @@ class WheelEncoder : public rclcpp::Node
         }
 
     private:
-        atomic<size_t> position_;
+        atomic<int64_t> position_;
         atomic<bool> dir_cw_;
 
         gpiod::chip chip_;
@@ -89,7 +89,7 @@ class WheelEncoder : public rclcpp::Node
         rclcpp::Publisher<TwistWCovS>::SharedPtr publisher_;
         rclcpp::TimerBase::SharedPtr timer_;
 
-        size_t previous_position_;
+        int64_t previous_position_;
         rclcpp::Time previous_time_;
 
         void decodeA(gpiod::line& lineA, gpiod::line& lineB)
@@ -142,6 +142,7 @@ class WheelEncoder : public rclcpp::Node
             long double count_to_meter = this->get_parameter("count_to_meter_conversion_factor").as_double();
             long double std = this->get_parameter("standard_deviation").as_double();
             long double y_slip_alpha = this->get_parameter("y_slip_factor").as_double() + 1;
+
             long double dt = 0;
             long double dx = 0;
 
@@ -151,13 +152,13 @@ class WheelEncoder : public rclcpp::Node
             auto linear = Vector3();
             auto twcovs = TwistWCovS();
 
-            size_t p = this->position_.load();
+            int64_t p = this->position_.load();
             bool d = this->dir_cw_.load();
 
             head.frame_id = "base_link";
             head.stamp = this->get_clock()->now();
 
-            dt =  (double)(head.stamp.sec - previous_time_.seconds()) + (double)(head.stamp.nanosec - previous_time_.nanoseconds()) * 1.0e-9;
+            dt = (rclcpp::Time(head.stamp) - previous_time_).seconds();
             dx = (p - previous_position_) * count_to_meter;
 
             twcovs.header = head;
