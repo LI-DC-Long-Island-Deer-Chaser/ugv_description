@@ -178,6 +178,21 @@ def generate_launch_description():
         output="screen",
     )
 
+    # ========== 9. Base Link to BaseLink NED Transform ==========
+    base_link_to_base_link_ned = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        name="base_link_to_base_link_ned",
+        arguments=[
+            "--frame-id", "base_link",
+            "--child-frame-id", "base_link_ned",
+            "--x", "0", "--y", "0", "--z", "0",
+            "--roll", "3.141592653589793",
+            "--pitch", "0",
+            "--yaw", "0",
+        ],  
+    )
+
     # ========== Launch Description ==========
     return LaunchDescription(
         [
@@ -201,6 +216,7 @@ def generate_launch_description():
             micro_ros_agent,  # Start DDS bridge first
             robot_state_publisher,  # Must be early - publishes URDF TF tree
             joint_state_publisher,  # Publishes joint states
+            base_link_to_base_link_ned,
             sllidar_node,  # RPLidar C1 driver
             scan_filter,  # Filter to front arc
             cartographer_node,  # Cartographer SLAM
