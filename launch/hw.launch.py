@@ -165,16 +165,14 @@ def generate_launch_description():
         executable="joint_state_publisher",
         name="joint_state_publisher",
         output="screen",
-        parameters=[{"use_sim_time": use_sim_time, "rate": 50.0}],
+        parameters=[{"use_sim_time": use_sim_time, "rate": 60.0}],
     )
 
-    # ========== 8. RViz2 ==========
-    # Visualization with Cartographer config
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        arguments=["-d", rviz_config],
-        parameters=[{"use_sim_time": use_sim_time}],
+    # ========== 8. Wheel Odometry ==========
+    wheel_odom = Node(
+        package="ugv_description",
+        executable="wheel_yapper",
+        name="wheel_odometery_publisher",
         output="screen",
     )
 
@@ -192,6 +190,15 @@ def generate_launch_description():
             "--yaw", "0",
         ],  
     )
+    # ========== 10 EKF Fusion ==========
+    ekf_node = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        output='screen',
+        parameters=[config_file_path],
+    )
+    
 
     # ========== Launch Description ==========
     return LaunchDescription(
