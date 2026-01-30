@@ -617,7 +617,7 @@
   <parent link="RPLidarC1_v1_1"/>  
   <child link="360lidar_link"/>
   <!-- Offset to actual lidar center for gazebo plugin -->
-  <origin xyz="-0.02780 0 0.03310" rpy="0 0 0"/>
+  <origin xyz="-0.02780 0 0.03310" rpy="0 0 3.141592653589793"/>
 </joint>
 
 <link name="Chassis_1">
