@@ -35,6 +35,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from launch.actions import SetEnvironmentVariable
 
 
 def generate_launch_description():
@@ -43,12 +44,17 @@ def generate_launch_description():
     # Package directories
     pkg_ugv_description = get_package_share_directory("ugv_description")
     pkg_ros_gz_sim = get_package_share_directory("ros_gz_sim")
-    
+    ugv_share = get_package_share_directory("ugv_description")  # .../install/.../share/ugv_description
+    ugv_models_root = str(Path(ugv_share).parent)              # .../install/.../share
+        
     # Paths
     xacro_file = os.path.join(pkg_ugv_description, "urdf", "ugv.xacro")
     rviz_config = os.path.join(pkg_ugv_description, "config", "sim", "display.rviz")
     world_file = os.path.join(pkg_ugv_description, "worlds", "iris_maze.sdf")
     bridge_config = os.path.join(pkg_ugv_description, "config", "sim", "ugv_bridge.yaml")
+    existing_gz_path = os.environ.get("GZ_SIM_RESOURCE_PATH", "")
+    new_gz_path = f"{ugv_models_root}:{existing_gz_path}" if existing_gz_path else ugv_models_root
+    
     
     # Launch arguments
     use_sim_time = LaunchConfiguration("use_sim_time")
@@ -124,6 +130,11 @@ def generate_launch_description():
             "sim_address": "127.0.0.1",
             "synthetic_clock": "True",
         }.items(),
+    )
+
+    set_gz_resource_path = SetEnvironmentVariable(
+        name="GZ_SIM_RESOURCE_PATH",
+        value=new_gz_path,
     )
 
     # Gazebo Sim Server
@@ -245,6 +256,7 @@ def generate_launch_description():
                 description="Initial z position (m)",
             ),
             # Start Gazebo and support nodes first
+            set_gz_resource_path,
             gz_sim_server,
             gz_sim_gui,
             robot_state_publisher,
