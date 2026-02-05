@@ -16,7 +16,10 @@ find_package(std_msgs REQUIRED)
 pkg_check_modules(GPIOD REQUIRED libgpiodcxx)
 
 # install python nodes
-install(PROGRAMS ugv_description/xbox_teleop.py DESTINATION lib/${PROJECT_NAME})
+install(PROGRAMS 
+        ugv_description/xbox_teleop.py 
+        ugv_description/imu_transformer.py
+ DESTINATION lib/${PROJECT_NAME})
 
 add_executable(wheel_yapper src/wheel_odom.cpp) # Naming in progress.
 target_include_directories(wheel_yapper PRIVATE ${GPIOD_INCLUDE_DIRS})

@@ -125,8 +125,8 @@ def generate_launch_description():
             "cartographer_rover.lua",
         ],
         remappings=[
-            ("/imu", "/ap/imu/experimental/data"),  # ArduPilot high-rate IMU
-            ("/odom", "/ap/odom"),  # ArduPilot odometry
+            ("/imu", "/imu/data"),  # Transformed IMU in base_link frame
+            ("/odom", "/ugv/odom"),  # ArduPilot odometry
             ("/scan", "/ugv/lidar"),  # Filtered lidar scan
         ],
     )
@@ -193,6 +193,30 @@ def generate_launch_description():
         ],  
     )
 
+    # ========== 10. IMU Transformer ==========
+    # Transforms IMU data from base_link_ned to base_link frame
+    imu_transformer = Node(
+        package="ugv_description",
+        executable="imu_transformer.py",
+        name="imu_transformer",
+        output="screen",
+    )
+    
+    ## ***** TF Relay - Publish Cartographer's odom->base_link to ArduPilot *****
+    # This relays Cartographer's TF (map->odom->base_link) to /ap/tf topic
+    # which ArduPilot subscribes to for external odometry
+    tf_to_ap_relay = Node(
+        package="topic_tools",
+        executable="relay",
+        name="tf_to_ap_relay",
+        output="screen",
+        arguments=[
+            "/tf",
+            "/ap/tf",
+        ],
+    )
+
+
     # ========== Launch Description ==========
     return LaunchDescription(
         [
@@ -217,10 +241,11 @@ def generate_launch_description():
             robot_state_publisher,  # Must be early - publishes URDF TF tree
             joint_state_publisher,  # Publishes joint states
             base_link_to_base_link_ned,
+            imu_transformer,  # Transform IMU from NED to base_link
             sllidar_node,  # RPLidar C1 driver
             scan_filter,  # Filter to front arc
             cartographer_node,  # Cartographer SLAM
             cartographer_occupancy_grid_node,  # Occupancy grid publisher
-            #rviz_node,  # Visualization
+            tf_to_ap_relay
         ]
     )
