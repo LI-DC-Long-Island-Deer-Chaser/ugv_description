@@ -21,14 +21,14 @@ install(PROGRAMS
         ugv_description/imu_transformer.py
  DESTINATION lib/${PROJECT_NAME})
 
-add_executable(wheel_yapper src/wheel_odom.cpp) # Naming in progress.
-target_include_directories(wheel_yapper PRIVATE ${GPIOD_INCLUDE_DIRS})
-target_link_libraries(wheel_yapper ${GPIOD_LIBRARIES})
+add_executable(wheel_odom src/wheel_odom.cpp) # Naming in progress.
+target_include_directories(wheel_odom PRIVATE ${GPIOD_INCLUDE_DIRS})
+target_link_libraries(wheel_odom ${GPIOD_LIBRARIES})
 
-ament_target_dependencies(wheel_yapper rclcpp std_msgs geometry_msgs)
+ament_target_dependencies(wheel_odom rclcpp std_msgs geometry_msgs)
 
 install(TARGETS
-    wheel_yapper
+    wheel_odom
     DESTINATION lib/${PROJECT_NAME})
 
 # install the dependencies to the directories

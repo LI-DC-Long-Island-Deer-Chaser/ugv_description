@@ -53,6 +53,9 @@ def generate_launch_description():
     rviz_config = os.path.join(
         pkg_ugv_description, "config", "cartographer", "cartographer_rover.rviz"
     )
+    ekf_config = PathJoinSubstitution([
+    pkg_share, "config", "ekf.yaml"
+    ])
 
     # ========== 1. Robot State Publisher ==========
     # Publishes TF tree from URDF
@@ -196,7 +199,7 @@ def generate_launch_description():
         executable='ekf_node',
         name='ekf_filter_node',
         output='screen',
-        parameters=[config_file_path],
+        parameters=[ekf_config],
     )
     
 
