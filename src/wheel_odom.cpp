@@ -185,7 +185,7 @@ class WheelEncoder : public rclcpp::Node
             twcovs.twist.covariance[6] = std * std * y_slip_alpha * pow(linear.x / count_to_meter, 2);
 
             publisher_->publish(twcovs);
-            RCLCPP_INFO(this->get_logger(), "position: %ld, direction: %s", p, (d ? "CW" : "CCW"));
+            RCLCPP_DEBUG(this->get_logger(), "position: %ld, direction: %s", p, (d ? "CW" : "CCW"));
         }
 };
 
