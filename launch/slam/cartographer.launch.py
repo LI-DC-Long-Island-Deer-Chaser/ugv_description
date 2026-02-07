@@ -78,11 +78,12 @@ def generate_launch_description():
 
     ## ***** Static TF for Lidar sensor *****
     # Publish static TF from 360lidar_link to lidar sensor frame
+    # 180° yaw to cancel the URDF rotation on 360lidar_link (needed for RPLidar C1 data orientation)
     lidar_static_tf = Node(
         package="tf2_ros",
         executable="static_transform_publisher",
         name="lidar_static_tf",
-        arguments=["0", "0", "0", "0", "0", "0", "360lidar_link", "ugv/base_link/gpu_lidar"],
+        arguments=["0", "0", "0", "3.141592653589793", "0", "0", "360lidar_link", "ugv/base_link/gpu_lidar"],
     )
 
     cartographer_occupancy_grid_node = Node(
