@@ -1,8 +1,8 @@
-ekf_filter_node:
+ukf_filter_node:
   ros__parameters:
     frequency: 60.0 # Hz
     two_d_mode: true
-    publish_tf: true
+    publish_tf: false
 
     map_frame: map
     odom_frame: odom

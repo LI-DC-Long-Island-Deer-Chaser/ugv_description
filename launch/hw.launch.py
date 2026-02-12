@@ -129,7 +129,7 @@ def generate_launch_description():
         ],
         remappings=[
             ("/imu", "/imu/data"),  # Transformed IMU in base_link frame
-            ("/odom", "/ugv/odom"),  # ArduPilot odometry
+            ("/odom", "/odometry/filtered"),  # ArduPilot odometry
             ("/scan", "/ugv/lidar"),  # Filtered lidar scan
         ],
     )
@@ -177,6 +177,9 @@ def generate_launch_description():
         executable="wheel_yapper",
         name="wheel_odometery_publisher",
         output="screen",
+        parameters=[{'count_to_meter_conversion_factor': 0.0021,
+                     'standard_deviation': 1.0e-03,
+                     'y_slip_factor': 1.0}],
     )
 
     # ========== 9. Base Link to BaseLink NED Transform ==========
@@ -196,14 +199,13 @@ def generate_launch_description():
     # ========== 10 EKF Fusion ==========
     ekf_node = Node(
         package='robot_localization',
-        executable='ekf_node',
-        name='ekf_filter_node',
+        executable='ukf_node',
+        name='ukf_filter_node',
         output='screen',
         parameters=[ekf_config],
     )
-    
 
-    # ========== 10. IMU Transformer ==========
+    # ========== 11. IMU Transformer ==========
     # Transforms IMU data from base_link_ned to base_link frame
     imu_transformer = Node(
         package="ugv_description",
@@ -254,6 +256,8 @@ def generate_launch_description():
             imu_transformer,  # Transform IMU from NED to base_link
             sllidar_node,  # RPLidar C1 driver
             scan_filter,  # Filter to front arc
+            wheel_odom,
+            ekf_node,
             cartographer_node,  # Cartographer SLAM
             cartographer_occupancy_grid_node,  # Occupancy grid publisher
             tf_to_ap_relay

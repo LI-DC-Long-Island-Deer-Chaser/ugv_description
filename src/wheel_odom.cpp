@@ -32,9 +32,9 @@ class WheelEncoder : public rclcpp::Node
 
         WheelEncoder() : Node("wheel_encoder")
         {
-            auto param_desc_ctmcf = rcl_interfaces::msg::ParameterDescriptor{};
+           auto param_desc_ctmcf = rcl_interfaces::msg::ParameterDescriptor{};
             param_desc_ctmcf.description = "This parameter is used as a fixed calibration value derived experimentally to match the rovers counts to meters ratio.";
-            this->declare_parameter("count_to_meter_conversion_factor", 110.021e-05, param_desc_ctmcf);
+            this->declare_parameter("count_to_meter_conversion_factor", 0.00110021, param_desc_ctmcf);
             auto param_desc_stddev = rcl_interfaces::msg::ParameterDescriptor{};
             param_desc_stddev.description = "This parameter is used as a fixed calibration value derived experimentally to match the rovers counts to meters model uncertainty.";
             this->declare_parameter("standard_deviation", 4.023e-05, param_desc_stddev);
@@ -71,7 +71,7 @@ class WheelEncoder : public rclcpp::Node
             }).detach();
             
             this->publisher_ = this->create_publisher<TwistWCovS>("/ugv/wheel_odom", rclcpp::SensorDataQoS());
-            this->timer_ = this->create_wall_timer(chrono::milliseconds(10), bind(&WheelEncoder::publish_pose, this));
+            this->timer_ = this->create_wall_timer(chrono::microseconds(16667), bind(&WheelEncoder::publish_pose, this));
         }
 
     private:
