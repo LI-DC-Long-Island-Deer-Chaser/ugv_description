@@ -1,6 +1,6 @@
 ukf_filter_node:
   ros__parameters:
-    frequency: 60.0 # Hz
+    frequency: 30.0 # Hz
     two_d_mode: true
     publish_tf: false
 
@@ -17,11 +17,12 @@ ukf_filter_node:
       false,  false,  false  # d^2x/dt^2, d^2y/dt^2,  d^2z/dt^2
     ]
 
-    imu0: ap/imu/experimental/data
+    imu0: ap/imu/corrected/data
     imu0_config: [
       false,  false,  false, # x,         y,          z
-      false,  false,  true, # w_x,       w_y,        w_z
+      false,  false,  false,  # w_x,       w_y,        w_z
       false,  false,  false, # dx/dt,     dy/dt,      dz/dt
-      false,  false,  true, # dw_x/dt,   dw_y/dt,    dw_z/dt
+      false,  false,  true,  # dw_x/dt,   dw_y/dt,    dw_z/dt
       false,  false,  false  # d^2x/dt^2, d^2y/dt^2,  d^2z/dt^2
     ]
+

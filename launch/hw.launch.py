@@ -128,7 +128,7 @@ def generate_launch_description():
             "cartographer_rover.lua",
         ],
         remappings=[
-            ("/imu", "/imu/data"),  # Transformed IMU in base_link frame
+            ("/imu", "/ap/imu/corrected/data"),  # Transformed IMU in base_link frame
             ("/odom", "/odometry/filtered"),  # ArduPilot odometry
             ("/scan", "/ugv/lidar"),  # Filtered lidar scan
         ],
@@ -177,9 +177,9 @@ def generate_launch_description():
         executable="wheel_yapper",
         name="wheel_odometery_publisher",
         output="screen",
-        parameters=[{'count_to_meter_conversion_factor': 0.0021,
-                     'standard_deviation': 1.0e-03,
-                     'y_slip_factor': 1.0}],
+        parameters=[{'count_to_meter_conversion_factor': 0.00205,
+                     'standard_deviation': 2.0e-04,
+                     'y_slip_factor': 0.5}],
     )
 
     # ========== 9. Base Link to BaseLink NED Transform ==========
@@ -193,7 +193,7 @@ def generate_launch_description():
             "--x", "0", "--y", "0", "--z", "0",
             "--roll", "3.141592653589793",
             "--pitch", "0",
-            "--yaw", "0",
+            "--yaw", "1.570796367948966",
         ],  
     )
     # ========== 10 EKF Fusion ==========
@@ -209,7 +209,7 @@ def generate_launch_description():
     # Transforms IMU data from base_link_ned to base_link frame
     imu_transformer = Node(
         package="ugv_description",
-        executable="imu_transformer.py",
+        executable="imu_data_transformer.py",
         name="imu_transformer",
         output="screen",
     )
