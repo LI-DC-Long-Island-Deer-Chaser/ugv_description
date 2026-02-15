@@ -1,0 +1,45 @@
+# 1. Build ArduPilot with DDS
+cd ~/ugv_ws/src/ardupilot
+./waf clean
+./waf configure --board sitl --enable-DDS
+./waf rover
+
+# 2. Start SITL
+
+# 3. In MAVProxy, set VISO params for EKF velocity fusion:
+param set VISO_TYPE 1
+param set EK3_SRC1_POSXY 6    # ExternalNav for position XY
+param set EK3_SRC1_POSZ 1     # Baro for Z (default, reliable on ground rover)
+param set EK3_SRC1_VELXY 6    # ExternalNav for velocity XY
+param set EK3_SRC1_VELZ 6     # None / default for velocity Z
+param set EK3_SRC1_YAW 1      # Compass for yaw (default, reliable on ground rover)
+reboot
+
+# 4. Start Micro-ROS agent
+ros2 run micro_ros_agent micro_ros_agent udp4 -p 2019
+
+# 5. Publish odometry to /ap/odom using the bridge node
+#    Test mode (static identity odom at 50Hz, no SLAM needed):
+ros2 run ugv_description ap_odom_bridge.py --ros-args -p test_mode:=true
+#    Normal mode (relay from your SLAM source, e.g. Cartographer /odom):
+#    ros2 run ugv_description ap_odom_bridge.py --ros-args -p source_topic:=/odom
+ros2 run ugv_description ap_odom_bridge.py --ros-args -p source_topic:=/odom
+
+# 6. Drive test — publishes cmd_vel + matching odom together
+#    First: arm in GUIDED mode in MAVProxy:
+#      mode guided
+#      arm throttle
+#    Then run (drives forward at 1 m/s):
+ros2 run ugv_description ap_drive_test.py
+ros2 run ugv_description ap_drive_test.py --ros-args -p speed:=0.5 -p turn_rate:=0.3
+
+
+# For GPS 
+# 3. In MAVProxy, set VISO params for EKF velocity fusion:
+param set VISO_TYPE 0
+param set EK3_SRC1_POSXY 3    # ExternalNav for position XY
+param set EK3_SRC1_POSZ 1     # Baro for Z (default, reliable on ground rover)
+param set EK3_SRC1_VELXY 3    # ExternalNav for velocity XY
+param set EK3_SRC1_VELZ 3     # None / default for velocity Z
+param set EK3_SRC1_YAW 1      # Compass for yaw (default, reliable on ground rover)
+reboot

@@ -214,18 +214,20 @@ def generate_launch_description():
         output="screen",
     )
     
-    ## ***** TF Relay - Publish Cartographer's odom->base_link to ArduPilot *****
-    # This relays Cartographer's TF (map->odom->base_link) to /ap/tf topic
-    # which ArduPilot subscribes to for external odometry
-    tf_to_ap_relay = Node(
-        package="topic_tools",
-        executable="relay",
-        name="tf_to_ap_relay",
+    ## ***** AP Odom Bridge — SLAM pose + wheel encoder velocity → /ap/odom *****
+    # Pose:     Cartographer TF (map → base_link) — SLAM-corrected
+    # Velocity: robot_localization /odometry/filtered — wheel encoder twist
+    odom_to_ap_relay = Node(
+        package="ugv_description",
+        executable="ap_odom_bridge.py",
+        name="odom_to_ap_relay",
         output="screen",
-        arguments=[
-            "/tf",
-            "/ap/tf",
-        ],
+        parameters=[{
+            "vel_topic": "/odometry/filtered",
+            "tf_parent": "map",
+            "tf_child": "base_link",
+            "publish_rate": 50.0,
+        }],
     )
 
 
@@ -260,6 +262,6 @@ def generate_launch_description():
             ekf_node,
             cartographer_node,  # Cartographer SLAM
             cartographer_occupancy_grid_node,  # Occupancy grid publisher
-            tf_to_ap_relay
+            odom_to_ap_relay
         ]
     )

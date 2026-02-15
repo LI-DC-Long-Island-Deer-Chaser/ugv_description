@@ -19,6 +19,8 @@ pkg_check_modules(GPIOD REQUIRED libgpiodcxx)
 install(PROGRAMS 
         ugv_description/xbox_teleop.py 
         ugv_description/imu_transformer.py
+        ugv_description/ap_odom_bridge.py
+        ugv_description/ap_drive_test.py
  DESTINATION lib/${PROJECT_NAME})
 
 add_executable(wheel_odom src/wheel_odom.cpp) # Naming in progress.
