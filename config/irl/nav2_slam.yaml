@@ -1,55 +1,6 @@
-amcl:
-  ros__parameters:
-    use_sim_time: True
-    alpha1: 0.2
-    alpha2: 0.2
-    alpha3: 0.2
-    alpha4: 0.2
-    alpha5: 0.2
-    base_frame_id: "base_link"
-    beam_skip_distance: 0.5
-    beam_skip_error_threshold: 0.9
-    beam_skip_threshold: 0.3
-    do_beamskip: false
-    global_frame_id: "map"
-    lambda_short: 0.1
-    laser_likelihood_max_dist: 2.0
-    laser_max_range: 40.0
-    laser_min_range: 0.08
-    laser_model_type: "likelihood_field"
-    max_beams: 60
-    max_particles: 2000
-    min_particles: 500
-    odom_frame_id: "odom"
-    pf_err: 0.05
-    pf_z: 0.99
-    recovery_alpha_fast: 0.0
-    recovery_alpha_slow: 0.0
-    resample_interval: 1
-    robot_model_type: "nav2_amcl::DifferentialMotionModel"
-    save_pose_rate: 0.5
-    sigma_hit: 0.2
-    tf_broadcast: true
-    transform_tolerance: 1.0
-    update_min_a: 0.2
-    update_min_d: 0.25
-    z_hit: 0.5
-    z_max: 0.05
-    z_rand: 0.5
-    z_short: 0.05
-    scan_topic: "/ugv/lidar"
-
-amcl_map_client:
-  ros__parameters:
-    use_sim_time: True
-
-amcl_rclcpp_node:
-  ros__parameters:
-    use_sim_time: True
-
 bt_navigator:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     global_frame: map
     robot_base_frame: base_link
     odom_topic: /ugv/odom
@@ -58,8 +9,6 @@ bt_navigator:
     enable_groot_monitoring: True
     groot_zmq_publisher_port: 1666
     groot_zmq_server_port: 1667
-
-    # Keep your current plugin list (no BT edits for now)
     plugin_lib_names:
     - nav2_compute_path_to_pose_action_bt_node
     - nav2_compute_path_through_poses_action_bt_node
@@ -96,19 +45,15 @@ bt_navigator:
 
 bt_navigator_rclcpp_node:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
 
 controller_server:
   ros__parameters:
-    use_sim_time: True
-
-    # Safer compute rate for Jetson Orin Nano
+    use_sim_time: False
     controller_frequency: 20.0
-
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.0
     min_theta_velocity_threshold: 0.001
-
     failure_tolerance: 0.3
     progress_checker_plugin: "progress_checker"
     goal_checker_plugins: ["general_goal_checker"]
@@ -127,40 +72,26 @@ controller_server:
 
     FollowPath:
       plugin: "nav2_mppi_controller::MPPIController"
-
-      # MPPI timing: set model_dt to match control period at 20Hz (0.05s)
       time_steps: 50
       model_dt: 0.05
-
-      # Compute budget vs quality
       iteration_count: 1
       batch_size: 1500
-
-      # Conservative, turn-friendly speed limits (raise later if stable)
       vx_max: 1.0
       vx_min: -0.3
       vy_max: 0.0
-
-      # Allow curvature consistent with min turning radius at vx_max
-      # For R=0.30, omega at 1.0 m/s is ~3.33 rad/s -> set a bit above
       wz_max: 3.8
-
       ax_max: 2.0
       ax_min: -2.5
       ay_max: 0.0
       az_max: 3.5
-
       vx_std: 0.35
       vy_std: 0.0
       wz_std: 0.6
-
       prune_distance: 2.0
       transform_tolerance: 0.3
       temperature: 0.25
       gamma: 0.015
-
       motion_model: "Ackermann"
-
       visualize: false
       regenerate_noises: false
       enforce_path_inversion: false
@@ -253,16 +184,16 @@ controller_server:
 
 controller_server_rclcpp_node:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
 
 local_costmap:
   local_costmap:
     ros__parameters:
+      use_sim_time: False
       update_frequency: 5.0
       publish_frequency: 2.0
       global_frame: odom
       robot_base_frame: base_link
-      use_sim_time: True
       rolling_window: true
       width: 8
       height: 8
@@ -298,27 +229,33 @@ local_costmap:
 
       static_layer:
         map_subscribe_transient_local: True
+
       always_send_full_costmap: True
 
   local_costmap_client:
     ros__parameters:
-      use_sim_time: True
+      use_sim_time: False
   local_costmap_rclcpp_node:
     ros__parameters:
-      use_sim_time: True
+      use_sim_time: False
 
 global_costmap:
   global_costmap:
     ros__parameters:
+      use_sim_time: False
       update_frequency: 1.0
       publish_frequency: 1.0
       global_frame: map
       robot_base_frame: base_link
-      use_sim_time: True
       footprint: "[[0.275, 0.175], [0.275, -0.175], [-0.275, -0.175], [-0.275, 0.175]]"
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+
+      # IMPORTANT: StaticLayer subscribes to /map from Cartographer occupancy grid
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: True
 
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
@@ -335,10 +272,6 @@ global_costmap:
           obstacle_max_range: 2.5
           obstacle_min_range: 0.0
 
-      static_layer:
-        plugin: "nav2_costmap_2d::StaticLayer"
-        map_subscribe_transient_local: True
-
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
@@ -348,39 +281,23 @@ global_costmap:
 
   global_costmap_client:
     ros__parameters:
-      use_sim_time: True
+      use_sim_time: False
   global_costmap_rclcpp_node:
     ros__parameters:
-      use_sim_time: True
-
-map_server:
-  ros__parameters:
-    use_sim_time: True
-    yaml_filename: "turtlebot3_world.yaml"
-
-map_saver:
-  ros__parameters:
-    use_sim_time: True
-    save_map_timeout: 5.0
-    free_thresh_default: 0.25
-    occupied_thresh_default: 0.65
-    map_subscribe_transient_local: True
+      use_sim_time: False
 
 planner_server:
   ros__parameters:
+    use_sim_time: False
     expected_planner_frequency: 10.0
-    use_sim_time: True
-
     planner_plugins: ["GridBased"]
 
     GridBased:
       plugin: "nav2_smac_planner/SmacPlannerHybrid"
       tolerance: 0.5
       allow_unknown: true
-
       motion_model_for_search: "REEDS_SHEPP"
       minimum_turning_radius: 0.30
-
       max_planning_time: 3.0
       reverse_penalty: 2.0
       non_straight_penalty: 1.2
@@ -389,34 +306,31 @@ planner_server:
 
 planner_server_rclcpp_node:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
 
 recoveries_server:
   ros__parameters:
+    use_sim_time: False
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
-
-    # Spin REMOVED (no in-place rotation for Ackermann)
     recovery_plugins: ["backup", "wait"]
-
     backup:
       plugin: "nav2_recoveries/BackUp"
     wait:
       plugin: "nav2_recoveries/Wait"
-
     global_frame: odom
     robot_base_frame: base_link
     transform_timeout: 0.1
-    use_sim_time: true
     simulate_ahead_time: 2.0
 
 robot_state_publisher:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
 
 waypoint_follower:
   ros__parameters:
+    use_sim_time: False
     loop_rate: 20
     stop_on_failure: false
     waypoint_task_executor_plugin: "wait_at_waypoint"

@@ -18,9 +18,7 @@ pkg_check_modules(GPIOD REQUIRED libgpiodcxx)
 # install python nodes
 install(PROGRAMS 
         ugv_description/xbox_teleop.py 
-        ugv_description/imu_transformer.py
         ugv_description/ap_odom_bridge.py
-        ugv_description/ap_drive_test.py
         ugv_description/imu_data_transformer.py
  DESTINATION lib/${PROJECT_NAME})
 
