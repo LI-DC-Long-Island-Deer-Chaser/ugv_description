@@ -54,7 +54,7 @@ def generate_launch_description():
         pkg_ugv_description, "config", "cartographer", "cartographer_rover.rviz"
     )
     ekf_config = PathJoinSubstitution([
-    pkg_share, "config", "ekf.yaml"
+    pkg_share, "config","irl","ekf.yaml"
     ])
 
     # ========== 1. Robot State Publisher ==========
