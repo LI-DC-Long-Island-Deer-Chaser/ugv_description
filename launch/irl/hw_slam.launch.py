@@ -174,7 +174,7 @@ def generate_launch_description():
     # ========== 8. Wheel Odometry ==========
     wheel_odom = Node(
         package="ugv_description",
-        executable="wheel_yapper",
+        executable="wheel_odom",
         name="wheel_odometery_publisher",
         output="screen",
         parameters=[{'count_to_meter_conversion_factor': 0.00205,

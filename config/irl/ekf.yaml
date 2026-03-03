@@ -1,8 +1,15 @@
+# ============================================================================
+# UKF Filter — fuses wheel encoder velocity + IMU yaw rate
+#
+# publish_tf: false  (default for hw_slam — Cartographer owns odom→base_link)
+# hw_nav.launch.py overrides to publish_tf: true so AMCL gets odom→base_link
+# ============================================================================
 ukf_filter_node:
   ros__parameters:
     frequency: 30.0 # Hz
     two_d_mode: true
-    publish_tf: false
+    publish_tf: false       # overridden to true in hw_nav.launch.py
+    world_frame: odom
 
     map_frame: map
     odom_frame: odom
