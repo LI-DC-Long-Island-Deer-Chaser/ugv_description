@@ -23,15 +23,15 @@
       <servo_min>1100</servo_min>
       <servo_max>1900</servo_max>
       <type>POSITION</type>
-      <multiplier>3.0</multiplier>
+      <multiplier>3.3</multiplier>
       <offset>-0.5</offset>
       <p_gain>25.0</p_gain>
       <i_gain>0.0</i_gain>
       <d_gain>0.5</d_gain>
       <i_max>0.0</i_max>
       <i_min>0.0</i_min>
-      <cmd_max>0.785</cmd_max>
-      <cmd_min>-0.785</cmd_min>
+      <cmd_max>10.0</cmd_max>
+      <cmd_min>-10.0</cmd_min>
     </control>
 
     <!-- Right Steering -->
@@ -41,15 +41,15 @@
       <servo_min>1100</servo_min>
       <servo_max>1900</servo_max>
       <type>POSITION</type>
-      <multiplier>3.0</multiplier>
+      <multiplier>3.3</multiplier>
       <offset>-0.5</offset>
       <p_gain>25.0</p_gain>
       <i_gain>0.0</i_gain>
       <d_gain>0.5</d_gain>
       <i_max>0.0</i_max>
       <i_min>0.0</i_min>
-      <cmd_max>0.785</cmd_max>
-      <cmd_min>-0.785</cmd_min>
+      <cmd_max>10.0</cmd_max>
+      <cmd_min>-10.0</cmd_min>
     </control>
 
     <!-- ================== THROTTLE (CH2, VELOCITY) ================== -->
@@ -62,16 +62,15 @@
       <servo_max>1900</servo_max>
       <type>VELOCITY</type>
       <multiplier>90.0</multiplier>
-      <deadband>0.02</deadband>
       <offset>-0.5</offset>
       <p_gain>8.0</p_gain>
-      <i_gain>0.0</i_gain>
+      <i_gain>0.05</i_gain>
       <d_gain>0.002</d_gain>
-      <i_max>0.0</i_max>
-      <i_min>0.0</i_min>
+      <i_max>1.0</i_max>
+      <i_min>-1.0</i_min>
       <cmd_max>1.0</cmd_max>
       <cmd_min>-1.0</cmd_min>
-      <controlVelocitySlowdownSim>1.0</controlVelocitySlowdownSim>
+      <rotorVelocitySlowdownSim>1.0</rotorVelocitySlowdownSim>
     </control>
 
     <!-- Front Right Wheel -->
@@ -82,16 +81,15 @@
       <servo_max>1900</servo_max>
       <type>VELOCITY</type>
       <multiplier>90.0</multiplier>
-      <deadband>0.02</deadband>
       <offset>-0.5</offset>
       <p_gain>8.0</p_gain>
-      <i_gain>0.0</i_gain>
+      <i_gain>0.05</i_gain>
       <d_gain>0.002</d_gain>
-      <i_max>0.0</i_max>
-      <i_min>0.0</i_min>
+      <i_max>1.0</i_max>
+      <i_min>-1.0</i_min>
       <cmd_max>1.0</cmd_max>
       <cmd_min>-1.0</cmd_min>
-      <controlVelocitySlowdownSim>1.0</controlVelocitySlowdownSim>
+      <rotorVelocitySlowdownSim>1.0</rotorVelocitySlowdownSim>
     </control>
 
     <!-- Back Left Wheel -->
@@ -102,16 +100,15 @@
       <servo_max>1900</servo_max>
       <type>VELOCITY</type>
       <multiplier>90.0</multiplier>
-      <deadband>0.02</deadband>
       <offset>-0.5</offset>
       <p_gain>8.0</p_gain>
-      <i_gain>0.0</i_gain>
+      <i_gain>0.05</i_gain>
       <d_gain>0.002</d_gain>
-      <i_max>0.0</i_max>
-      <i_min>0.0</i_min>
+      <i_max>1.0</i_max>
+      <i_min>-1.0</i_min>
       <cmd_max>1.0</cmd_max>
       <cmd_min>-1.0</cmd_min>
-      <controlVelocitySlowdownSim>1.0</controlVelocitySlowdownSim>
+      <rotorVelocitySlowdownSim>1.0</rotorVelocitySlowdownSim>
     </control>
 
     <!-- Back Right Wheel -->
@@ -122,16 +119,15 @@
       <servo_max>1900</servo_max>
       <type>VELOCITY</type>
       <multiplier>90.0</multiplier>
-      <deadband>0.02</deadband>
       <offset>-0.5</offset>
       <p_gain>8.0</p_gain>
-      <i_gain>0.0</i_gain>
+      <i_gain>0.05</i_gain>
       <d_gain>0.002</d_gain>
-      <i_max>0.0</i_max>
-      <i_min>0.0</i_min>
+      <i_max>1.0</i_max>
+      <i_min>-1.0</i_min>
       <cmd_max>1.0</cmd_max>
       <cmd_min>-1.0</cmd_min>
-      <controlVelocitySlowdownSim>1.0</controlVelocitySlowdownSim>
+      <rotorVelocitySlowdownSim>1.0</rotorVelocitySlowdownSim>
     </control>
   </plugin>
 
