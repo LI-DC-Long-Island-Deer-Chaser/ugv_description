@@ -22,9 +22,9 @@ options = {
   num_subdivisions_per_laser_scan = 1,
   num_point_clouds = 0,
   lookup_transform_timeout_sec = 0.3,   -- generous for HW latency
-  submap_publish_period_sec = 0.3,
-  pose_publish_period_sec = 5e-3,
-  trajectory_publish_period_sec = 30e-3,
+  submap_publish_period_sec = 0.5,      -- reduced publishing frequency
+  pose_publish_period_sec = 20e-3,      -- 50Hz instead of 200Hz
+  trajectory_publish_period_sec = 50e-3,
   rangefinder_sampling_ratio = 1.,
   odometry_sampling_ratio = 1.,
   fixed_frame_pose_sampling_ratio = 1.,
@@ -53,10 +53,10 @@ TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.linear_search_window = 
 TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.translation_delta_cost_weight = 10.
 TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.rotation_delta_cost_weight = 1e-1
 
--- Motion filter
+-- Motion filter - increased thresholds to process fewer scans
 TRAJECTORY_BUILDER_2D.motion_filter.max_time_seconds = 5.
-TRAJECTORY_BUILDER_2D.motion_filter.max_distance_meters = 0.2
-TRAJECTORY_BUILDER_2D.motion_filter.max_angle_radians = math.rad(1.0)
+TRAJECTORY_BUILDER_2D.motion_filter.max_distance_meters = 0.3  -- increased for speed
+TRAJECTORY_BUILDER_2D.motion_filter.max_angle_radians = math.rad(2.0)  -- increased for speed
 
 -- Number of scans to accumulate (1 for fast lidar)
 TRAJECTORY_BUILDER_2D.num_accumulated_range_data = 1
@@ -65,17 +65,17 @@ TRAJECTORY_BUILDER_2D.num_accumulated_range_data = 1
 TRAJECTORY_BUILDER_2D.min_z = -0.5
 TRAJECTORY_BUILDER_2D.max_z = 0.5
 
--- Pose graph optimization
+-- Pose graph optimization - optimize less frequently for speed
 POSE_GRAPH.constraint_builder.min_score = 0.55
 POSE_GRAPH.constraint_builder.global_localization_min_score = 0.6
 POSE_GRAPH.optimization_problem.huber_scale = 5e2
-POSE_GRAPH.optimize_every_n_nodes = 90
+POSE_GRAPH.optimize_every_n_nodes = 120  -- increased from 90
 
--- Loop closure
-POSE_GRAPH.constraint_builder.max_constraint_distance = 15.
-POSE_GRAPH.constraint_builder.sampling_ratio = 0.3
-POSE_GRAPH.constraint_builder.fast_correlative_scan_matcher.linear_search_window = 7.
-POSE_GRAPH.constraint_builder.fast_correlative_scan_matcher.angular_search_window = math.rad(30.)
-POSE_GRAPH.constraint_builder.fast_correlative_scan_matcher.branch_and_bound_depth = 7
+-- Loop closure - reduced for faster processing
+POSE_GRAPH.constraint_builder.max_constraint_distance = 10.  -- reduced search range
+POSE_GRAPH.constraint_builder.sampling_ratio = 0.15  -- reduced from 0.3
+POSE_GRAPH.constraint_builder.fast_correlative_scan_matcher.linear_search_window = 5.  -- reduced window
+POSE_GRAPH.constraint_builder.fast_correlative_scan_matcher.angular_search_window = math.rad(25.)  -- reduced window
+POSE_GRAPH.constraint_builder.fast_correlative_scan_matcher.branch_and_bound_depth = 6  -- reduced depth
 
 return options
