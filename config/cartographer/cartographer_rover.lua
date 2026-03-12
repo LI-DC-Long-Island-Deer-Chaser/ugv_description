@@ -79,3 +79,4 @@ POSE_GRAPH.constraint_builder.fast_correlative_scan_matcher.angular_search_windo
 POSE_GRAPH.constraint_builder.fast_correlative_scan_matcher.branch_and_bound_depth = 6  -- reduced depth
 
 return options
+
