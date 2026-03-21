@@ -428,7 +428,7 @@
 
     <model name="deer">
 
-      <pose>15 15 0 0 0 0</pose>
+      <pose>15 15 0 1.5707963267948966 0 0</pose>
 
       <link name="body">
 
@@ -444,7 +444,7 @@
         <visual name="visual">
           <geometry>
             <mesh>
-              <uri>package://ugv_description/meshes/deer.stl</uri>
+              <uri>package://ugv_description/meshes/deer.obj</uri>
               <scale>0.0234375 0.0234375 0.0234375</scale>
             </mesh>
           </geometry>
