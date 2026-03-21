@@ -383,10 +383,10 @@ def generate_launch_description():
             sllidar_node,
             scan_filter,
             wheel_odom,
-            ekf_node,
+            #ekf_node, ### DISABLED FOR NAVSAT
             # ── Nav2 stack ──
-            map_server,
-            amcl_node,
+            #map_server, ### DISABLED FOR NAVSAT
+            #amcl_node, ### DISABLED FOR NAVSAT
             planner_server,
             controller_server,
             behavior_server,
