@@ -40,7 +40,7 @@ def generate_launch_description():
             name='ekf_filter_node_odom',
 	        output='screen',
             parameters=[parameters_file_path],
-            remappings=[('odometry/filtered', 'odometry/local')]           
+            remappings=[('odometry/filtered', 'odometry/filtered')]           
            ),
     launch_ros.actions.Node(
             package='robot_localization', 
@@ -56,7 +56,7 @@ def generate_launch_description():
             name='navsat_transform',
 	        output='screen',
             parameters=[parameters_file_path],
-            remappings=[('imu', 'ap/imu/experimental/data'),
+            remappings=[('imu', 'ap/imu/corrected/data'),
                         ('gps/fix', 'ugv/gps/fix'), 
                         ('gps/filtered', 'ugv/gps/filtered'),
                         ('odometry/gps', 'ugv/odometry/gps'),

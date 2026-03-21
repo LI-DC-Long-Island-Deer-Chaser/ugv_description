@@ -1,7 +1,6 @@
 ekf_filter_node_odom:
   ros__parameters:
     two_d_mode: true
-    use_sim_time: true
     publish_tf: true
     sensor_timeout: 0.1
 
@@ -10,7 +9,7 @@ ekf_filter_node_odom:
     base_link_frame: base_link
     world_frame: odom 
 
-    odom0: ugv/odom
+    odom0: ugv/wheel_odom
     odom0_config: [
       false,  false,  false, # x,         y,          z
       false,  false,  false, # w_x,       w_y,        w_z
@@ -19,7 +18,7 @@ ekf_filter_node_odom:
       false,  false,  false  # d^2x/dt^2, d^2y/dt^2,  d^2z/dt^2
     ]
 
-    imu0: ap/imu/experimental/data
+    imu0: ap/imu/corrected/data
     imu0_config: [
       false,  false,  false, # x,         y,          z
       false,  false,  false,  # w_x,       w_y,        w_z
@@ -31,7 +30,6 @@ ekf_filter_node_odom:
 ekf_filter_node_map:
   ros__parameters:
     two_d_mode: true
-    use_sim_time: true
     publish_tf: true
     sensor_timeout: 0.1
 
@@ -49,7 +47,7 @@ ekf_filter_node_map:
       false, false, false
       ]
 
-    odom1: ugv/odom
+    odom1: ugv/wheel_odom
     odom1_config: [
       false,  false,  false, # x,         y,          z
       false,  false,  false, # w_x,       w_y,        w_z
@@ -58,7 +56,7 @@ ekf_filter_node_map:
       false,  false,  false  # d^2x/dt^2, d^2y/dt^2,  d^2z/dt^2
       ]
 
-    imu0: ap/imu/experimental/data
+    imu0: ap/imu/corrected/data
     imu0_config: [
       false,  false,  false, # x,         y,          z
       false,  false,  false,  # w_x,       w_y,        w_z
@@ -69,7 +67,6 @@ ekf_filter_node_map:
 
 navsat_transform:
   ros__parameters:
-    use_sim_time: true
     frequency: 30.0
     delay: 3.0
     magnetic_declination_radians: 0.0

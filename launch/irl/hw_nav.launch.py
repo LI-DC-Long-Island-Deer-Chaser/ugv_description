@@ -350,10 +350,10 @@ def generate_launch_description():
     return LaunchDescription(
         [
             # ── Arguments ──
-            DeclareLaunchArgument(
-                "map",
-                description="Full path to map YAML file (from Cartographer pbstream conversion)",
-            ),
+            #DeclareLaunchArgument(
+            #    "map",
+            #    description="Full path to map YAML file (from Cartographer pbstream conversion)",
+            #),
             DeclareLaunchArgument(
                 "lidar_port",
                 default_value="/dev/ttyUSB0",
