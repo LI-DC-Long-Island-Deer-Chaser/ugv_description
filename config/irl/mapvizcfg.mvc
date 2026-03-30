@@ -1,0 +1,43 @@
+capture_directory: "~"
+fixed_frame: map
+target_frame: map
+fix_orientation: false
+rotate_90: false
+enable_antialiasing: true
+show_displays: true
+show_status_bar: true
+show_capture_tools: true
+window_width: 2297
+window_height: 1738
+view_scale: 1
+offset_x: -113
+offset_y: -12
+use_latest_transforms: true
+background: "#a0a0a4"
+image_transport: raw
+displays:
+  - type: mapviz_plugins/tile_map
+    name: new display
+    config:
+      visible: true
+      collapsed: false
+      custom_sources:
+        - base_url: file:///home/odinroast/ugv_ws/test_no_alpha/{level}/{x}/{y}.png
+          max_zoom: 17
+          name: map
+          type: wmts
+      bing_api_key: ""
+      stadia_api_key: ""
+      source: map
+  - type: mapviz_plugins/tf_frame
+    name: new display
+    config:
+      visible: true
+      collapsed: false
+      frame: base_link
+      color: "#00ff00"
+      draw_style: lines
+      position_tolerance: 0
+      buffer_size: 0
+      static_arrow_sizes: false
+      arrow_size: 93
