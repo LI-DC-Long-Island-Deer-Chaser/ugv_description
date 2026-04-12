@@ -23,7 +23,7 @@ from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
     robot_localization_dir = get_package_share_directory('ugv_description')
-    parameters_file_dir = os.path.join(robot_localization_dir, 'config', 'sim')
+    parameters_file_dir = os.path.join(robot_localization_dir, 'config', 'irl')
     parameters_file_path = os.path.join(parameters_file_dir, 'navsat.yaml')
     os.environ['FILE_PATH'] = str(parameters_file_dir)
     return LaunchDescription([
@@ -51,13 +51,24 @@ def generate_launch_description():
             remappings=[('odometry/filtered', 'odometry/global')]
            ),           
     launch_ros.actions.Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            name='zero_to_base_link_broadcaster',
+            arguments=[
+                '--x', '0', '--y', '0', '--z', '0',
+                '--yaw', '0', '--pitch', '0', '--roll', '0',
+                '--frame-id', 'base_link',
+                '--child-frame-id', '0'
+            ]
+            ),
+    launch_ros.actions.Node(
             package='robot_localization', 
             executable='navsat_transform_node', 
             name='navsat_transform',
 	        output='screen',
             parameters=[parameters_file_path],
             remappings=[('imu', 'ap/imu/corrected/data'),
-                        ('gps/fix', 'ugv/gps/fix'), 
+                        ('gps/fix', 'ap/navsat'), 
                         ('gps/filtered', 'ugv/gps/filtered'),
                         ('odometry/gps', 'ugv/odometry/gps'),
                         ('odometry/filtered', 'odometry/global')]           

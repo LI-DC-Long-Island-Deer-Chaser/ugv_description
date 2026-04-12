@@ -9,8 +9,8 @@ ekf_filter_node_odom:
     base_link_frame: base_link
     world_frame: odom 
 
-    odom0: ugv/wheel_odom
-    odom0_config: [
+    twist0: ugv/wheel_odom
+    twist0_config: [
       false,  false,  false, # x,         y,          z
       false,  false,  false, # w_x,       w_y,        w_z
       true,   true,   false, # dx/dt,     dy/dt,      dz/dt
@@ -47,8 +47,8 @@ ekf_filter_node_map:
       false, false, false
       ]
 
-    odom1: ugv/wheel_odom
-    odom1_config: [
+    twist0: ugv/wheel_odom
+    twist0_config: [
       false,  false,  false, # x,         y,          z
       false,  false,  false, # w_x,       w_y,        w_z
       true,   true,   false, # dx/dt,     dy/dt,      dz/dt
@@ -69,8 +69,8 @@ navsat_transform:
   ros__parameters:
     frequency: 30.0
     delay: 3.0
-    magnetic_declination_radians: 0.0
-    yaw_offset: 0.0
+    magnetic_declination_radians: -0.23
+    yaw_offset: -1.5707963
     zero_altitude: true
     broadcast_cartesian_transform: true
     publish_filtered_gps: true
