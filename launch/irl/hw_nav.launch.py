@@ -373,7 +373,7 @@ def generate_launch_description():
                 description="Launch RViz2 for visualisation",
             ),
             # ── Hardware nodes (order matters for TF dependencies) ──
-            micro_ros_agent,
+            #micro_ros_agent,
             robot_state_publisher,
             joint_state_publisher,
             base_link_to_base_link_ned,

@@ -34,6 +34,7 @@ options = {
 
 -- Use 2D SLAM for ground rover
 MAP_BUILDER.use_trajectory_builder_2d = true
+TRAJECTORY_BUILDER_2D.submaps.num_range_data = 100
 
 -- RPLidar configuration
 TRAJECTORY_BUILDER_2D.min_range = 0.15
@@ -44,12 +45,13 @@ TRAJECTORY_BUILDER_2D.missing_data_ray_length = 8.5
 TRAJECTORY_BUILDER_2D.use_imu_data = true
 
 -- Scan matching parameters
-TRAJECTORY_BUILDER_2D.ceres_scan_matcher.translation_weight = 10
+TRAJECTORY_BUILDER_2D.ceres_scan_matcher.occupied_space_weight = 20.0
+TRAJECTORY_BUILDER_2D.ceres_scan_matcher.translation_weight = 30
 TRAJECTORY_BUILDER_2D.ceres_scan_matcher.rotation_weight = 40
 
 -- Real-time correlative scan matching
 TRAJECTORY_BUILDER_2D.use_online_correlative_scan_matching = true
-TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.linear_search_window = 0.15  -- wider for HW encoder noise
+TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.linear_search_window = 0.1  -- tighter for better accuracy
 TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.translation_delta_cost_weight = 10.
 TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.rotation_delta_cost_weight = 1e-1
 
@@ -58,18 +60,18 @@ TRAJECTORY_BUILDER_2D.motion_filter.max_time_seconds = 5.
 TRAJECTORY_BUILDER_2D.motion_filter.max_distance_meters = 0.3  -- increased for speed
 TRAJECTORY_BUILDER_2D.motion_filter.max_angle_radians = math.rad(2.0)  -- increased for speed
 
--- Number of scans to accumulate (1 for fast lidar)
-TRAJECTORY_BUILDER_2D.num_accumulated_range_data = 1
+-- Number of scans to accumulate (2 for denser map)
+TRAJECTORY_BUILDER_2D.num_accumulated_range_data = 2
 
 -- Z-axis filtering for 2D SLAM
 TRAJECTORY_BUILDER_2D.min_z = -0.5
 TRAJECTORY_BUILDER_2D.max_z = 0.5
 
--- Pose graph optimization - optimize less frequently for speed
-POSE_GRAPH.constraint_builder.min_score = 0.55
-POSE_GRAPH.constraint_builder.global_localization_min_score = 0.6
+-- Pose graph optimization - optimize more frequently for accuracy
+POSE_GRAPH.constraint_builder.min_score = 0.65
+POSE_GRAPH.constraint_builder.global_localization_min_score = 0.7
 POSE_GRAPH.optimization_problem.huber_scale = 5e2
-POSE_GRAPH.optimize_every_n_nodes = 120  -- increased from 90
+POSE_GRAPH.optimize_every_n_nodes = 90  -- reduced from 120
 
 -- Loop closure - reduced for faster processing
 POSE_GRAPH.constraint_builder.max_constraint_distance = 10.  -- reduced search range

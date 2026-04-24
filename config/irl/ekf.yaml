@@ -6,7 +6,7 @@
 # ============================================================================
 ukf_filter_node:
   ros__parameters:
-    frequency: 30.0 # Hz
+    frequency: 10.0 # Hz
     two_d_mode: true
     publish_tf: false       # overridden to true in hw_nav.launch.py
     world_frame: odom
