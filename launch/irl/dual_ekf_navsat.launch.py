@@ -43,6 +43,12 @@ def generate_launch_description():
             remappings=[('odometry/filtered', 'odometry/filtered')]           
            ),
     launch_ros.actions.Node(
+            package='ugv_description',
+            executable='navsat_data_transformer.py',
+            name='navsat_data_transformer',
+            output='screen',
+        ),
+    launch_ros.actions.Node(
             package='robot_localization', 
             executable='ekf_node', 
             name='ekf_filter_node_map',
@@ -51,24 +57,13 @@ def generate_launch_description():
             remappings=[('odometry/filtered', 'odometry/global')]
            ),           
     launch_ros.actions.Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            name='zero_to_base_link_broadcaster',
-            arguments=[
-                '--x', '0', '--y', '0', '--z', '0',
-                '--yaw', '0', '--pitch', '0', '--roll', '0',
-                '--frame-id', 'base_link',
-                '--child-frame-id', '0'
-            ]
-            ),
-    launch_ros.actions.Node(
             package='robot_localization', 
             executable='navsat_transform_node', 
             name='navsat_transform',
 	        output='screen',
             parameters=[parameters_file_path],
             remappings=[('imu', 'ap/imu/corrected/data'),
-                        ('gps/fix', 'ap/navsat'), 
+                        ('gps/fix', 'ap/navsat/corrected'), 
                         ('gps/filtered', 'ugv/gps/filtered'),
                         ('odometry/gps', 'ugv/odometry/gps'),
                         ('odometry/filtered', 'odometry/global')]           

@@ -37,7 +37,7 @@ def generate_launch_description():
            #    ]"""},
            #]
             remappings=[
-                ("fix", "ap/navsat"),
+                ("fix", "ap/navsat/corrected"),
             ],
         ),
         launch_ros.actions.Node(

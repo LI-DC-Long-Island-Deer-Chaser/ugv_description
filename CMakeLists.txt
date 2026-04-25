@@ -20,7 +20,11 @@ install(PROGRAMS
         ugv_description/xbox_teleop.py 
         ugv_description/ap_odom_bridge.py
         ugv_description/imu_data_transformer.py
+        ugv_description/navsat_data_transformer.py
+        ugv_description/interactive_waypoint_follower.py
  DESTINATION lib/${PROJECT_NAME})
+
+install(DIRECTORY ugv_description/utils DESTINATION lib/${PROJECT_NAME})
 
 add_executable(wheel_odom src/wheel_odom.cpp) # Naming in progress.
 target_include_directories(wheel_odom PRIVATE ${GPIOD_INCLUDE_DIRS})

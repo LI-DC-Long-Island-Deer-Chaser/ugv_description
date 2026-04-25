@@ -55,6 +55,7 @@ from launch.actions import (
     DeclareLaunchArgument,
     IncludeLaunchDescription,
     GroupAction,
+    TimerAction,
 )
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, Command
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -342,6 +343,35 @@ def generate_launch_description():
         condition=IfCondition(use_rviz),
     )
 
+    # Twist stamper node
+    # Converts Twist (from Nav2) to TwistStamped (for ArduPilot)
+    # Uses BEST_EFFORT QoS to match ArduPilot's subscription
+    twist_stamper = Node(
+        package="twist_stamper",
+        executable="twist_stamper",
+        name="twist_stamper",
+        parameters=[
+            {
+                "frame_id": "base_link",
+                "use_sim_time": LaunchConfiguration("use_sim_time"),
+                "qos_override": {
+                    "/cmd_vel_in": {
+                        "depth": 10,
+                        "reliability": "reliable",
+                    },
+                    "/ap/cmd_vel": {
+                        "depth": 10,
+                        "reliability": "best_effort",
+                    }
+                }
+            }
+        ],
+        remappings=[
+            ("cmd_vel_in", "cmd_vel"),
+            ("cmd_vel_out", "ap/cmd_vel"),
+        ],
+    )
+
     # ====================================================================
     #  LAUNCH DESCRIPTION
     # ====================================================================
@@ -392,8 +422,9 @@ def generate_launch_description():
             waypoint_follower,
             lifecycle_manager,
             # ── AP bridge ──
-            odom_to_ap_relay,
+            TimerAction(period=5.0, actions=[odom_to_ap_relay]),
             # ── Visualisation ──
             #rviz_node,
+            twist_stamper
         ]
     )
