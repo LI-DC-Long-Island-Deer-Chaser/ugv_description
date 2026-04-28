@@ -22,6 +22,8 @@ install(PROGRAMS
         ugv_description/imu_data_transformer.py
         ugv_description/navsat_data_transformer.py
         ugv_description/interactive_waypoint_follower.py
+        ugv_description/gps_waypoint_logger.py
+        ugv_description/logged_waypoint_follower.py
  DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY ugv_description/utils DESTINATION lib/${PROJECT_NAME})
