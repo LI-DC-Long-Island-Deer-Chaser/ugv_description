@@ -20,22 +20,22 @@ def generate_launch_description():
             package="swri_transform_util",
             executable="initialize_origin.py",
             name="initialize_origin",
-            parameters=[
-                {"local_xy_frame": "map"},
-                {"local_xy_origin": "sbu"},
-                {"local_xy_origins": """[
-                    {"name": "sbu",
-                        "latitude": 40.91354,
-                        "longitude": -73.12524,
-                        "altitude": 52.5,
-                        "heading": 0.0},
-                    {"name": "back_40",
-                        "latitude": 40.91350,
-                        "longitude": -73.12520,
-                        "altitude": 50.0,
-                        "heading": 0.0}
-                ]"""},
-            ],
+           #parameters=[
+           #    {"local_xy_frame": "map"},
+           #    {"local_xy_origin": "auto"},
+           #    {"local_xy_origins": """[
+           #        {"name": "sbu",
+           #            "latitude": 40.91354,
+           #            "longitude": -73.12524,
+           #            "altitude": 52.5,
+           #            "heading": 0.0},
+           #        {"name": "back_40",
+           #            "latitude": 40.91350,
+           #            "longitude": -73.12520,
+           #            "altitude": 50.0,
+           #            "heading": 0.0}
+           #    ]"""},
+           #]
             remappings=[
                 ("fix", "ap/navsat/corrected"),
             ],
