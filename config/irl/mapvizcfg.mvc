@@ -8,10 +8,10 @@ show_displays: true
 show_status_bar: true
 show_capture_tools: true
 window_width: 2297
-window_height: 1738
-view_scale: 1
-offset_x: -113
-offset_y: -12
+window_height: 1536
+view_scale: 0.207501233
+offset_x: -33.521843
+offset_y: -14.8727045
 use_latest_transforms: true
 background: "#a0a0a4"
 image_transport: raw
@@ -36,8 +36,22 @@ displays:
       collapsed: false
       frame: base_link
       color: "#00ff00"
-      draw_style: lines
+      draw_style: arrows
       position_tolerance: 0
-      buffer_size: 0
+      buffer_size: 1
       static_arrow_sizes: false
       arrow_size: 93
+  - type: mapviz_plugins/navsat
+    name: new display
+    config:
+      visible: true
+      collapsed: false
+      topic: /ugv/gps/filtered
+      color: "#00ff00"
+      draw_style: points
+      position_tolerance: 0
+      buffer_size: 1
+      qos_depth: 10
+      qos_history: 1
+      qos_reliability: 1
+      qos_durability: 2
