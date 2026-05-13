@@ -20,6 +20,8 @@ install(PROGRAMS
         ugv_description/xbox_teleop.py 
         ugv_description/ap_odom_bridge.py
         ugv_description/imu_data_transformer.py
+        ugv_description/waypoint_recorder.py
+        ugv_description/patrol.py
  DESTINATION lib/${PROJECT_NAME})
 
 add_executable(wheel_odom src/wheel_odom.cpp) # Naming in progress.

@@ -56,9 +56,9 @@ def generate_launch_description():
         ],
         arguments=[
             "-configuration_directory",
-            os.path.join(pkg_ugv_description, "config", "cartographer"),
+            os.path.join(pkg_ugv_description, "config", "sim"),
             "-configuration_basename",
-            "cartographer_rover.lua",
+            "cartographer.lua",
         ],
         remappings=[
             ("/imu", "/ugv/imu/data"),

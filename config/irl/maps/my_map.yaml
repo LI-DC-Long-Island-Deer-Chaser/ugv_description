@@ -1,0 +1,6 @@
+image: /home/lidc/Desktop/ugv_ws/src/ugv_description/config/irl/maps/my_map.pgm
+resolution: 0.050000
+origin: [-39.515259, -38.209161, 0.0]
+negate: 0
+occupied_thresh: 0.52
+free_thresh: 0.475

@@ -1,0 +1,6 @@
+image: /home/odinroast/ugv_ws/src/ugv_description/config/irl/maps/my_m.pgm
+resolution: 0.050000
+origin: [-54.137073, -43.695117, 0.0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
