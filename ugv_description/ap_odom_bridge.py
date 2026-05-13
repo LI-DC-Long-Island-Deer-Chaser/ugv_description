@@ -35,7 +35,7 @@ from rclpy.node import Node
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy, HistoryPolicy
 from nav_msgs.msg import Odometry
 from rosgraph_msgs.msg import Clock
-from tf2_ros import Buffer, TransformListener, LookupException, ExtrapolationException
+from tf2_ros import Buffer, TransformListener, TransformException
 from geometry_msgs.msg import TransformStamped
 
 
@@ -132,7 +132,7 @@ class ApOdomBridge(Node):
             tf: TransformStamped = self.tf_buffer.lookup_transform(
                 self.tf_parent, self.tf_child, rclpy.time.Time()  # latest
             )
-        except (LookupException, ExtrapolationException):
+        except TransformException as e:
             if not self._tf_available:
                 # Only log once to avoid spam
                 if self.msg_count == 0:
